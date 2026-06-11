@@ -1,0 +1,15 @@
+name: "Newsletter"
+colorScheme: "indigo"
+fontPairing: "geometric"
+css:
+   - "css/theme.css"
+   - "css/newsletter-overrides.css"
+   - "css/syntax.css"
+js:
+   - "js/theme.js"
+externalCSS:
+   - "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+   - "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-light.min.css"
+externalJS:
+   - "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"
+headInlineScript: "(function(){var t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)})()"

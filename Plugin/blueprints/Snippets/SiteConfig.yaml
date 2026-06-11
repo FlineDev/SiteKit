@@ -1,0 +1,38 @@
+name: "Swift Tips"
+baseURL: "https://tips.example.com"
+outputDirectory: "_Site"
+contentDirectory: "Content"
+defaultLanguage: "en"
+blogURLPrefix: "snippets"
+
+author:
+  name: "Your Name"
+  email: "you@example.com"
+
+navigation:
+  items:
+    - title: "Snippets"
+      url: "/snippets/"
+    - title: "About"
+      url: "/about/"
+
+sections:
+  - name: "Snippets"
+    slug: "snippets"
+    contentDirectory: "Snippets"
+    urlPrefix: "snippets"
+    style: "short"
+    rssTitle: "Swift Tips"
+    rssDescription: "Quick Swift and SwiftUI code snippets"
+    # Optional – remove this block for a flat snippet site without topic groups
+    topics:
+      - title: "SwiftUI"
+        tags: [swiftui, animation, navigation]
+      - title: "Swift"
+        tags: [swift, concurrency, generics]
+      - title: "Testing"
+        tags: [testing, xctest, swift-testing]
+
+footer:
+  copyrightName: "Your Name"
+  startYear: 2026

@@ -1,0 +1,741 @@
+/* ============================================================
+   AppLanding blueprint – `.landing-*` family.
+
+   These classes are emitted by `LandingPageRenderer.swift` (in
+   `Sources/Site/Renderers/`) for the home page only. The universal
+   theme (`theme.css`) handles header, footer, static pages, and
+   error pages; this file styles the bespoke landing-page sections.
+
+   Token-driven throughout. Override `colorScheme` or `tokens` in
+   `Theme/theme.yaml` to rebrand the entire landing page in one
+   place.
+   ============================================================ */
+
+/* ============================================================
+   Landing-page main wrapper – full-bleed sections.
+
+   The universal `.sk-main { max-width: 1200px; padding: 2rem 1.5rem }`
+   would cap each section's width and add unwanted vertical padding
+   around the hero. Lift those constraints for the landing page only;
+   `.landing-container` inside each section controls the inner width.
+   ============================================================ */
+.sk-page-home.landing .sk-main {
+   max-width: none;
+   padding: 0;
+}
+
+.landing-container {
+   max-width: var(--max-width, 1200px);
+   margin: 0 auto;
+   padding: 0 1.5rem;
+}
+
+/* ============================================================
+   Progressive-enhancement animations.
+
+   Cards are visible by default. `theme.js` adds `.landing-animate`
+   on scroll-in observation; `.landing-visible` is added per card
+   when the IntersectionObserver fires.
+   ============================================================ */
+.landing-animate .landing-feature-card,
+.landing-animate .landing-testimonial-card,
+.landing-animate .landing-pricing-card,
+.landing-animate .landing-review-card,
+.landing-animate .landing-faq-item,
+.landing-animate .landing-trusted-link,
+.landing-animate .landing-tech-specs-card {
+   opacity: 0;
+   transform: translateY(24px);
+   transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.landing-visible {
+   opacity: 1 !important;
+   transform: translateY(0) !important;
+}
+
+.landing-animate .landing-feature-card:nth-child(2),
+.landing-animate .landing-testimonial-card:nth-child(2),
+.landing-animate .landing-pricing-card:nth-child(2) { transition-delay: 0.08s; }
+.landing-animate .landing-feature-card:nth-child(3),
+.landing-animate .landing-testimonial-card:nth-child(3),
+.landing-animate .landing-pricing-card:nth-child(3) { transition-delay: 0.16s; }
+.landing-animate .landing-feature-card:nth-child(4),
+.landing-animate .landing-testimonial-card:nth-child(4) { transition-delay: 0.24s; }
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.landing-hero {
+   padding: 6rem 1.5rem 4rem;
+   text-align: center;
+   background: var(--color-bg-alt);
+}
+
+.landing-hero-title {
+   font-family: var(--font-heading);
+   font-size: clamp(2.25rem, 5vw, 3.5rem);
+   font-weight: 800;
+   color: var(--color-text);
+   margin: 0 0 1rem;
+   line-height: 1.15;
+   letter-spacing: -0.02em;
+}
+
+.landing-hero-subtitle {
+   font-size: clamp(1rem, 2vw, 1.25rem);
+   color: var(--color-text-secondary);
+   max-width: 640px;
+   margin: 0 auto 2rem;
+   line-height: 1.6;
+}
+
+.landing-hero-actions {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 1.25rem;
+}
+
+.landing-appstore-badge img {
+   height: 48px;
+   width: auto;
+   transition: transform var(--transition);
+}
+
+.landing-appstore-badge:hover img {
+   transform: scale(1.05);
+}
+
+/* ============================================================
+   Section title (shared across feature-banner, pricing, FAQ,
+   App Store reviews)
+   ============================================================ */
+.landing-section-title {
+   font-family: var(--font-heading);
+   font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+   font-weight: 700;
+   color: var(--color-text);
+   text-align: center;
+   margin: 0 0 2.5rem;
+   line-height: 1.25;
+}
+
+/* ============================================================
+   Feature banner (video + CTA)
+   ============================================================ */
+.landing-feature-banner {
+   padding: 4rem 0;
+   background: var(--color-bg);
+}
+
+.landing-feature-banner-content {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 2rem;
+}
+
+.landing-feature-banner-video {
+   width: 100%;
+   max-width: 960px;
+}
+
+.landing-feature-banner-video video {
+   width: 100%;
+   border-radius: var(--radius-lg);
+   box-shadow: 0 12px 48px var(--color-shadow-lg);
+}
+
+.landing-feature-banner-text {
+   text-align: center;
+   max-width: 680px;
+}
+
+.landing-feature-banner-text p {
+   font-size: 1.05rem;
+   color: var(--color-text-secondary);
+   line-height: 1.7;
+   margin: 0 0 1.5rem;
+}
+
+/* ============================================================
+   CTA button – shared across feature-banner, pricing, final CTA
+   ============================================================ */
+.landing-cta-button {
+   display: inline-block;
+   padding: 0.75rem 2rem;
+   background: var(--color-accent);
+   color: #fff;
+   font-family: var(--font-heading);
+   font-weight: 600;
+   font-size: 1rem;
+   border-radius: var(--radius);
+   text-decoration: none;
+   transition: background var(--transition), transform var(--transition);
+}
+
+.landing-cta-button:hover {
+   background: var(--color-accent-hover);
+   color: #fff;
+   transform: translateY(-1px);
+}
+
+.landing-cta-button-large {
+   padding: 1rem 2.5rem;
+   font-size: 1.15rem;
+}
+
+/* ============================================================
+   Testimonials
+   ============================================================ */
+.landing-testimonials {
+   padding: 4rem 0;
+   max-width: var(--max-width, 1200px);
+   margin: 0 auto;
+   padding-left: 1.5rem;
+   padding-right: 1.5rem;
+}
+
+.landing-testimonials-grid {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 1.25rem;
+}
+
+.landing-testimonial-card {
+   background: var(--color-bg-card);
+   border: 1px solid var(--color-border-light);
+   border-radius: var(--radius-lg);
+   padding: 1.5rem;
+   transition: opacity 0.5s ease, transform 0.5s ease, box-shadow var(--transition);
+}
+
+.landing-testimonial-card:hover {
+   box-shadow: 0 4px 20px var(--color-shadow);
+}
+
+.landing-testimonial-header {
+   display: flex;
+   align-items: center;
+   gap: 0.75rem;
+   margin-bottom: 1rem;
+}
+
+.landing-testimonial-avatar {
+   border-radius: 50%;
+   object-fit: cover;
+}
+
+.landing-testimonial-name {
+   font-family: var(--font-heading);
+   font-size: 0.95rem;
+   font-weight: 600;
+   color: var(--color-text);
+   margin: 0;
+}
+
+.landing-testimonial-handle {
+   font-size: 0.8rem;
+   color: var(--color-text-muted);
+   margin: 0.15rem 0 0;
+}
+
+.landing-testimonial-quote {
+   font-size: 0.92rem;
+   color: var(--color-text-secondary);
+   line-height: 1.65;
+   margin: 0;
+}
+
+.landing-testimonial-quote strong {
+   color: var(--color-accent);
+   font-weight: 600;
+}
+
+/* ============================================================
+   Feature grid (2x2 cards with cover images)
+   ============================================================ */
+.landing-feature-grid {
+   padding: 5rem 0;
+   background: var(--color-bg-alt);
+}
+
+.landing-features {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 1.5rem;
+}
+
+.landing-feature-card {
+   background: var(--color-bg-card);
+   border: 1px solid var(--color-border-light);
+   border-radius: var(--radius-lg);
+   padding: 0;
+   overflow: hidden;
+   transition: opacity 0.5s ease, transform 0.5s ease, box-shadow var(--transition);
+}
+
+.landing-feature-card:hover {
+   box-shadow: 0 8px 32px var(--color-shadow);
+}
+
+.landing-feature-card-text {
+   padding: 1.25rem 1.5rem 1.5rem;
+   display: flex;
+   flex-direction: column;
+   min-height: 120px;
+}
+
+.landing-feature-image {
+   width: 100%;
+   aspect-ratio: 16 / 10;
+   object-fit: cover;
+   display: block;
+}
+
+.landing-feature-title {
+   font-family: var(--font-heading);
+   font-size: 1.15rem;
+   font-weight: 700;
+   color: var(--color-text);
+   margin: 0 0 0.5rem;
+}
+
+.landing-feature-desc {
+   font-size: 0.95rem;
+   color: var(--color-text-secondary);
+   line-height: 1.6;
+   margin: 0;
+}
+
+/* ============================================================
+   Pricing
+   ============================================================ */
+.landing-pricing {
+   padding: 5rem 0;
+   text-align: center;
+}
+
+.landing-pricing-grid {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 1.5rem;
+   max-width: 960px;
+   margin: 0 auto 2rem;
+}
+
+.landing-pricing-card {
+   background: var(--color-bg-card);
+   border: 1px solid var(--color-border-light);
+   border-radius: var(--radius-lg);
+   padding: 2rem 1.5rem;
+   text-align: left;
+   transition: opacity 0.5s ease, transform 0.5s ease, box-shadow var(--transition);
+   position: relative;
+}
+
+.landing-pricing-card:hover {
+   box-shadow: 0 4px 24px var(--color-shadow);
+}
+
+.landing-pricing-highlighted {
+   border-color: var(--color-accent);
+   box-shadow: 0 0 0 1px var(--color-accent), 0 8px 32px var(--color-shadow-lg);
+   transform: scale(1.04);
+}
+
+.landing-pricing-highlighted.landing-visible {
+   transform: scale(1.04);
+}
+
+.landing-pricing-highlighted:hover {
+   box-shadow: 0 0 0 1px var(--color-accent), 0 12px 40px var(--color-shadow-lg);
+}
+
+.landing-pricing-header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 0.75rem;
+   margin-bottom: 1rem;
+}
+
+.landing-pricing-name {
+   font-family: var(--font-heading);
+   font-size: 1.25rem;
+   font-weight: 700;
+   color: var(--color-text);
+   margin: 0;
+}
+
+.landing-pricing-badge {
+   font-size: 0.6rem;
+   font-weight: 700;
+   letter-spacing: 0.05em;
+   color: #fff;
+   background: var(--color-accent);
+   padding: 0.3rem 0.6rem;
+   border-radius: 99px;
+   text-transform: uppercase;
+   white-space: nowrap;
+}
+
+.landing-pricing-price {
+   margin-bottom: 1.5rem;
+}
+
+.landing-pricing-amount {
+   font-family: var(--font-heading);
+   font-size: 2.5rem;
+   font-weight: 800;
+   color: var(--color-text);
+}
+
+.landing-pricing-period {
+   font-size: 0.9rem;
+   color: var(--color-text-muted);
+}
+
+.landing-pricing-features {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+
+.landing-pricing-features li {
+   padding: 0.5rem 0;
+   font-size: 0.92rem;
+   color: var(--color-text-secondary);
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+}
+
+.landing-pricing-features li i {
+   color: var(--color-accent);
+   font-size: 0.8rem;
+}
+
+.landing-pricing-note {
+   font-size: 0.95rem;
+   color: var(--color-text-secondary);
+   margin: 0 0 1.5rem;
+}
+
+.landing-pricing-note strong {
+   color: var(--color-accent);
+}
+
+/* ============================================================
+   Tech specs
+   ============================================================ */
+.landing-tech-specs {
+   padding: 4rem 0;
+   background: var(--color-bg-alt);
+}
+
+.landing-tech-specs-grid {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 1.5rem;
+}
+
+.landing-tech-specs-card {
+   background: var(--color-bg-card);
+   border: 1px solid var(--color-border-light);
+   border-radius: var(--radius-lg);
+   padding: 2rem;
+   transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.landing-tech-specs-card h3 {
+   font-family: var(--font-heading);
+   font-size: 0.8rem;
+   font-weight: 700;
+   letter-spacing: 0.08em;
+   text-transform: uppercase;
+   color: var(--color-accent);
+   margin: 0 0 1.25rem;
+}
+
+.landing-tech-specs-card ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+}
+
+.landing-tech-specs-card li {
+   padding: 0.5rem 0;
+   font-size: 0.92rem;
+   color: var(--color-text-secondary);
+   border-bottom: 1px solid var(--color-border-light);
+   line-height: 1.5;
+}
+
+.landing-tech-specs-card li:last-child {
+   border-bottom: none;
+}
+
+.landing-tech-specs-card li strong {
+   color: var(--color-text);
+}
+
+/* ============================================================
+   App Store reviews – `#f59e0b` is the universal gold-star
+   semantic; not themable.
+   ============================================================ */
+.landing-reviews {
+   padding: 5rem 0;
+   background: var(--color-bg);
+}
+
+.landing-reviews-grid {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 1.5rem;
+   max-width: 960px;
+   margin: 0 auto;
+}
+
+.landing-review-card {
+   background: var(--color-bg-card);
+   border: 1px solid var(--color-border-light);
+   border-radius: var(--radius-lg);
+   padding: 2rem;
+   transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.landing-review-stars {
+   color: #f59e0b;
+   font-size: 1.1rem;
+   letter-spacing: 0.1em;
+   margin-bottom: 1rem;
+}
+
+.landing-review-quote {
+   font-size: 1.1rem;
+   color: var(--color-text);
+   line-height: 1.7;
+   margin: 0 0 1.25rem;
+   font-weight: 500;
+}
+
+.landing-review-avatar {
+   border-radius: 50%;
+   object-fit: cover;
+}
+
+.landing-review-author {
+   display: flex;
+   align-items: center;
+   gap: 0.75rem;
+}
+
+.landing-review-author > div {
+   display: flex;
+   flex-direction: column;
+   gap: 0.1rem;
+}
+
+.landing-review-author strong {
+   font-size: 0.92rem;
+   color: var(--color-text);
+}
+
+.landing-review-author span {
+   font-size: 0.8rem;
+   color: var(--color-text-muted);
+}
+
+/* ============================================================
+   Trusted by – horizontal logo strip
+   ============================================================ */
+.landing-trusted-by {
+   padding: 3rem 0;
+   text-align: center;
+   background: var(--color-bg-alt);
+}
+
+.landing-trusted-logos {
+   display: flex;
+   justify-content: center;
+   gap: 3rem;
+   flex-wrap: wrap;
+   align-items: center;
+}
+
+.landing-trusted-link {
+   display: flex;
+   align-items: center;
+   gap: 0.75rem;
+   color: var(--color-text-muted);
+   text-decoration: none;
+   font-family: var(--font-heading);
+   font-weight: 700;
+   font-size: 1.25rem;
+   transition: color var(--transition), transform var(--transition), opacity 0.5s ease;
+}
+
+.landing-trusted-link:hover {
+   color: var(--color-accent);
+   transform: translateY(-2px);
+}
+
+.landing-trusted-icon {
+   width: 48px;
+   height: 48px;
+   border-radius: 12px;
+   box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+/* ============================================================
+   FAQ – `<details>` accordion with `+`/`×` toggle
+   ============================================================ */
+.landing-faq {
+   padding: 5rem 0;
+}
+
+.landing-faq-item {
+   max-width: 800px;
+   margin: 0 auto;
+   border-bottom: 1px solid var(--color-border-light);
+   transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.landing-faq-item summary {
+   padding: 1.25rem 0;
+   font-family: var(--font-heading);
+   font-size: 1.05rem;
+   font-weight: 600;
+   color: var(--color-text);
+   cursor: pointer;
+   list-style: none;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.landing-faq-item summary::-webkit-details-marker {
+   display: none;
+}
+
+.landing-faq-item summary::after {
+   content: "+";
+   font-size: 1.5rem;
+   font-weight: 300;
+   color: var(--color-text-muted);
+   transition: transform var(--transition);
+   flex-shrink: 0;
+   margin-left: 1rem;
+}
+
+.landing-faq-item[open] summary::after {
+   transform: rotate(45deg);
+}
+
+.landing-faq-item p {
+   padding: 0 0 1.25rem;
+   font-size: 0.95rem;
+   color: var(--color-text-secondary);
+   line-height: 1.7;
+   margin: 0;
+}
+
+/* ============================================================
+   Final CTA – full-bleed accent band
+   ============================================================ */
+.landing-final-cta {
+   padding: 6rem 0;
+   text-align: center;
+   background: var(--color-accent);
+   position: relative;
+   overflow: hidden;
+}
+
+.landing-cta-title {
+   font-family: var(--font-heading);
+   font-size: clamp(2rem, 4.5vw, 3rem);
+   font-weight: 800;
+   color: #fff;
+   margin: 0 0 2rem;
+   position: relative;
+}
+
+.landing-final-cta .landing-cta-button {
+   position: relative;
+   background: #fff;
+   color: var(--color-accent);
+   font-weight: 700;
+   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.landing-final-cta .landing-cta-button:hover {
+   background: var(--color-bg);
+   color: var(--color-accent);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* Tablet (≤1024px) */
+@media (max-width: 1024px) {
+   .landing-testimonials-grid {
+      grid-template-columns: repeat(2, 1fr);
+   }
+}
+
+/* Mobile (≤768px) */
+@media (max-width: 768px) {
+   .landing-hero {
+      padding: 5rem 1.5rem 3rem;
+   }
+
+   .landing-hero-actions {
+      flex-direction: column;
+   }
+
+   .landing-testimonials-grid {
+      grid-template-columns: 1fr;
+   }
+
+   .landing-features {
+      grid-template-columns: 1fr;
+   }
+
+   .landing-pricing-grid {
+      grid-template-columns: 1fr;
+      max-width: 380px;
+   }
+
+   .landing-pricing-highlighted,
+   .landing-pricing-highlighted.landing-visible {
+      transform: none;
+   }
+
+   .landing-tech-specs-grid {
+      grid-template-columns: 1fr;
+   }
+
+   .landing-reviews-grid {
+      grid-template-columns: 1fr;
+   }
+}
+
+/* Small mobile (≤480px) */
+@media (max-width: 480px) {
+   .landing-container {
+      padding: 0 1rem;
+   }
+
+   .landing-hero {
+      padding: 4.5rem 1rem 2rem;
+   }
+
+   .landing-cta-button {
+      width: 100%;
+      text-align: center;
+   }
+}

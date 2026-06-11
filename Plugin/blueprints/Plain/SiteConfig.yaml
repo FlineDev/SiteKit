@@ -1,0 +1,18 @@
+name: "My Site"
+baseURL: "https://example.com"
+outputDirectory: "_Site"
+contentDirectory: "Content"
+defaultLanguage: "en"
+
+author:
+  name: "Your Name"
+  email: "you@example.com"
+
+navigation:
+  items:
+    - title: "Home"
+      url: "/"
+    - title: "About"
+      url: "/about/"
+
+sections: []

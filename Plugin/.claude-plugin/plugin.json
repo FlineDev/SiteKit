@@ -1,0 +1,13 @@
+{
+  "name": "sitekit",
+  "version": "1.0.0",
+  "description": "AI-guided website builder: blueprints, themes, and skills that take you from idea to published site.",
+  "author": {
+    "name": "Cihat Gündüz",
+    "url": "https://fline.dev"
+  },
+  "homepage": "https://github.com/FlineDev/SiteKit",
+  "repository": "https://github.com/FlineDev/SiteKit",
+  "license": "MIT",
+  "keywords": ["sitekit", "website", "static-site-generator", "blueprints", "themes", "swift", "blog", "podcast", "newsletter", "portfolio"]
+}

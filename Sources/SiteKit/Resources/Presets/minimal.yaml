@@ -1,0 +1,70 @@
+# Minimal preset – Editorial with serif headings
+# Clean, typography-focused. Uses Newsreader + Source Sans 3 (Google Fonts).
+
+colorBg:
+  any: "#ffffff"
+  dark: "#1c1917"
+colorBgAlt:
+  any: "#fafaf9"
+  dark: "#292524"
+colorBgCard:
+  any: "#ffffff"
+  dark: "#292524"
+colorText:
+  any: "#1c1917"
+  dark: "#e7e5e4"
+colorTextSecondary:
+  any: "#57534e"
+  dark: "#78716c"
+colorTextMuted:
+  any: "#78716c"
+  dark: "#a8a29e"
+colorAccent:
+  any: "#44403c"
+  dark: "#78716c"
+colorAccentHover:
+  any: "#292524"
+  dark: "#d6d3d1"
+colorAccentLight:
+  any: "#f5f5f4"
+  dark: "#292524"
+colorBorder:
+  any: "#e7e5e4"
+  dark: "#44403c"
+colorBorderLight:
+  any: "#f5f5f4"
+  dark: "#292524"
+colorCodeBg:
+  any: "#292524"
+  dark: "#0c0a09"
+colorCodeText:
+  any: "#e7e5e4"
+  dark: "#e7e5e4"
+colorSuccess:
+  any: "#059669"
+colorShadow:
+  any: "rgba(28, 25, 23, 0.04)"
+  dark: "rgba(0, 0, 0, 0.15)"
+colorShadowLg:
+  any: "rgba(28, 25, 23, 0.08)"
+  dark: "rgba(0, 0, 0, 0.25)"
+
+# Typography
+fontHeading:
+  family: "Newsreader"
+  weights: [400, 500, 600, 700]
+fontBody:
+  family: "Source Sans 3"
+  weights: [300, 400, 600]
+fontMono:
+  family: "JetBrains Mono"
+  weights: [400]
+
+# Layout
+maxWidth: "960px"
+contentWidth: "680px"
+wideContentWidth: "800px"
+headerHeight: "64px"
+radius: "4px"
+radiusLg: "8px"
+transition: "0.15s ease"

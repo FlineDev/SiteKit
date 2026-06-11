@@ -1,0 +1,30 @@
+name: "MyApp"
+baseURL: "https://myapp.example.com"
+description: "Your app's one-line description for SEO"
+contentDirectory: "Content"
+outputDirectory: "_Site"
+
+sections: []
+
+navigation:
+  logo:
+    text: "MyApp"
+  items:
+    - title: "Features"
+      url: "/#features"
+    - title: "Pricing"
+      url: "/#pricing"
+    - title: "FAQ"
+      url: "/#faq"
+  showSearch: false
+  showThemeToggle: true
+
+footer:
+  copyrightName: "Your Name"
+  startYear: 2026
+  social:
+    - platform: "github"
+      url: "https://github.com/yourname"
+  links:
+    - title: "Privacy"
+      url: "/privacy/"

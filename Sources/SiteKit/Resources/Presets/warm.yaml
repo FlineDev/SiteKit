@@ -1,0 +1,70 @@
+# Warm preset – Ivory warmth with blue accent, navy dark mode
+# Warm ivory background with blue accent matching FlineDev logo. Uses Sora + Nunito Sans (Google Fonts).
+
+colorBg:
+  any: "#fafaf8"
+  dark: "#0F172A"
+colorBgAlt:
+  any: "#f3f3ef"
+  dark: "#1E293B"
+colorBgCard:
+  any: "#ffffff"
+  dark: "#1E293B"
+colorText:
+  any: "#1c1917"
+  dark: "#E2E8F0"
+colorTextSecondary:
+  any: "#57534e"
+  dark: "#94A3B8"
+colorTextMuted:
+  any: "#78716c"
+  dark: "#8b96a8"
+colorAccent:
+  any: "#2563EB"
+  dark: "#60A5FA"
+colorAccentHover:
+  any: "#1D4ED8"
+  dark: "#3B82F6"
+colorAccentLight:
+  any: "#EFF6FF"
+  dark: "#172554"
+colorBorder:
+  any: "#e7e5e4"
+  dark: "#334155"
+colorBorderLight:
+  any: "#f5f5f4"
+  dark: "#1E293B"
+colorCodeBg:
+  any: "#f5f0eb"
+  dark: "#0B1120"
+colorCodeText:
+  any: "#1c1917"
+  dark: "#e7e5e4"
+colorSuccess:
+  any: "#059669"
+colorShadow:
+  any: "rgba(28, 25, 23, 0.06)"
+  dark: "rgba(0, 0, 0, 0.3)"
+colorShadowLg:
+  any: "rgba(28, 25, 23, 0.12)"
+  dark: "rgba(0, 0, 0, 0.45)"
+
+# Typography
+fontHeading:
+  family: "Sora"
+  weights: [400, 500, 600, 700, 800]
+fontBody:
+  family: "Nunito Sans"
+  weights: [400, 500, 600, 700]
+fontMono:
+  family: "JetBrains Mono"
+  weights: [400, 500]
+
+# Layout
+maxWidth: "1200px"
+contentWidth: "720px"
+wideContentWidth: "900px"
+headerHeight: "64px"
+radius: "8px"
+radiusLg: "12px"
+transition: "0.2s ease"

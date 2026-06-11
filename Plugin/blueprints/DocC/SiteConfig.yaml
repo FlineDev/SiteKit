@@ -1,0 +1,26 @@
+name: "My Docs"
+baseURL: "https://example.com"
+outputDirectory: "_Site"
+# Project root is the content base; the section below points at the .docc catalog.
+# (The section dir is resolved as contentDirectory + the section's contentDirectory,
+# so setting both to "Documentation.docc" would look in a doubled, missing path.)
+contentDirectory: "."
+defaultLanguage: "en"
+
+author:
+  name: "Your Name"
+  email: "you@example.com"
+
+navigation:
+  items:
+    - title: "Documentation"
+      url: "/documentation/"
+
+# A DocC site has one section pointing at the .docc catalog. `urlPrefix` is the
+# URL root for every note (e.g. /documentation/<slug>/) and is what `<doc:>`
+# cross-references resolve under.
+sections:
+  - name: "Documentation"
+    slug: "documentation"
+    contentDirectory: "Documentation.docc"
+    urlPrefix: "documentation"

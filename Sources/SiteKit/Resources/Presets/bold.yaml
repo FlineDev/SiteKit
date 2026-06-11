@@ -1,0 +1,70 @@
+# Bold preset – High contrast with strong typography
+# Uses Space Grotesk + Inter (Google Fonts).
+
+colorBg:
+  any: "#fafafa"
+  dark: "#0a0a0a"
+colorBgAlt:
+  any: "#f4f4f5"
+  dark: "#18181b"
+colorBgCard:
+  any: "#ffffff"
+  dark: "#18181b"
+colorText:
+  any: "#09090b"
+  dark: "#fafafa"
+colorTextSecondary:
+  any: "#3f3f46"
+  dark: "#d4d4d8"
+colorTextMuted:
+  any: "#71717a"
+  dark: "#a1a1aa"
+colorAccent:
+  any: "#e11d48"
+  dark: "#fb7185"
+colorAccentHover:
+  any: "#be123c"
+  dark: "#f43f5e"
+colorAccentLight:
+  any: "#fff1f2"
+  dark: "#4c0519"
+colorBorder:
+  any: "#e4e4e7"
+  dark: "#27272a"
+colorBorderLight:
+  any: "#f4f4f5"
+  dark: "#18181b"
+colorCodeBg:
+  any: "#18181b"
+  dark: "#09090b"
+colorCodeText:
+  any: "#e4e4e7"
+  dark: "#e4e4e7"
+colorSuccess:
+  any: "#059669"
+colorShadow:
+  any: "rgba(9, 9, 11, 0.06)"
+  dark: "rgba(0, 0, 0, 0.3)"
+colorShadowLg:
+  any: "rgba(9, 9, 11, 0.14)"
+  dark: "rgba(0, 0, 0, 0.5)"
+
+# Typography
+fontHeading:
+  family: "Space Grotesk"
+  weights: [400, 500, 600, 700]
+fontBody:
+  family: "Inter"
+  weights: [400, 500, 600]
+fontMono:
+  family: "JetBrains Mono"
+  weights: [400, 500]
+
+# Layout
+maxWidth: "1200px"
+contentWidth: "720px"
+wideContentWidth: "900px"
+headerHeight: "64px"
+radius: "6px"
+radiusLg: "10px"
+transition: "0.15s ease"

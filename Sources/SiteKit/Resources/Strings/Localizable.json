@@ -1,0 +1,1986 @@
+{
+   "minRead": {
+      "comment": "Read time estimate shown below article title. %d = number of minutes.",
+      "localizations": {
+         "en": "%d min read",
+         "de": "%d Min. Lesezeit",
+         "fr": "%d min de lecture",
+         "es": "%d min de lectura",
+         "it": "%d min di lettura",
+         "pt": "%d min de leitura",
+         "nl": "%d min leestijd",
+         "pl": "%d min czytania",
+         "cs": "%d min čtení",
+         "sk": "%d min čítania",
+         "hu": "%d perc olvasás",
+         "ro": "%d min de citit",
+         "bg": "%d мин четене",
+         "hr": "%d min čitanja",
+         "sl": "%d min branja",
+         "uk": "%d хв читання",
+         "ru": "%d мин чтения",
+         "da": "%d min læsning",
+         "sv": "%d min läsning",
+         "nb": "%d min lesing",
+         "fi": "%d min lukuaika",
+         "el": "%d λεπ. ανάγνωση",
+         "tr": "%d dk okuma",
+         "ja": "%d分で読めます",
+         "ko": "%d분 소요",
+         "zh-Hans": "%d 分钟阅读",
+         "zh-Hant": "%d 分鐘閱讀",
+         "ar": "%d دقائق للقراءة",
+         "he": "%d דק' קריאה",
+         "hi": "%d मिनट पढ़ने का समय",
+         "th": "อ่าน %d นาที",
+         "vi": "%d phút đọc",
+         "id": "%d menit baca",
+         "ms": "%d minit bacaan",
+         "ca": "%d min de lectura",
+         "eu": "%d min irakurketa"
+      }
+   },
+   "previousArticle": {
+      "comment": "Navigation to previous article. Renderer adds arrow prefix.",
+      "localizations": {
+         "en": "Previous",
+         "de": "Vorheriger",
+         "fr": "Précédent",
+         "es": "Anterior",
+         "it": "Precedente",
+         "pt": "Anterior",
+         "nl": "Vorige",
+         "pl": "Poprzedni",
+         "cs": "Předchozí",
+         "sk": "Predchádzajúci",
+         "hu": "Előző",
+         "ro": "Anterior",
+         "bg": "Предишна",
+         "hr": "Prethodni",
+         "sl": "Prejšnji",
+         "uk": "Попередня",
+         "ru": "Предыдущая",
+         "da": "Forrige",
+         "sv": "Föregående",
+         "nb": "Forrige",
+         "fi": "Edellinen",
+         "el": "Προηγούμενο",
+         "tr": "Önceki",
+         "ja": "前の記事",
+         "ko": "이전",
+         "zh-Hans": "上一篇",
+         "zh-Hant": "上一篇",
+         "ar": "السابق",
+         "he": "הקודם",
+         "hi": "पिछला",
+         "th": "ก่อนหน้า",
+         "vi": "Trước",
+         "id": "Sebelumnya",
+         "ms": "Sebelumnya",
+         "ca": "Anterior",
+         "eu": "Aurrekoa"
+      }
+   },
+   "nextArticle": {
+      "comment": "Navigation to next article. Renderer adds arrow suffix.",
+      "localizations": {
+         "en": "Next",
+         "de": "Nächster",
+         "fr": "Suivant",
+         "es": "Siguiente",
+         "it": "Successivo",
+         "pt": "Próximo",
+         "nl": "Volgende",
+         "pl": "Następny",
+         "cs": "Další",
+         "sk": "Nasledujúci",
+         "hu": "Következő",
+         "ro": "Următorul",
+         "bg": "Следваща",
+         "hr": "Sljedeći",
+         "sl": "Naslednji",
+         "uk": "Наступна",
+         "ru": "Следующая",
+         "da": "Næste",
+         "sv": "Nästa",
+         "nb": "Neste",
+         "fi": "Seuraava",
+         "el": "Επόμενο",
+         "tr": "Sonraki",
+         "ja": "次の記事",
+         "ko": "다음",
+         "zh-Hans": "下一篇",
+         "zh-Hant": "下一篇",
+         "ar": "التالي",
+         "he": "הבא",
+         "hi": "अगला",
+         "th": "ถัดไป",
+         "vi": "Tiếp theo",
+         "id": "Berikutnya",
+         "ms": "Seterusnya",
+         "ca": "Següent",
+         "eu": "Hurrengoa"
+      }
+   },
+   "backToBlog": {
+      "comment": "Link text to return to the blog listing page. Renderer adds arrow prefix.",
+      "localizations": {
+         "en": "Back to Blog",
+         "de": "Zurück zum Blog",
+         "fr": "Retour au blog",
+         "es": "Volver al blog",
+         "it": "Torna al blog",
+         "pt": "Voltar ao blog",
+         "nl": "Terug naar blog",
+         "pl": "Wróć do bloga",
+         "cs": "Zpět na blog",
+         "sk": "Späť na blog",
+         "hu": "Vissza a bloghoz",
+         "ro": "Înapoi la blog",
+         "bg": "Назад към блога",
+         "hr": "Natrag na blog",
+         "sl": "Nazaj na blog",
+         "uk": "Назад до блогу",
+         "ru": "Назад к блогу",
+         "da": "Tilbage til blog",
+         "sv": "Tillbaka till bloggen",
+         "nb": "Tilbake til bloggen",
+         "fi": "Takaisin blogiin",
+         "el": "Πίσω στο blog",
+         "tr": "Bloga dön",
+         "ja": "ブログに戻る",
+         "ko": "블로그로 돌아가기",
+         "zh-Hans": "返回博客",
+         "zh-Hant": "返回部落格",
+         "ar": "العودة إلى المدونة",
+         "he": "חזרה לבלוג",
+         "hi": "ब्लॉग पर वापस जाएं",
+         "th": "กลับไปยังบล็อก",
+         "vi": "Quay lại blog",
+         "id": "Kembali ke blog",
+         "ms": "Kembali ke blog",
+         "ca": "Tornar al blog",
+         "eu": "Blogera itzuli"
+      }
+   },
+   "noPostsYet": {
+      "comment": "Empty state shown when a listing has no articles.",
+      "localizations": {
+         "en": "No posts yet.",
+         "de": "Noch keine Beiträge.",
+         "fr": "Aucun article pour le moment.",
+         "es": "Aún no hay publicaciones.",
+         "it": "Nessun articolo ancora.",
+         "pt": "Nenhuma publicação ainda.",
+         "nl": "Nog geen berichten.",
+         "pl": "Brak wpisów.",
+         "cs": "Zatím žádné příspěvky.",
+         "sk": "Zatiaľ žiadne príspevky.",
+         "hu": "Még nincsenek bejegyzések.",
+         "ro": "Niciun articol încă.",
+         "bg": "Все още няма публикации.",
+         "hr": "Još nema objava.",
+         "sl": "Še ni objav.",
+         "uk": "Ще немає публікацій.",
+         "ru": "Пока нет публикаций.",
+         "da": "Ingen indlæg endnu.",
+         "sv": "Inga inlägg ännu.",
+         "nb": "Ingen innlegg ennå.",
+         "fi": "Ei vielä julkaisuja.",
+         "el": "Δεν υπάρχουν ακόμη αναρτήσεις.",
+         "tr": "Henüz yazı yok.",
+         "ja": "まだ記事がありません。",
+         "ko": "아직 게시물이 없습니다.",
+         "zh-Hans": "暂无文章。",
+         "zh-Hant": "尚無文章。",
+         "ar": "لا توجد مقالات بعد.",
+         "he": "אין פוסטים עדיין.",
+         "hi": "अभी तक कोई पोस्ट नहीं।",
+         "th": "ยังไม่มีบทความ",
+         "vi": "Chưa có bài viết nào.",
+         "id": "Belum ada postingan.",
+         "ms": "Belum ada catatan.",
+         "ca": "Encara no hi ha publicacions.",
+         "eu": "Oraindik ez dago argitalpen."
+      }
+   },
+   "blog": {
+      "comment": "Title for the main blog listing page.",
+      "localizations": {
+         "en": "Blog",
+         "de": "Blog",
+         "fr": "Blog",
+         "es": "Blog",
+         "it": "Blog",
+         "pt": "Blog",
+         "nl": "Blog",
+         "pl": "Blog",
+         "cs": "Blog",
+         "sk": "Blog",
+         "hu": "Blog",
+         "ro": "Blog",
+         "bg": "Блог",
+         "hr": "Blog",
+         "sl": "Blog",
+         "uk": "Блог",
+         "ru": "Блог",
+         "da": "Blog",
+         "sv": "Blogg",
+         "nb": "Blogg",
+         "fi": "Blogi",
+         "el": "Blog",
+         "tr": "Blog",
+         "ja": "ブログ",
+         "ko": "블로그",
+         "zh-Hans": "博客",
+         "zh-Hant": "部落格",
+         "ar": "المدونة",
+         "he": "בלוג",
+         "hi": "ब्लॉग",
+         "th": "บล็อก",
+         "vi": "Blog",
+         "id": "Blog",
+         "ms": "Blog",
+         "ca": "Blog",
+         "eu": "Bloga"
+      }
+   },
+   "allPosts": {
+      "comment": "Link text to view all posts from a category/tag listing. Renderer adds arrow prefix.",
+      "localizations": {
+         "en": "All Posts",
+         "de": "Alle Beiträge",
+         "fr": "Tous les articles",
+         "es": "Todas las publicaciones",
+         "it": "Tutti gli articoli",
+         "pt": "Todas as publicações",
+         "nl": "Alle berichten",
+         "pl": "Wszystkie wpisy",
+         "cs": "Všechny příspěvky",
+         "sk": "Všetky príspevky",
+         "hu": "Összes bejegyzés",
+         "ro": "Toate articolele",
+         "bg": "Всички публикации",
+         "hr": "Sve objave",
+         "sl": "Vse objave",
+         "uk": "Усі публікації",
+         "ru": "Все публикации",
+         "da": "Alle indlæg",
+         "sv": "Alla inlägg",
+         "nb": "Alle innlegg",
+         "fi": "Kaikki julkaisut",
+         "el": "Όλες οι αναρτήσεις",
+         "tr": "Tüm yazılar",
+         "ja": "すべての記事",
+         "ko": "모든 게시물",
+         "zh-Hans": "所有文章",
+         "zh-Hant": "所有文章",
+         "ar": "جميع المقالات",
+         "he": "כל הפוסטים",
+         "hi": "सभी पोस्ट",
+         "th": "บทความทั้งหมด",
+         "vi": "Tất cả bài viết",
+         "id": "Semua postingan",
+         "ms": "Semua catatan",
+         "ca": "Totes les publicacions",
+         "eu": "Argitalpen guztiak"
+      }
+   },
+   "postsTaggedWith": {
+      "comment": "Description for tag listing page. %@ = tag display name.",
+      "localizations": {
+         "en": "Posts tagged with %@",
+         "de": "Beiträge mit dem Tag %@",
+         "fr": "Articles tagués %@",
+         "es": "Publicaciones etiquetadas con %@",
+         "it": "Articoli con tag %@",
+         "pt": "Publicações com a tag %@",
+         "nl": "Berichten met tag %@",
+         "pl": "Wpisy z tagiem %@",
+         "cs": "Příspěvky se štítkem %@",
+         "sk": "Príspevky so štítkom %@",
+         "hu": "%@ címkéjű bejegyzések",
+         "ro": "Articole etichetate cu %@",
+         "bg": "Публикации с етикет %@",
+         "hr": "Objave s oznakom %@",
+         "sl": "Objave z oznako %@",
+         "uk": "Публікації з тегом %@",
+         "ru": "Публикации с тегом %@",
+         "da": "Indlæg tagget med %@",
+         "sv": "Inlägg taggade med %@",
+         "nb": "Innlegg merket med %@",
+         "fi": "Julkaisut tunnisteella %@",
+         "el": "Αναρτήσεις με ετικέτα %@",
+         "tr": "%@ etiketli yazılar",
+         "ja": "%@ タグの記事",
+         "ko": "%@ 태그 게시물",
+         "zh-Hans": "标签为 %@ 的文章",
+         "zh-Hant": "標籤為 %@ 的文章",
+         "ar": "مقالات بعلامة %@",
+         "he": "פוסטים עם תגית %@",
+         "hi": "%@ टैग वाले पोस्ट",
+         "th": "บทความที่แท็ก %@",
+         "vi": "Bài viết gắn thẻ %@",
+         "id": "Postingan bertag %@",
+         "ms": "Catatan bertag %@",
+         "ca": "Publicacions etiquetades amb %@",
+         "eu": "%@ etiketarekin argitalpenak"
+      }
+   },
+   "postCount": {
+      "comment": "Shows the number of posts. %d = count of posts.",
+      "localizations": {
+         "en": "%d post(s)",
+         "de": "%d Beitrag/Beiträge",
+         "fr": "%d article(s)",
+         "es": "%d publicación(es)",
+         "it": "%d articolo/i",
+         "pt": "%d publicação(ões)",
+         "nl": "%d bericht(en)",
+         "pl": "%d wpis(ów)",
+         "cs": "%d příspěvek/ů",
+         "sk": "%d príspevok/ov",
+         "hu": "%d bejegyzés",
+         "ro": "%d articol(e)",
+         "bg": "%d публикация(и)",
+         "hr": "%d objava",
+         "sl": "%d objava",
+         "uk": "%d публікація(й)",
+         "ru": "%d публикация(й)",
+         "da": "%d indlæg",
+         "sv": "%d inlägg",
+         "nb": "%d innlegg",
+         "fi": "%d julkaisu(a)",
+         "el": "%d ανάρτηση/εις",
+         "tr": "%d yazı",
+         "ja": "%d 件の記事",
+         "ko": "%d개의 게시물",
+         "zh-Hans": "%d 篇文章",
+         "zh-Hant": "%d 篇文章",
+         "ar": "%d مقال(ات)",
+         "he": "%d פוסט(ים)",
+         "hi": "%d पोस्ट",
+         "th": "%d บทความ",
+         "vi": "%d bài viết",
+         "id": "%d postingan",
+         "ms": "%d catatan",
+         "ca": "%d publicació(ns)",
+         "eu": "%d argitalpen"
+      }
+   },
+   "allTags": {
+      "comment": "Link text to view all tags. Renderer adds arrow prefix.",
+      "localizations": {
+         "en": "All Tags",
+         "de": "Alle Tags",
+         "fr": "Tous les tags",
+         "es": "Todas las etiquetas",
+         "it": "Tutti i tag",
+         "pt": "Todas as tags",
+         "nl": "Alle tags",
+         "pl": "Wszystkie tagi",
+         "cs": "Všechny štítky",
+         "sk": "Všetky štítky",
+         "hu": "Összes címke",
+         "ro": "Toate etichetele",
+         "bg": "Всички етикети",
+         "hr": "Sve oznake",
+         "sl": "Vse oznake",
+         "uk": "Усі теги",
+         "ru": "Все теги",
+         "da": "Alle tags",
+         "sv": "Alla taggar",
+         "nb": "Alle tagger",
+         "fi": "Kaikki tunnisteet",
+         "el": "Όλες οι ετικέτες",
+         "tr": "Tüm etiketler",
+         "ja": "すべてのタグ",
+         "ko": "모든 태그",
+         "zh-Hans": "所有标签",
+         "zh-Hant": "所有標籤",
+         "ar": "جميع العلامات",
+         "he": "כל התגיות",
+         "hi": "सभी टैग",
+         "th": "แท็กทั้งหมด",
+         "vi": "Tất cả thẻ",
+         "id": "Semua tag",
+         "ms": "Semua tag",
+         "ca": "Totes les etiquetes",
+         "eu": "Etiketa guztiak"
+      }
+   },
+   "tags": {
+      "comment": "Title for the tags index page.",
+      "localizations": {
+         "en": "Tags",
+         "de": "Tags",
+         "fr": "Tags",
+         "es": "Etiquetas",
+         "it": "Tag",
+         "pt": "Tags",
+         "nl": "Tags",
+         "pl": "Tagi",
+         "cs": "Štítky",
+         "sk": "Štítky",
+         "hu": "Címkék",
+         "ro": "Etichete",
+         "bg": "Етикети",
+         "hr": "Oznake",
+         "sl": "Oznake",
+         "uk": "Теги",
+         "ru": "Теги",
+         "da": "Tags",
+         "sv": "Taggar",
+         "nb": "Tagger",
+         "fi": "Tunnisteet",
+         "el": "Ετικέτες",
+         "tr": "Etiketler",
+         "ja": "タグ",
+         "ko": "태그",
+         "zh-Hans": "标签",
+         "zh-Hant": "標籤",
+         "ar": "العلامات",
+         "he": "תגיות",
+         "hi": "टैग",
+         "th": "แท็ก",
+         "vi": "Thẻ",
+         "id": "Tag",
+         "ms": "Tag",
+         "ca": "Etiquetes",
+         "eu": "Etiketak"
+      }
+   },
+   "recentPosts": {
+      "comment": "Section title on the home page for recent blog posts.",
+      "localizations": {
+         "en": "Recent Posts",
+         "de": "Neueste Beiträge",
+         "fr": "Articles récents",
+         "es": "Publicaciones recientes",
+         "it": "Articoli recenti",
+         "pt": "Publicações recentes",
+         "nl": "Recente berichten",
+         "pl": "Ostatnie wpisy",
+         "cs": "Nejnovější příspěvky",
+         "sk": "Najnovšie príspevky",
+         "hu": "Legújabb bejegyzések",
+         "ro": "Articole recente",
+         "bg": "Последни публикации",
+         "hr": "Nedavne objave",
+         "sl": "Nedavne objave",
+         "uk": "Останні публікації",
+         "ru": "Последние публикации",
+         "da": "Seneste indlæg",
+         "sv": "Senaste inläggen",
+         "nb": "Siste innlegg",
+         "fi": "Viimeisimmät julkaisut",
+         "el": "Πρόσφατες αναρτήσεις",
+         "tr": "Son yazılar",
+         "ja": "最新の記事",
+         "ko": "최근 게시물",
+         "zh-Hans": "最新文章",
+         "zh-Hant": "最新文章",
+         "ar": "أحدث المقالات",
+         "he": "פוסטים אחרונים",
+         "hi": "हालिया पोस्ट",
+         "th": "บทความล่าสุด",
+         "vi": "Bài viết gần đây",
+         "id": "Postingan terbaru",
+         "ms": "Catatan terbaru",
+         "ca": "Publicacions recents",
+         "eu": "Azken argitalpenak"
+      }
+   },
+   "viewAllPosts": {
+      "comment": "Link on homepage to view all blog posts. Renderer adds arrow suffix.",
+      "localizations": {
+         "en": "View all posts",
+         "de": "Alle Beiträge ansehen",
+         "fr": "Voir tous les articles",
+         "es": "Ver todas las publicaciones",
+         "it": "Vedi tutti gli articoli",
+         "pt": "Ver todas as publicações",
+         "nl": "Alle berichten bekijken",
+         "pl": "Zobacz wszystkie wpisy",
+         "cs": "Zobrazit všechny příspěvky",
+         "sk": "Zobraziť všetky príspevky",
+         "hu": "Összes bejegyzés megtekintése",
+         "ro": "Vezi toate articolele",
+         "bg": "Виж всички публикации",
+         "hr": "Pogledaj sve objave",
+         "sl": "Poglej vse objave",
+         "uk": "Переглянути всі публікації",
+         "ru": "Смотреть все публикации",
+         "da": "Se alle indlæg",
+         "sv": "Visa alla inlägg",
+         "nb": "Se alle innlegg",
+         "fi": "Näytä kaikki julkaisut",
+         "el": "Δείτε όλες τις αναρτήσεις",
+         "tr": "Tüm yazıları gör",
+         "ja": "すべての記事を見る",
+         "ko": "모든 게시물 보기",
+         "zh-Hans": "查看所有文章",
+         "zh-Hant": "查看所有文章",
+         "ar": "عرض جميع المقالات",
+         "he": "הצג את כל הפוסטים",
+         "hi": "सभी पोस्ट देखें",
+         "th": "ดูบทความทั้งหมด",
+         "vi": "Xem tất cả bài viết",
+         "id": "Lihat semua postingan",
+         "ms": "Lihat semua catatan",
+         "ca": "Veure totes les publicacions",
+         "eu": "Argitalpen guztiak ikusi"
+      }
+   },
+   "pageNotFound": {
+      "comment": "Title for the 404 error page.",
+      "localizations": {
+         "en": "Page Not Found",
+         "de": "Seite nicht gefunden",
+         "fr": "Page non trouvée",
+         "es": "Página no encontrada",
+         "it": "Pagina non trovata",
+         "pt": "Página não encontrada",
+         "nl": "Pagina niet gevonden",
+         "pl": "Strona nie znaleziona",
+         "cs": "Stránka nenalezena",
+         "sk": "Stránka nenájdená",
+         "hu": "Az oldal nem található",
+         "ro": "Pagina nu a fost găsită",
+         "bg": "Страницата не е намерена",
+         "hr": "Stranica nije pronađena",
+         "sl": "Stran ni najdena",
+         "uk": "Сторінку не знайдено",
+         "ru": "Страница не найдена",
+         "da": "Siden blev ikke fundet",
+         "sv": "Sidan hittades inte",
+         "nb": "Siden ble ikke funnet",
+         "fi": "Sivua ei löytynyt",
+         "el": "Η σελίδα δεν βρέθηκε",
+         "tr": "Sayfa bulunamadı",
+         "ja": "ページが見つかりません",
+         "ko": "페이지를 찾을 수 없습니다",
+         "zh-Hans": "页面未找到",
+         "zh-Hant": "找不到頁面",
+         "ar": "الصفحة غير موجودة",
+         "he": "הדף לא נמצא",
+         "hi": "पेज नहीं मिला",
+         "th": "ไม่พบหน้านี้",
+         "vi": "Không tìm thấy trang",
+         "id": "Halaman tidak ditemukan",
+         "ms": "Halaman tidak dijumpai",
+         "ca": "Pàgina no trobada",
+         "eu": "Orria ez da aurkitu"
+      }
+   },
+   "pageNotFoundMessage": {
+      "comment": "Default message shown on the 404 error page.",
+      "localizations": {
+         "en": "The page you're looking for doesn't exist or has been moved.",
+         "de": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+         "fr": "La page que vous recherchez n'existe pas ou a été déplacée.",
+         "es": "La página que buscas no existe o ha sido movida.",
+         "it": "La pagina che stai cercando non esiste o è stata spostata.",
+         "pt": "A página que você procura não existe ou foi movida.",
+         "nl": "De pagina die u zoekt bestaat niet of is verplaatst.",
+         "pl": "Strona, której szukasz, nie istnieje lub została przeniesiona.",
+         "cs": "Stránka, kterou hledáte, neexistuje nebo byla přesunuta.",
+         "sk": "Stránka, ktorú hľadáte, neexistuje alebo bola presunutá.",
+         "hu": "A keresett oldal nem létezik vagy áthelyezték.",
+         "ro": "Pagina pe care o căutați nu există sau a fost mutată.",
+         "bg": "Страницата, която търсите, не съществува или е преместена.",
+         "hr": "Stranica koju tražite ne postoji ili je premještena.",
+         "sl": "Stran, ki jo iščete, ne obstaja ali je bila premaknjena.",
+         "uk": "Сторінка, яку ви шукаєте, не існує або була переміщена.",
+         "ru": "Страница, которую вы ищете, не существует или была перемещена.",
+         "da": "Siden du leder efter findes ikke eller er blevet flyttet.",
+         "sv": "Sidan du letar efter finns inte eller har flyttats.",
+         "nb": "Siden du leter etter finnes ikke eller har blitt flyttet.",
+         "fi": "Etsimääsi sivua ei löydy tai se on siirretty.",
+         "el": "Η σελίδα που ψάχνετε δεν υπάρχει ή έχει μετακινηθεί.",
+         "tr": "Aradığınız sayfa mevcut değil veya taşınmış.",
+         "ja": "お探しのページは存在しないか、移動されました。",
+         "ko": "찾으시는 페이지가 존재하지 않거나 이동되었습니다.",
+         "zh-Hans": "您查找的页面不存在或已被移动。",
+         "zh-Hant": "您尋找的頁面不存在或已被移動。",
+         "ar": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+         "he": "הדף שאתה מחפש אינו קיים או שהועבר.",
+         "hi": "आप जो पेज खोज रहे हैं वह मौजूद नहीं है या स्थानांतरित कर दिया गया है।",
+         "th": "หน้าที่คุณกำลังมองหาไม่มีอยู่หรือถูกย้ายไปแล้ว",
+         "vi": "Trang bạn tìm kiếm không tồn tại hoặc đã được di chuyển.",
+         "id": "Halaman yang Anda cari tidak ada atau telah dipindahkan.",
+         "ms": "Halaman yang anda cari tidak wujud atau telah dialihkan.",
+         "ca": "La pàgina que cerqueu no existeix o s'ha mogut.",
+         "eu": "Bilatzen duzun orria ez da existitzen edo lekuz aldatu da."
+      }
+   },
+   "errorCode404": {
+      "comment": "The 404 error code displayed prominently on the error page.",
+      "localizations": {
+         "en": "404",
+         "de": "404",
+         "fr": "404",
+         "es": "404",
+         "it": "404",
+         "pt": "404",
+         "nl": "404",
+         "pl": "404",
+         "cs": "404",
+         "sk": "404",
+         "hu": "404",
+         "ro": "404",
+         "bg": "404",
+         "hr": "404",
+         "sl": "404",
+         "uk": "404",
+         "ru": "404",
+         "da": "404",
+         "sv": "404",
+         "nb": "404",
+         "fi": "404",
+         "el": "404",
+         "tr": "404",
+         "ja": "404",
+         "ko": "404",
+         "zh-Hans": "404",
+         "zh-Hant": "404",
+         "ar": "404",
+         "he": "404",
+         "hi": "404",
+         "th": "404",
+         "vi": "404",
+         "id": "404",
+         "ms": "404",
+         "ca": "404",
+         "eu": "404"
+      }
+   },
+   "goToHomePage": {
+      "comment": "Link text on the error page to navigate to the home page. Renderer adds arrow prefix.",
+      "localizations": {
+         "en": "Go to Home Page",
+         "de": "Zur Startseite",
+         "fr": "Aller à la page d'accueil",
+         "es": "Ir a la página de inicio",
+         "it": "Vai alla pagina iniziale",
+         "pt": "Ir para a página inicial",
+         "nl": "Ga naar de startpagina",
+         "pl": "Przejdź do strony głównej",
+         "cs": "Přejít na hlavní stránku",
+         "sk": "Prejsť na hlavnú stránku",
+         "hu": "Vissza a főoldalra",
+         "ro": "Mergi la pagina principală",
+         "bg": "Към началната страница",
+         "hr": "Idi na početnu stranicu",
+         "sl": "Pojdi na domačo stran",
+         "uk": "На головну сторінку",
+         "ru": "На главную страницу",
+         "da": "Gå til forsiden",
+         "sv": "Gå till startsidan",
+         "nb": "Gå til forsiden",
+         "fi": "Siirry etusivulle",
+         "el": "Μετάβαση στην αρχική σελίδα",
+         "tr": "Ana sayfaya git",
+         "ja": "ホームページへ",
+         "ko": "홈페이지로 이동",
+         "zh-Hans": "返回首页",
+         "zh-Hant": "前往首頁",
+         "ar": "الذهاب إلى الصفحة الرئيسية",
+         "he": "עבור לדף הבית",
+         "hi": "होम पेज पर जाएं",
+         "th": "ไปยังหน้าหลัก",
+         "vi": "Về trang chủ",
+         "id": "Ke halaman utama",
+         "ms": "Pergi ke halaman utama",
+         "ca": "Anar a la pàgina d'inici",
+         "eu": "Hasiera orrira joan"
+      }
+   },
+   "skipToContent": {
+      "comment": "Accessibility skip link text to jump past navigation to main content.",
+      "localizations": {
+         "en": "Skip to content",
+         "de": "Zum Inhalt springen",
+         "fr": "Aller au contenu",
+         "es": "Saltar al contenido",
+         "it": "Vai al contenuto",
+         "pt": "Pular para o conteúdo",
+         "nl": "Ga naar inhoud",
+         "pl": "Przejdź do treści",
+         "cs": "Přejít na obsah",
+         "sk": "Prejsť na obsah",
+         "hu": "Ugrás a tartalomhoz",
+         "ro": "Sari la conținut",
+         "bg": "Към съдържанието",
+         "hr": "Preskoči na sadržaj",
+         "sl": "Preskoči na vsebino",
+         "uk": "Перейти до вмісту",
+         "ru": "Перейти к содержанию",
+         "da": "Gå til indhold",
+         "sv": "Hoppa till innehåll",
+         "nb": "Gå til innhold",
+         "fi": "Siirry sisältöön",
+         "el": "Μετάβαση στο περιεχόμενο",
+         "tr": "İçeriğe geç",
+         "ja": "コンテンツへスキップ",
+         "ko": "본문으로 건너뛰기",
+         "zh-Hans": "跳转到内容",
+         "zh-Hant": "跳至內容",
+         "ar": "انتقل إلى المحتوى",
+         "he": "דלג לתוכן",
+         "hi": "सामग्री पर जाएं",
+         "th": "ข้ามไปยังเนื้อหา",
+         "vi": "Chuyển đến nội dung",
+         "id": "Langsung ke konten",
+         "ms": "Langkau ke kandungan",
+         "ca": "Saltar al contingut",
+         "eu": "Edukira salto egin"
+      }
+   },
+   "mainNavigation": {
+      "comment": "Accessible label for the site's main navigation element.",
+      "localizations": {
+         "en": "Main navigation",
+         "de": "Hauptnavigation",
+         "fr": "Navigation principale",
+         "es": "Navegación principal",
+         "it": "Navigazione principale",
+         "pt": "Navegação principal",
+         "nl": "Hoofdnavigatie",
+         "pl": "Nawigacja główna",
+         "cs": "Hlavní navigace",
+         "sk": "Hlavná navigácia",
+         "hu": "Fő navigáció",
+         "ro": "Navigare principală",
+         "bg": "Основна навигация",
+         "hr": "Glavna navigacija",
+         "sl": "Glavna navigacija",
+         "uk": "Головна навігація",
+         "ru": "Основная навигация",
+         "da": "Hovednavigation",
+         "sv": "Huvudnavigering",
+         "nb": "Hovednavigasjon",
+         "fi": "Päänavigaatio",
+         "el": "Κύρια πλοήγηση",
+         "tr": "Ana gezinme",
+         "ja": "メインナビゲーション",
+         "ko": "메인 내비게이션",
+         "zh-Hans": "主导航",
+         "zh-Hant": "主導覽",
+         "ar": "التنقل الرئيسي",
+         "he": "ניווט ראשי",
+         "hi": "मुख्य नेविगेशन",
+         "th": "การนำทางหลัก",
+         "vi": "Điều hướng chính",
+         "id": "Navigasi utama",
+         "ms": "Navigasi utama",
+         "ca": "Navegació principal",
+         "eu": "Nabigazio nagusia"
+      }
+   },
+   "switchLanguage": {
+      "comment": "Accessible label for the language switcher button.",
+      "localizations": {
+         "en": "Switch language",
+         "de": "Sprache wechseln",
+         "fr": "Changer de langue",
+         "es": "Cambiar idioma",
+         "it": "Cambia lingua",
+         "pt": "Mudar idioma",
+         "nl": "Taal wijzigen",
+         "pl": "Zmień język",
+         "cs": "Změnit jazyk",
+         "sk": "Zmeniť jazyk",
+         "hu": "Nyelv váltása",
+         "ro": "Schimbă limba",
+         "bg": "Смени езика",
+         "hr": "Promijeni jezik",
+         "sl": "Zamenjaj jezik",
+         "uk": "Змінити мову",
+         "ru": "Сменить язык",
+         "da": "Skift sprog",
+         "sv": "Byt språk",
+         "nb": "Bytt språk",
+         "fi": "Vaihda kieltä",
+         "el": "Αλλαγή γλώσσας",
+         "tr": "Dil değiştir",
+         "ja": "言語を切り替え",
+         "ko": "언어 변경",
+         "zh-Hans": "切换语言",
+         "zh-Hant": "切換語言",
+         "ar": "تغيير اللغة",
+         "he": "החלף שפה",
+         "hi": "भाषा बदलें",
+         "th": "เปลี่ยนภาษา",
+         "vi": "Đổi ngôn ngữ",
+         "id": "Ganti bahasa",
+         "ms": "Tukar bahasa",
+         "ca": "Canviar idioma",
+         "eu": "Hizkuntza aldatu"
+      }
+   },
+   "translationNotice": {
+      "comment": "Notice shown on AI-translated articles in unverified languages. %@ = source language name.",
+      "localizations": {
+         "en": "This article was AI-translated from %@.",
+         "de": "Dieser Artikel wurde mit KI aus dem %@ übersetzt.",
+         "fr": "Cet article a été traduit par IA depuis %@.",
+         "es": "Este artículo fue traducido por IA desde %@.",
+         "it": "Questo articolo è stato tradotto dall'IA da %@.",
+         "pt": "Este artigo foi traduzido por IA de %@.",
+         "nl": "Dit artikel is door AI vertaald vanuit het %@.",
+         "pl": "Ten artykuł został przetłumaczony przez AI z %@.",
+         "cs": "Tento článek byl přeložen pomocí AI z %@.",
+         "sk": "Tento článok bol preložený pomocou AI z %@.",
+         "hu": "Ezt a cikket mesterséges intelligencia fordította %@ nyelvről.",
+         "ro": "Acest articol a fost tradus de AI din %@.",
+         "bg": "Тази статия е преведена с ИИ от %@.",
+         "hr": "Ovaj članak je AI preveden s %@.",
+         "sl": "Ta članek je bil preveden z UI iz %@.",
+         "uk": "Цю статтю було перекладено ШІ з %@.",
+         "ru": "Эта статья была переведена ИИ с %@.",
+         "da": "Denne artikel er AI-oversat fra %@.",
+         "sv": "Den här artikeln är AI-översatt från %@.",
+         "nb": "Denne artikkelen er AI-oversatt fra %@.",
+         "fi": "Tämä artikkeli on käännetty tekoälyllä kielestä %@.",
+         "el": "Αυτό το άρθρο μεταφράστηκε με AI από %@.",
+         "tr": "Bu makale yapay zeka ile %@ dilinden çevrilmiştir.",
+         "ja": "この記事はAIにより%@から翻訳されました。",
+         "ko": "이 글은 %@에서 AI로 번역되었습니다.",
+         "zh-Hans": "本文由AI从%@翻译。",
+         "zh-Hant": "本文由AI從%@翻譯。",
+         "ar": "تمت ترجمة هذه المقالة بالذكاء الاصطناعي من %@.",
+         "he": "מאמר זה תורגם באמצעות בינה מלאכותית מ%@.",
+         "hi": "यह लेख %@ से AI द्वारा अनुवादित है।",
+         "th": "บทความนี้แปลโดย AI จาก%@",
+         "vi": "Bài viết này được dịch bằng AI từ %@.",
+         "id": "Artikel ini diterjemahkan oleh AI dari %@.",
+         "ms": "Artikel ini diterjemahkan oleh AI dari %@.",
+         "ca": "Aquest article ha estat traduït per IA des de %@.",
+         "eu": "Artikulu hau AI bidez itzulia da %@ hizkuntzatik."
+      }
+   },
+   "translationNoticeLink": {
+      "comment": "Link text on the translation notice to read the original article.",
+      "localizations": {
+         "en": "Read the original",
+         "de": "Original lesen",
+         "fr": "Lire l'original",
+         "es": "Leer el original",
+         "it": "Leggi l'originale",
+         "pt": "Ler o original",
+         "nl": "Lees het origineel",
+         "pl": "Czytaj oryginał",
+         "cs": "Číst originál",
+         "sk": "Čítať originál",
+         "hu": "Eredeti olvasása",
+         "ro": "Citește originalul",
+         "bg": "Прочети оригинала",
+         "hr": "Pročitaj original",
+         "sl": "Preberi izvirnik",
+         "uk": "Читати оригінал",
+         "ru": "Читать оригинал",
+         "da": "Læs originalen",
+         "sv": "Läs originalet",
+         "nb": "Les originalen",
+         "fi": "Lue alkuperäinen",
+         "el": "Διαβάστε το πρωτότυπο",
+         "tr": "Orijinalini oku",
+         "ja": "原文を読む",
+         "ko": "원문 읽기",
+         "zh-Hans": "阅读原文",
+         "zh-Hant": "閱讀原文",
+         "ar": "اقرأ الأصل",
+         "he": "קרא את המקור",
+         "hi": "मूल पढ़ें",
+         "th": "อ่านต้นฉบับ",
+         "vi": "Đọc bản gốc",
+         "id": "Baca aslinya",
+         "ms": "Baca asal",
+         "ca": "Llegeix l'original",
+         "eu": "Irakurri jatorrizkoa"
+      }
+   },
+   "langNameEn": {
+      "comment": "Display name for English language, localized for grammatical case in translation notice.",
+      "localizations": {
+         "en": "English",
+         "de": "Englischen",
+         "fr": "l'anglais",
+         "es": "el inglés",
+         "it": "l'inglese",
+         "pt": "o inglês",
+         "nl": "Engels",
+         "pl": "angielskiego",
+         "cs": "angličtiny",
+         "sk": "angličtiny",
+         "hu": "angol",
+         "ro": "engleză",
+         "bg": "английски",
+         "hr": "engleskog",
+         "sl": "angleščine",
+         "uk": "англійської",
+         "ru": "английского",
+         "da": "engelsk",
+         "sv": "engelska",
+         "nb": "engelsk",
+         "fi": "englanti",
+         "el": "τα Αγγλικά",
+         "tr": "İngilizce",
+         "ja": "英語",
+         "ko": "영어",
+         "zh-Hans": "英语",
+         "zh-Hant": "英語",
+         "ar": "الإنجليزية",
+         "he": "אנגלית",
+         "hi": "अंग्रेज़ी",
+         "th": "ภาษาอังกฤษ",
+         "vi": "tiếng Anh",
+         "id": "bahasa Inggris",
+         "ms": "bahasa Inggeris",
+         "ca": "l'anglès",
+         "eu": "ingelesa"
+      }
+   },
+   "langNameDe": {
+      "comment": "Display name for German language, localized for grammatical case in translation notice.",
+      "localizations": {
+         "en": "German",
+         "de": "Deutschen",
+         "fr": "l'allemand",
+         "es": "el alemán",
+         "it": "il tedesco",
+         "pt": "o alemão",
+         "nl": "Duits",
+         "pl": "niemieckiego",
+         "cs": "němčiny",
+         "sk": "nemčiny",
+         "hu": "német",
+         "ro": "germană",
+         "bg": "немски",
+         "hr": "njemačkog",
+         "sl": "nemščine",
+         "uk": "німецької",
+         "ru": "немецкого",
+         "da": "tysk",
+         "sv": "tyska",
+         "nb": "tysk",
+         "fi": "saksa",
+         "el": "τα Γερμανικά",
+         "tr": "Almanca",
+         "ja": "ドイツ語",
+         "ko": "독일어",
+         "zh-Hans": "德语",
+         "zh-Hant": "德語",
+         "ar": "الألمانية",
+         "he": "גרמנית",
+         "hi": "जर्मन",
+         "th": "ภาษาเยอรมัน",
+         "vi": "tiếng Đức",
+         "id": "bahasa Jerman",
+         "ms": "bahasa Jerman",
+         "ca": "l'alemany",
+         "eu": "alemana"
+      }
+   },
+   "legalNotice": {
+      "comment": "Notice shown on translated legal documents (imprint, privacy policy). %@ = language name of the legally binding version.",
+      "localizations": {
+         "en": "This is a translation. Only the %@ version is legally binding.",
+         "de": "Dies ist eine Übersetzung. Nur die %@ Fassung ist rechtsverbindlich.",
+         "fr": "Ceci est une traduction. Seule la version %@ fait foi.",
+         "es": "Esta es una traducción. Solo la versión en %@ es legalmente vinculante.",
+         "it": "Questa è una traduzione. Solo la versione in %@ è giuridicamente vincolante.",
+         "pt": "Esta é uma tradução. Apenas a versão em %@ é juridicamente vinculativa.",
+         "nl": "Dit is een vertaling. Alleen de %@ versie is rechtsgeldig.",
+         "pl": "To jest tłumaczenie. Tylko wersja %@ jest prawnie wiążąca.",
+         "cs": "Toto je překlad. Právně závazná je pouze %@ verze.",
+         "sk": "Toto je preklad. Právne záväzná je iba %@ verzia.",
+         "hu": "Ez egy fordítás. Csak a %@ változat jogilag kötelező érvényű.",
+         "ro": "Aceasta este o traducere. Doar versiunea în %@ este obligatorie din punct de vedere juridic.",
+         "bg": "Това е превод. Само версията на %@ е правно обвързваща.",
+         "hr": "Ovo je prijevod. Samo %@ verzija je pravno obvezujuća.",
+         "sl": "To je prevod. Samo %@ različica je pravno zavezujoča.",
+         "uk": "Це переклад. Лише %@ версія є юридично обов'язковою.",
+         "ru": "Это перевод. Юридическую силу имеет только версия на %@ языке.",
+         "da": "Dette er en oversættelse. Kun den %@ version er juridisk bindende.",
+         "sv": "Detta är en översättning. Endast den %@ versionen är juridiskt bindande.",
+         "nb": "Dette er en oversettelse. Kun den %@ versjonen er juridisk bindende.",
+         "fi": "Tämä on käännös. Vain %@ versio on oikeudellisesti sitova.",
+         "el": "Αυτή είναι μετάφραση. Μόνο η %@ έκδοση είναι νομικά δεσμευτική.",
+         "tr": "Bu bir çeviridir. Yalnızca %@ sürümü hukuken bağlayıcıdır.",
+         "ja": "これは翻訳版です。法的効力を持つのは%@版のみです。",
+         "ko": "이것은 번역본입니다. %@ 버전만 법적 구속력이 있습니다.",
+         "zh-Hans": "这是翻译版本。仅%@版本具有法律约束力。",
+         "zh-Hant": "這是翻譯版本。僅%@版本具有法律約束力。",
+         "ar": "هذه ترجمة. النسخة %@ فقط هي الملزمة قانونياً.",
+         "he": "זהו תרגום. רק הגרסה ב%@ מחייבת משפטית.",
+         "hi": "यह एक अनुवाद है। केवल %@ संस्करण ही कानूनी रूप से बाध्यकारी है।",
+         "th": "นี่คือการแปล เฉพาะฉบับ%@เท่านั้นที่มีผลผูกพันทางกฎหมาย",
+         "vi": "Đây là bản dịch. Chỉ phiên bản %@ mới có giá trị pháp lý.",
+         "id": "Ini adalah terjemahan. Hanya versi %@ yang mengikat secara hukum.",
+         "ms": "Ini adalah terjemahan. Hanya versi %@ yang mengikat secara undang-undang.",
+         "ca": "Aquesta és una traducció. Només la versió en %@ és jurídicament vinculant.",
+         "eu": "Hau itzulpena da. %@ bertsioa bakarrik da legalki loteslea."
+      }
+   },
+   "legalNoticeLink": {
+      "comment": "Link text for the legally binding original document.",
+      "localizations": {
+         "en": "Read the legally binding version",
+         "de": "Rechtsverbindliche Fassung lesen",
+         "fr": "Lire la version faisant foi",
+         "es": "Leer la versión legalmente vinculante",
+         "it": "Leggere la versione giuridicamente vincolante",
+         "pt": "Ler a versão juridicamente vinculativa",
+         "nl": "Lees de rechtsgeldig versie",
+         "pl": "Przeczytaj wersję prawnie wiążącą",
+         "cs": "Přečíst právně závaznou verzi",
+         "sk": "Prečítať právne záväznú verziu",
+         "hu": "Olvassa el a jogilag kötelező érvényű változatot",
+         "ro": "Citiți versiunea obligatorie din punct de vedere juridic",
+         "bg": "Прочетете правно обвързващата версия",
+         "hr": "Pročitajte pravno obvezujuću verziju",
+         "sl": "Preberite pravno zavezujočo različico",
+         "uk": "Читати юридично обов'язкову версію",
+         "ru": "Читать юридически обязательную версию",
+         "da": "Læs den juridisk bindende version",
+         "sv": "Läs den juridiskt bindande versionen",
+         "nb": "Les den juridisk bindende versjonen",
+         "fi": "Lue oikeudellisesti sitova versio",
+         "el": "Διαβάστε τη νομικά δεσμευτική έκδοση",
+         "tr": "Hukuken bağlayıcı sürümü oku",
+         "ja": "法的効力を持つ原文を読む",
+         "ko": "법적 구속력이 있는 버전 읽기",
+         "zh-Hans": "阅读具有法律约束力的版本",
+         "zh-Hant": "閱讀具有法律約束力的版本",
+         "ar": "اقرأ النسخة الملزمة قانونياً",
+         "he": "קרא את הגרסה המחייבת משפטית",
+         "hi": "कानूनी रूप से बाध्यकारी संस्करण पढ़ें",
+         "th": "อ่านฉบับที่มีผลผูกพันทางกฎหมาย",
+         "vi": "Đọc phiên bản có giá trị pháp lý",
+         "id": "Baca versi yang mengikat secara hukum",
+         "ms": "Baca versi yang mengikat secara undang-undang",
+         "ca": "Llegeix la versió jurídicament vinculant",
+         "eu": "Irakurri legalki loteslea den bertsioa"
+      }
+   },
+   "snippets": {
+      "comment": "Title for the snippets listing page.",
+      "localizations": {
+         "en": "Snippets",
+         "de": "Snippets",
+         "ja": "スニペット",
+         "tr": "Kod Parçaları"
+      }
+   },
+   "allSnippets": {
+      "comment": "Back link text from snippet detail page to snippets listing. Renderer adds arrow prefix.",
+      "localizations": {
+         "en": "All Snippets",
+         "de": "Alle Snippets",
+         "ja": "すべてのスニペット",
+         "tr": "Tüm Kod Parçaları"
+      }
+   },
+   "followMeArticle": {
+      "comment": "Follow-me message shown at the end of blog articles. %@ = social link HTML.",
+      "localizations": {
+         "en": "Enjoyed this article? Follow me on %@ for more Swift tips and indie dev updates.",
+         "de": "Hat dir dieser Beitrag gefallen? Folge mir auf %@ für mehr Swift-Tipps und Indie-Dev-Updates.",
+         "ja": "この記事が参考になりましたか？%@でフォローして、Swiftのヒントやインディー開発の最新情報をチェックしてください。",
+         "tr": "Bu yazıyı beğendin mi? Swift ipuçları ve indie geliştirici güncellemeleri için %@ üzerinden takip et."
+      }
+   },
+   "followMeShort": {
+      "comment": "Follow-me message shown at the end of short content (snippets). %@ = social link HTML.",
+      "localizations": {
+         "en": "Found this helpful? Follow me on %@ for more Swift tips and indie dev updates.",
+         "de": "War das hilfreich? Folge mir auf %@ für mehr Swift-Tipps und Indie-Dev-Updates.",
+         "ja": "参考になりましたか？%@でフォローして、Swiftのヒントやインディー開発の最新情報をチェックしてください。",
+         "tr": "İşine yaradı mı? Swift ipuçları ve indie geliştirici güncellemeleri için %@ üzerinden takip et."
+      }
+   },
+   "connectorAnd": {
+      "comment": "Connector word used to join the last two items in a list (e.g., 'Mastodon and GitHub').",
+      "localizations": {
+         "en": "and",
+         "de": "und",
+         "ja": "と",
+         "tr": "ve"
+      }
+   },
+   "builtWith": {
+      "comment": "Attribution text in footer. %@ = product name (SiteKit).",
+      "localizations": {
+         "en": "Built with %@",
+         "de": "Erstellt mit %@",
+         "ja": "%@で制作",
+         "tr": "%@ ile oluşturuldu"
+      }
+   },
+   "podcastChapters": {
+      "comment": "Section heading for episode chapters.",
+      "localizations": {
+         "en": "Chapters",
+         "de": "Kapitel",
+         "ja": "チャプター",
+         "tr": "Bölümler"
+      }
+   },
+   "podcastShowNotes": {
+      "comment": "Section heading for episode show notes.",
+      "localizations": {
+         "en": "Show Notes",
+         "de": "Shownotes",
+         "ja": "ショーノート",
+         "tr": "Notlar"
+      }
+   },
+   "podcastDownloadMP3": {
+      "comment": "Link text for downloading the episode MP3.",
+      "localizations": {
+         "en": "Download (MP3)",
+         "de": "MP3 herunterladen",
+         "ja": "ダウンロード (MP3)",
+         "tr": "İndir (MP3)"
+      }
+   },
+   "podcastPreviousEpisode": {
+      "comment": "Navigation label for previous episode. Renderer adds arrow prefix.",
+      "localizations": {
+         "en": "Previous Episode",
+         "de": "Vorherige Episode",
+         "ja": "前のエピソード",
+         "tr": "Önceki Bölüm"
+      }
+   },
+   "podcastNextEpisode": {
+      "comment": "Navigation label for next episode. Renderer adds arrow suffix.",
+      "localizations": {
+         "en": "Next Episode",
+         "de": "Nächste Episode",
+         "ja": "次のエピソード",
+         "tr": "Sonraki Bölüm"
+      }
+   },
+   "podcastAllEpisodes": {
+      "comment": "Back link text to all episodes listing. Renderer adds arrow prefix.",
+      "localizations": {
+         "en": "All Episodes",
+         "de": "Alle Episoden",
+         "ja": "すべてのエピソード",
+         "tr": "Tüm Bölümler"
+      }
+   },
+   "podcastEpisodes": {
+      "comment": "Title for the episode listing page.",
+      "localizations": {
+         "en": "Episodes",
+         "de": "Episoden",
+         "ja": "エピソード",
+         "tr": "Bölümler"
+      }
+   },
+   "podcastLatestEpisodes": {
+      "comment": "Section title for latest episodes on podcast home page.",
+      "localizations": {
+         "en": "Latest Episodes",
+         "de": "Neueste Episoden",
+         "ja": "最新エピソード",
+         "tr": "Son Bölümler"
+      }
+   },
+   "podcastViewAllEpisodes": {
+      "comment": "Link on podcast home page to view all episodes. Renderer adds arrow suffix.",
+      "localizations": {
+         "en": "View All Episodes",
+         "de": "Alle Episoden ansehen",
+         "ja": "すべてのエピソードを見る",
+         "tr": "Tüm Bölümleri Gör"
+      }
+   },
+   "podcastSubscribeFeed": {
+      "comment": "Tooltip/title for the podcast feed subscribe link.",
+      "localizations": {
+         "en": "Subscribe to Podcast Feed",
+         "de": "Podcast Feed abonnieren",
+         "ja": "ポッドキャストフィードを購読",
+         "tr": "Podcast Akışına Abone Ol"
+      }
+   },
+   "podcastSubscribeLabel": {
+      "comment": "Label above the podcast subscribe links section on the home page.",
+      "localizations": {
+         "en": "Listen on",
+         "de": "Jetzt abonnieren",
+         "ja": "購読する",
+         "tr": "Şu uygulamada dinle"
+      }
+   },
+   "doccSearch": {
+      "comment": "Label in the DocC appbar search pill. Short, verb-form: shown next to the search icon and a keyboard shortcut hint.",
+      "localizations": {
+         "en": "Search",
+         "de": "Suchen",
+         "ja": "検索",
+         "tr": "Ara"
+      }
+   },
+   "doccFilter": {
+      "comment": "Placeholder text for the pinned sidebar tree-filter input box. Distinguishable from the appbar full-text search.",
+      "localizations": {
+         "en": "Filter sessions & years",
+         "de": "Sitzungen & Jahre filtern",
+         "ja": "セッションと年を絞り込む",
+         "tr": "Oturumları ve yılları filtrele"
+      }
+   },
+   "doccContributors": {
+      "comment": "Label for the collapsible Contributors group in the DocC sidebar tree.",
+      "localizations": {
+         "en": "Contributors",
+         "de": "Mitwirkende",
+         "ja": "コントリビューター",
+         "tr": "Katkıda Bulunanlar"
+      }
+   },
+   "doccStubTitle": {
+      "comment": "Tooltip shown on stub session rows in the DocC sidebar – sessions that exist but have no notes yet.",
+      "localizations": {
+         "en": "No notes yet",
+         "de": "Noch keine Notizen",
+         "ja": "まだメモがありません",
+         "tr": "Henüz not yok"
+      }
+   },
+   "doccThemeLight": {
+      "comment": "Label for the Light option in the sidebar theme-switch segmented control.",
+      "localizations": {
+         "en": "Light",
+         "de": "Hell",
+         "ja": "ライト",
+         "tr": "Açık"
+      }
+   },
+   "doccThemeDark": {
+      "comment": "Label for the Dark option in the sidebar theme-switch segmented control.",
+      "localizations": {
+         "en": "Dark",
+         "de": "Dunkel",
+         "ja": "ダーク",
+         "tr": "Koyu"
+      }
+   },
+   "doccThemeAuto": {
+      "comment": "Label for the Auto (follow system preference) option in the sidebar theme-switch segmented control.",
+      "localizations": {
+         "en": "Auto",
+         "de": "Auto",
+         "ja": "自動",
+         "tr": "Otomatik"
+      }
+   },
+   "doccThemeToggle": {
+      "comment": "Accessible label for the single appbar theme toggle button that flips between light and dark appearance.",
+      "localizations": {
+         "en": "Toggle appearance",
+         "de": "Erscheinungsbild umschalten",
+         "ja": "外観を切り替える",
+         "tr": "Görünümü değiştir"
+      }
+   },
+   "doccHomeOverview": {
+      "comment": "Section heading for the Overview block on the DocC home page.",
+      "localizations": {
+         "en": "Overview",
+         "de": "Übersicht",
+         "ja": "概要",
+         "tr": "Genel Bakış"
+      }
+   },
+   "doccHomeContributing": {
+      "comment": "Section heading for the Contributing block on the DocC home page.",
+      "localizations": {
+         "en": "Contributing",
+         "de": "Mitwirken",
+         "ja": "コントリビュート",
+         "tr": "Katkıda Bulunma"
+      }
+   },
+   "doccHomeTopics": {
+      "comment": "Section heading for the Topics card grid on the DocC home page.",
+      "localizations": {
+         "en": "Topics",
+         "de": "Themen",
+         "ja": "トピック",
+         "tr": "Konular"
+      }
+   },
+   "doccHomeYearCardLink": {
+      "comment": "Call-to-action link label on each per-year card in the Topics grid.",
+      "localizations": {
+         "en": "Learn More",
+         "de": "Mehr erfahren",
+         "ja": "詳しく見る",
+         "tr": "Daha Fazla"
+      }
+   },
+   "doccHomeContributorsLink": {
+      "comment": "Call-to-action link label on the Contributors mosaic card.",
+      "localizations": {
+         "en": "Read article",
+         "de": "Artikel lesen",
+         "ja": "記事を読む",
+         "tr": "Makaleyi oku"
+      }
+   },
+   "doccYearEyebrow": {
+      "comment": "Small-caps eyebrow label above the year title on the DocC year overview page.",
+      "localizations": {
+         "en": "Year overview",
+         "de": "Jahresübersicht",
+         "ja": "年間概要",
+         "tr": "Yıl genel bakışı"
+      }
+   },
+   "doccYearStatsNotes": {
+      "comment": "Stat label for published (non-stub) session notes on the year stats row.",
+      "localizations": {
+         "en": "notes",
+         "de": "Notizen",
+         "ja": "ノート",
+         "tr": "notlar"
+      }
+   },
+   "doccYearStatsSessions": {
+      "comment": "Stat label for all sessions (including stubs) on the year stats row.",
+      "localizations": {
+         "en": "sessions",
+         "de": "Sitzungen",
+         "ja": "セッション",
+         "tr": "oturumlar"
+      }
+   },
+   "doccYearStatsTopics": {
+      "comment": "Stat label for topic groups on the year stats row.",
+      "localizations": {
+         "en": "topics",
+         "de": "Themen",
+         "ja": "トピック",
+         "tr": "konular"
+      }
+   },
+   "doccStubPillLabel": {
+      "comment": "Inline status badge on session rows that have no written notes yet.",
+      "localizations": {
+         "en": "Needs notes",
+         "de": "Notizen fehlen",
+         "ja": "ノートが必要",
+         "tr": "Not gerekli"
+      }
+   },
+   "doccMoreSessions": {
+      "comment": "Fallback group heading for sessions not covered by any named topic group.",
+      "localizations": {
+         "en": "More Sessions",
+         "de": "Weitere Sitzungen",
+         "ja": "その他のセッション",
+         "tr": "Daha Fazla Oturum"
+      }
+   },
+   "doccWatchVideo": {
+      "comment": "Label for the Watch Video call-to-action button on the article meta row. Shown alone or with duration suffix: 'Watch Video (14 min)'.",
+      "localizations": {
+         "en": "Watch Video",
+         "de": "Video ansehen",
+         "ja": "動画を見る",
+         "tr": "Video İzle"
+      }
+   },
+   "doccReadTime": {
+      "comment": "Suffix for the read-time indicator on the article meta row. Appears after a number, e.g. '6 min read'.",
+      "localizations": {
+         "en": "min read",
+         "de": "Min. Lesezeit",
+         "ja": "分で読めます",
+         "tr": "dk okuma"
+      }
+   },
+   "doccQuickReadTag": {
+      "comment": "Pill label inside the Quick Read TLDR card, replacing the raw 'Quick Read' prefix the author writes in the blockquote.",
+      "localizations": {
+         "en": "Quick Read",
+         "de": "Kurzübersicht",
+         "ja": "クイックリード",
+         "tr": "Hızlı Okuma"
+      }
+   },
+   "doccWrittenBy": {
+      "comment": "Section heading for the Written By author block below the article body.",
+      "localizations": {
+         "en": "Written By",
+         "de": "Geschrieben von",
+         "ja": "執筆者",
+         "tr": "Yazan"
+      }
+   },
+   "doccRelatedSessions": {
+      "comment": "Section heading for the Related Sessions list at the bottom of the article.",
+      "localizations": {
+         "en": "Related Sessions",
+         "de": "Verwandte Sessions",
+         "ja": "関連セッション",
+         "tr": "İlgili Oturumlar"
+      }
+   },
+   "doccContributedNotes": {
+      "comment": "Link label pointing to a contributor's contributed-notes listing page.",
+      "localizations": {
+         "en": "Contributed Notes",
+         "de": "Beigetragene Notizen",
+         "ja": "投稿したノート",
+         "tr": "Katkıda Bulunulan Notlar"
+      }
+   },
+   "doccCommunityLabel": {
+      "comment": "Label for the Community mode card in the Community/AI variant switcher.",
+      "localizations": {
+         "en": "Community Notes",
+         "de": "Community-Notizen",
+         "ja": "コミュニティノート",
+         "tr": "Topluluk Notları"
+      }
+   },
+   "doccCommunitySubtitle": {
+      "comment": "Sub-label for the Community mode card in the variant switcher.",
+      "localizations": {
+         "en": "Written & reviewed by people",
+         "de": "Von Menschen geschrieben & geprüft",
+         "ja": "人々が執筆・レビュー",
+         "tr": "İnsanlar tarafından yazılmış ve incelenmiş"
+      }
+   },
+   "doccAILabel": {
+      "comment": "Label for the AI mode card in the Community/AI variant switcher.",
+      "localizations": {
+         "en": "AI Notes",
+         "de": "KI-Notizen",
+         "ja": "AIノート",
+         "tr": "Yapay Zeka Notları"
+      }
+   },
+   "doccAISubtitle": {
+      "comment": "Sub-label for the AI mode card in the variant switcher. Describes how the notes were produced – not on-device, but by the build pipeline.",
+      "localizations": {
+         "en": "AI-generated summary of the session",
+         "de": "KI-generierte Zusammenfassung der Session",
+         "ja": "AIによるセッションの要約",
+         "tr": "Oturumun yapay zeka tarafından oluşturulan özeti"
+      }
+   },
+   "doccAIBannerText": {
+      "comment": "Full disclaimer text shown in the AI-mode banner below the variant switcher. May contain the word 'Community Notes' referencing the other mode.",
+      "localizations": {
+         "en": "AI Notes (beta) are generated by a build-pipeline model from the session transcript. They can be wrong or incomplete. Switch to Community Notes for human-reviewed detail.",
+         "de": "KI-Notizen (Beta) werden durch ein Pipeline-Modell aus dem Session-Transkript erzeugt. Sie können unvollständig oder fehlerhaft sein. Wechsle zu Community-Notizen für von Menschen geprüfte Details.",
+         "ja": "AIノート（ベータ）はパイプラインモデルがセッションのトランスクリプトから生成します。誤りや不完全な場合があります。人によってレビューされた詳細はコミュニティノートをご覧ください。",
+         "tr": "Yapay Zeka Notları (beta), bir derleme hattı modeli tarafından oturum transkriptinden oluşturulur. Yanlış veya eksik olabilir. İnsan tarafından incelenmiş ayrıntılar için Topluluk Notları'na geçin."
+      }
+   },
+   "doccCalloutTip": {
+      "comment": "Badge label for Tip-kind callout blocks in DocC notes.",
+      "localizations": {
+         "en": "Tip",
+         "de": "Tipp",
+         "ja": "ヒント",
+         "tr": "İpucu"
+      }
+   },
+   "doccCalloutNote": {
+      "comment": "Badge label for Note-kind callout blocks in DocC notes.",
+      "localizations": {
+         "en": "Note",
+         "de": "Hinweis",
+         "ja": "注記",
+         "tr": "Not"
+      }
+   },
+   "doccCalloutImportant": {
+      "comment": "Badge label for Important-kind callout blocks in DocC notes.",
+      "localizations": {
+         "en": "Important",
+         "de": "Wichtig",
+         "ja": "重要",
+         "tr": "Önemli"
+      }
+   },
+   "doccCalloutWarning": {
+      "comment": "Badge label for Warning-kind callout blocks in DocC notes.",
+      "localizations": {
+         "en": "Warning",
+         "de": "Warnung",
+         "ja": "警告",
+         "tr": "Uyarı"
+      }
+   },
+   "doccCalloutExperiment": {
+      "comment": "Badge label for Experiment-kind callout blocks in DocC notes.",
+      "localizations": {
+         "en": "Experiment",
+         "de": "Experiment",
+         "ja": "実験",
+         "tr": "Deney"
+      }
+   },
+   "doccStubEmptyTitle": {
+      "comment": "Heading shown in the empty-state for stub (notes-not-yet-written) articles.",
+      "localizations": {
+         "en": "No notes available yet",
+         "de": "Noch keine Notizen verfügbar",
+         "ja": "まだノートがありません",
+         "tr": "Henüz not yok"
+      }
+   },
+   "doccStubEmptyBody": {
+      "comment": "Body text shown in the stub empty-state, nudging contributors to write the first notes.",
+      "localizations": {
+         "en": "Be the hero who changes that. Watch the video, jot down what matters, and open a pull request – it's genuinely quick.",
+         "de": "Sei der Held, der das ändert. Sieh dir das Video an, notiere die wichtigsten Punkte und öffne einen Pull Request – es geht wirklich schnell.",
+         "ja": "変えるヒーローになろう。動画を見て、重要な点をメモし、プルリクエストを開いてください – 本当にすぐにできます。",
+         "tr": "Bunu değiştirecek kahraman ol. Videoyu izle, önemli noktaları not et ve bir pull request aç – gerçekten hızlı."
+      }
+   },
+   "doccStubEmptyCTA": {
+      "comment": "CTA button label in the stub empty-state, linking to the contributing guide.",
+      "localizations": {
+         "en": "Learn how to contribute",
+         "de": "Wie man beiträgt",
+         "ja": "コントリビュート方法を見る",
+         "tr": "Nasıl katkıda bulunulur"
+      }
+   },
+   "doccNotesContributed": {
+      "comment": "Stat label after a number in the Written By block when count != 1, e.g. '42 notes contributed'.",
+      "localizations": {
+         "en": "notes contributed",
+         "de": "Notizen beigetragen",
+         "ja": "件のノートを投稿",
+         "tr": "not katkısı"
+      }
+   },
+   "doccNoteContributed": {
+      "comment": "Stat label after a number in the Written By block when count == 1, e.g. '1 note contributed'.",
+      "localizations": {
+         "en": "note contributed",
+         "de": "Notiz beigetragen",
+         "ja": "件のノートを投稿",
+         "tr": "not katkısı"
+      }
+   },
+   "doccSessionLabel": {
+      "comment": "Word 'Session' used in the article eyebrow separator, e.g. 'WWDC25 · Session 361'.",
+      "localizations": {
+         "en": "Session",
+         "de": "Session",
+         "ja": "セッション",
+         "tr": "Oturum"
+      }
+   },
+   "doccContributorsEyebrow": {
+      "comment": "Small-caps eyebrow label above the contributors page hero title.",
+      "localizations": {
+         "en": "Community",
+         "de": "Gemeinschaft",
+         "ja": "コミュニティ",
+         "tr": "Topluluk"
+      }
+   },
+   "doccContributorsSubtitle": {
+      "comment": "Subtitle line below the contributors page hero title.",
+      "localizations": {
+         "en": "The people writing these notes.",
+         "de": "Die Menschen, die diese Notizen schreiben.",
+         "ja": "これらのノートを執筆している人たちです。",
+         "tr": "Bu notları yazan insanlar."
+      }
+   },
+   "doccContributorsAllHeading": {
+      "comment": "Section heading for the full contributor grid below the stats row.",
+      "localizations": {
+         "en": "All contributors",
+         "de": "Alle Mitwirkenden",
+         "ja": "すべてのコントリビューター",
+         "tr": "Tüm katkıda bulunanlar"
+      }
+   },
+   "doccContributorsAllLead": {
+      "comment": "Short lead sentence below the 'All contributors' heading.",
+      "localizations": {
+         "en": "Everyone who has contributed notes, sorted by number of contributions.",
+         "de": "Alle, die Notizen beigetragen haben, sortiert nach Anzahl der Beiträge.",
+         "ja": "ノートを投稿したすべての方を、投稿数順で表示します。",
+         "tr": "Not katkısında bulunan herkes, katkı sayısına göre sıralanmıştır."
+      }
+   },
+   "doccContributorsBecomeCTA": {
+      "comment": "Label for the 'Become a contributor' call-to-action button on the contributors page. Shown only when the contributorsBecomeHref config field is set.",
+      "localizations": {
+         "en": "Become a contributor",
+         "de": "Mitwirkende werden",
+         "ja": "コントリビューターになる",
+         "tr": "Katkıda bulunan ol"
+      }
+   },
+   "doccContributorsStatNotes": {
+      "comment": "Stat label for the total notes written, in the contributors stats row.",
+      "localizations": {
+         "en": "notes written",
+         "de": "Notizen geschrieben",
+         "ja": "件のノート投稿",
+         "tr": "not yazıldı"
+      }
+   },
+   "doccContributorsStatYears": {
+      "comment": "Stat label for the number of distinct years covered, in the contributors stats row.",
+      "localizations": {
+         "en": "years covered",
+         "de": "Jahre abgedeckt",
+         "ja": "年分カバー",
+         "tr": "yıl kapsandı"
+      }
+   },
+   "doccContributorContributionsHeading": {
+      "comment": "Section heading for the Contributions block on the contributor detail page.",
+      "localizations": {
+         "en": "Contributions",
+         "de": "Beiträge",
+         "ja": "投稿",
+         "tr": "Katkılar"
+      }
+   },
+   "doccContributorContributionsLead": {
+      "comment": "Lead sentence in the Contributions intro block. Dynamic numbers (note count and most-active year) are rendered by the Swift renderer directly; this string holds the surrounding static text.",
+      "localizations": {
+         "en": "Contributed %lld session notes in total. Most active year: %@.",
+         "de": "%lld Session-Notizen insgesamt beigetragen. Aktivstes Jahr: %@.",
+         "ja": "合計 %lld 件のセッションノートを投稿。最も活発な年: %@。",
+         "tr": "Toplam %lld oturum notu katkısı. En aktif yıl: %@."
+      }
+   },
+   "doccContributorViewGitHub": {
+      "comment": "Link label pointing to the contributor's GitHub profile page.",
+      "localizations": {
+         "en": "View on GitHub",
+         "de": "Auf GitHub ansehen",
+         "ja": "GitHubで見る",
+         "tr": "GitHub'da görüntüle"
+      }
+   },
+   "doccMissingEyebrow": {
+      "comment": "Small-caps eyebrow above the missing-sessions page hero title.",
+      "localizations": {
+         "en": "Help wanted",
+         "de": "Hilfe gesucht",
+         "ja": "お手伝い募集",
+         "tr": "Yardım aranıyor"
+      }
+   },
+   "doccMissingCoverageHeading": {
+      "comment": "Section heading for the per-year coverage bars section on the missing-sessions page.",
+      "localizations": {
+         "en": "Coverage by year",
+         "de": "Abdeckung nach Jahr",
+         "ja": "年別カバレッジ",
+         "tr": "Yıla göre kapsam"
+      }
+   },
+   "doccMissingCoverageLead": {
+      "comment": "Short lead sentence below the coverage-by-year heading on the missing-sessions page.",
+      "localizations": {
+         "en": "How much of each year is already documented. The emptier the bar, the more sessions are waiting.",
+         "de": "Wie viel von jedem Jahr bereits dokumentiert ist. Je leerer der Balken, desto mehr Sessions warten.",
+         "ja": "各年のどれだけが既にドキュメント化されているか。バーが空なほど、待っているセッションが多いです。",
+         "tr": "Her yılın ne kadarının belgelendiği. Çubuk ne kadar boşsa, bekleyen oturum o kadar fazla."
+      }
+   },
+   "doccMissingLearnCTA": {
+      "comment": "Label for the 'Learn how to contribute' call-to-action link on the missing-sessions page. Shown only when the missingContributeHref config field is set.",
+      "localizations": {
+         "en": "Learn how to contribute",
+         "de": "Wie man beiträgt",
+         "ja": "コントリビュート方法を見る",
+         "tr": "Nasıl katkıda bulunulur"
+      }
+   },
+   "doccMissingCountFormat": {
+      "comment": "Per-year coverage count chip on the missing-sessions page. Positional template (missing-of-total): %1$lld = missing count, %2$lld = total sessions that year. Translators may reorder.",
+      "localizations": {
+         "en": "%1$lld of %2$lld missing",
+         "de": "%1$lld von %2$lld fehlen",
+         "ja": "%2$lld 件中 %1$lld 件が未作成",
+         "tr": "%2$lld oturumdan %1$lld tanesi eksik"
+      }
+   },
+   "doccMissingShowMore": {
+      "comment": "Show-more toggle label on the missing-sessions page when the year's extra stub cards are collapsed. Template: %lld = number of hidden cards.",
+      "localizations": {
+         "en": "Show %lld more",
+         "de": "%lld weitere anzeigen",
+         "ja": "他 %lld 件を表示",
+         "tr": "%lld tane daha göster"
+      }
+   },
+   "doccMissingShowLess": {
+      "comment": "Show-more toggle label on the missing-sessions page when the year's extra stub cards are expanded.",
+      "localizations": {
+         "en": "Show less",
+         "de": "Weniger anzeigen",
+         "ja": "折りたたむ",
+         "tr": "Daha az göster"
+      }
+   },
+   "doccSearchPlaceholder": {
+      "comment": "Placeholder text inside the DocC search overlay input field.",
+      "localizations": {
+         "en": "Search sessions, frameworks, years",
+         "de": "Sitzungen, Frameworks, Jahre suchen",
+         "ja": "セッション、フレームワーク、年で検索",
+         "tr": "Oturumları, çerçeveleri, yılları ara"
+      }
+   },
+   "doccSearchResultCount": {
+      "comment": "Template for the result count line in the search overlay. The literal substring '%lld' is replaced at runtime by the search script with the integer result count.",
+      "localizations": {
+         "en": "%lld results",
+         "de": "%lld Ergebnisse",
+         "ja": "%lld 件の結果",
+         "tr": "%lld sonuç"
+      }
+   },
+   "doccSearchNoMatches": {
+      "comment": "Heading shown in the search overlay when the query returns zero results.",
+      "localizations": {
+         "en": "No matches",
+         "de": "Keine Treffer",
+         "ja": "一致なし",
+         "tr": "Eşleşme yok"
+      }
+   },
+   "doccSearchNoMatchesBody": {
+      "comment": "Body text below the no-matches heading in the search overlay.",
+      "localizations": {
+         "en": "Try a different term, or browse the sidebar.",
+         "de": "Versuche einen anderen Begriff oder nutze die Seitenleiste.",
+         "ja": "別のキーワードを試すか、サイドバーを参照してください。",
+         "tr": "Farklı bir terim dene veya kenar çubuğuna göz at."
+      }
+   },
+   "doccSearchTry": {
+      "comment": "Label preceding the search suggestion chips in the search overlay ('Try: chip1 chip2 …').",
+      "localizations": {
+         "en": "Try:",
+         "de": "Probiere:",
+         "ja": "例えば:",
+         "tr": "Dene:"
+      }
+   },
+   "doccSearchClose": {
+      "comment": "Accessible label for the close button inside the DocC search overlay.",
+      "localizations": {
+         "en": "Close search",
+         "de": "Suche schließen",
+         "ja": "検索を閉じる",
+         "tr": "Aramayı kapat"
+      }
+   },
+   "doccSearchViewNote": {
+      "comment": "Link label in the DocC search overlay's preview panel that opens the focused note in full.",
+      "localizations": {
+         "en": "View more",
+         "de": "Mehr anzeigen",
+         "ja": "もっと見る",
+         "tr": "Devamını gör"
+      }
+   },
+   "doccTocTitle": {
+      "comment": "Title shown in the on-this-page TOC rail on DocC article, contributor, missing-sessions, and home pages.",
+      "localizations": {
+         "en": "On this page",
+         "de": "Auf dieser Seite",
+         "ja": "このページの内容",
+         "tr": "Bu sayfada"
+      }
+   },
+   "doccContributorsStatContributor": {
+      "comment": "Stat label for the contributor count in the contributors stats row, singular form (count == 1).",
+      "localizations": {
+         "en": "contributor",
+         "de": "Mitwirkende/r",
+         "ja": "コントリビューター",
+         "tr": "katkıda bulunan"
+      }
+   },
+   "doccContributorsStatContributors": {
+      "comment": "Stat label for the contributor count in the contributors stats row, plural form (count != 1).",
+      "localizations": {
+         "en": "contributors",
+         "de": "Mitwirkende",
+         "ja": "コントリビューター",
+         "tr": "katkıda bulunanlar"
+      }
+   },
+   "doccMissingHeroComplete": {
+      "comment": "Hero subtitle on the missing-sessions page when all sessions are already documented.",
+      "localizations": {
+         "en": "All sessions are documented",
+         "de": "Alle Sessions sind dokumentiert",
+         "ja": "すべてのセッションがドキュメント化されています",
+         "tr": "Tüm oturumlar belgelenmiş"
+      }
+   },
+   "doccMissingHeroSub": {
+      "comment": "Hero subtitle format on the missing-sessions page when sessions are still missing. %1$lld = total missing count, %2$lld = number of years that have missing sessions.",
+      "localizations": {
+         "en": "Help document %1$lld missing sessions across %2$lld years",
+         "de": "%1$lld fehlende Sessions über %2$lld Jahre dokumentieren",
+         "ja": "%2$lld 年にわたる %1$lld 件の未作成セッションの執筆にご協力ください",
+         "tr": "%2$lld yılda %1$lld eksik oturumu belgelemeye yardım edin"
+      }
+   },
+   "doccQuickReadAiHint": {
+      "comment": "Subtle hint line shown at the bottom of every Quick Read / TLDR card. The quick summary is always machine-generated, regardless of whether community notes exist.",
+      "localizations": {
+         "en": "AI-generated quick summary",
+         "de": "KI-generierte Kurzübersicht",
+         "ja": "AIによるクイック要約",
+         "tr": "Yapay zeka tarafından oluşturulan hızlı özet"
+      }
+   },
+   "doccCorrectionsCTA": {
+      "comment": "One-line corrections nudge at the end of a session note's body; the whole line links to the contributing guide.",
+      "localizations": {
+         "en": "Missing anything? Corrections? Contributions are welcome!",
+         "de": "Fehlt etwas? Korrekturen? Beiträge sind willkommen!",
+         "ja": "足りない内容や修正はありませんか？コントリビュートは大歓迎です！",
+         "tr": "Eksik bir şey mi var? Düzeltme mi gerekiyor? Katkılar memnuniyetle karşılanır!"
+      }
+   },
+   "doccSearchFilterHeading": {
+      "comment": "Heading above the facet chip groups in the dedicated search page's filter aside.",
+      "localizations": {
+         "en": "Filter",
+         "de": "Filter",
+         "ja": "フィルター",
+         "tr": "Filtrele"
+      }
+   },
+   "doccSearchFacetYear": {
+      "comment": "Label for the Year facet group on the dedicated search page.",
+      "localizations": {
+         "en": "Year",
+         "de": "Jahr",
+         "ja": "年",
+         "tr": "Yıl"
+      }
+   },
+   "doccSearchFacetType": {
+      "comment": "Label for the Note-type facet group on the dedicated search page.",
+      "localizations": {
+         "en": "Note type",
+         "de": "Notiztyp",
+         "ja": "ノートの種類",
+         "tr": "Not türü"
+      }
+   },
+   "doccSearchFacetFramework": {
+      "comment": "Label for the Topic facet group on the dedicated search page (the values mix real frameworks with topic buckets like design or media, so the group is not labeled Framework).",
+      "localizations": {
+         "en": "Topic",
+         "de": "Thema",
+         "ja": "トピック",
+         "tr": "Konu"
+      }
+   },
+   "doccSearchFacetAll": {
+      "comment": "The chip that clears one facet group's selection (selects everything in that group).",
+      "localizations": {
+         "en": "All",
+         "de": "Alle",
+         "ja": "すべて",
+         "tr": "Tümü"
+      }
+   },
+   "doccSearchTypeAI": {
+      "comment": "Short note-type chip label for AI-authored notes on the search page's note-type facet.",
+      "localizations": {
+         "en": "AI",
+         "de": "KI",
+         "ja": "AI",
+         "tr": "Yapay Zeka"
+      }
+   },
+   "doccSearchTypeCommunity": {
+      "comment": "Short note-type chip label for community-authored notes on the search page's note-type facet.",
+      "localizations": {
+         "en": "Community",
+         "de": "Community",
+         "ja": "コミュニティ",
+         "tr": "Topluluk"
+      }
+   },
+   "doccSearchTypeStub": {
+      "comment": "Short note-type chip label for placeholder/stub notes on the search page's note-type facet.",
+      "localizations": {
+         "en": "Stub",
+         "de": "Offen",
+         "ja": "未作成",
+         "tr": "Taslak"
+      }
+   },
+   "doccSearchClearFilters": {
+      "comment": "Button that clears every active facet and the query on the dedicated search page.",
+      "localizations": {
+         "en": "Clear filters",
+         "de": "Filter zurücksetzen",
+         "ja": "フィルターをクリア",
+         "tr": "Filtreleri temizle"
+      }
+   },
+   "doccSearchSeeAll": {
+      "comment": "Footer link in the ⌘K search overlay that opens the full search page carrying the current query.",
+      "localizations": {
+         "en": "See all results",
+         "de": "Alle Ergebnisse ansehen",
+         "ja": "すべての結果を見る",
+         "tr": "Tüm sonuçları gör"
+      }
+   },
+   "doccSearchNoMatchesFilters": {
+      "comment": "Body text under the no-matches heading on the search page when a query or facet excludes everything.",
+      "localizations": {
+         "en": "Broaden your search or clear a filter.",
+         "de": "Erweitere die Suche oder entferne einen Filter.",
+         "ja": "検索条件を広げるか、フィルターを解除してください。",
+         "tr": "Aramanı genişlet veya bir filtreyi kaldır."
+      }
+   },
+   "doccSearchPrompt": {
+      "comment": "Prompt shown in the search page's results area before the reader has typed a query.",
+      "localizations": {
+         "en": "Start typing to search every session and note.",
+         "de": "Tippe los, um alle Sessions und Notizen zu durchsuchen.",
+         "ja": "入力してすべてのセッションとノートを検索します。",
+         "tr": "Tüm oturumları ve notları aramak için yazmaya başla."
+      }
+   },
+   "doccSearchLoading": {
+      "comment": "Status text shown while the search index shards are still loading on the search page.",
+      "localizations": {
+         "en": "Loading…",
+         "de": "Wird geladen …",
+         "ja": "読み込み中…",
+         "tr": "Yükleniyor…"
+      }
+   }
+}

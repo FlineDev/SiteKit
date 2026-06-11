@@ -1,0 +1,58 @@
+name: "My Dev Site"
+baseURL: "https://example.com"
+outputDirectory: "_Site"
+contentDirectory: "Content"
+defaultLanguage: "en"
+blogURLPrefix: "blog"
+
+author:
+  name: "Your Name"
+  email: "you@example.com"
+
+navigation:
+  items:
+    - title: "Apps"
+      url: "/apps/"
+    - title: "Blog"
+      url: "/blog/"
+    - title: "Snippets"
+      url: "/snippets/"
+    - title: "About"
+      url: "/about/"
+
+sections:
+  - name: "Blog"
+    slug: "blog"
+    contentDirectory: "Blog"
+    urlPrefix: "blog"
+    rssTitle: "My Dev Blog"
+    rssDescription: "Articles on development, apps, and more"
+    # Optional – see blog blueprint for category options
+    categories:
+      - name: "Developer"
+        slug: "developer"
+      - name: "Personal"
+        slug: "personal"
+
+  - name: "Snippets"
+    slug: "snippets"
+    contentDirectory: "Snippets"
+    urlPrefix: "snippets"
+    style: "short"
+    rssTitle: "Code Snippets"
+    rssDescription: "Quick code tips and examples"
+    # Optional – see snippets blueprint for topic options
+    topics:
+      - title: "SwiftUI"
+        tags: [swiftui, animation, navigation]
+      - title: "Swift"
+        tags: [swift, concurrency, generics]
+
+homePage:
+  title: "My Dev Site"
+  subtitle: "Apps, articles, and code snippets"
+  recentPostsCount: 6
+
+footer:
+  copyrightName: "Your Name"
+  startYear: 2026

@@ -1,0 +1,12 @@
+# This file is a placeholder. The preview generator overwrites it with the
+# variant under test (theme template + colorScheme + fontPairing + light/dark)
+# before each of the nine builds. The values below render a sensible fallback
+# if someone runs `swift run Site build` inside `preview-fixture/` directly.
+name: "Classic"
+colorScheme: "indigo"
+fontPairing: "modern"
+css:
+   - "css/theme.css"
+js:
+   - "js/theme.js"
+headInlineScript: "document.documentElement.setAttribute('data-theme','light')"

@@ -1,0 +1,28 @@
+name: "Jane's Apps"
+baseURL: "https://janedev.com"
+outputDirectory: "_Site"
+contentDirectory: "Content"
+defaultLanguage: "en"
+
+author:
+  name: "Your Name"
+  email: "you@example.com"
+
+navigation:
+  items:
+    - title: "Apps"
+      url: "/apps/"
+    # - title: "Open Source"
+    #   url: "/open-source/"
+    - title: "About"
+      url: "/about/"
+
+sections: []   # No content sections – pure static pages
+
+homePage:
+  title: "Jane's Apps"
+  subtitle: "Beautiful tools for everyday life"
+
+footer:
+  copyrightName: "Your Name"
+  startYear: 2026

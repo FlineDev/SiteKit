@@ -1,0 +1,10 @@
+# Modern font pairing – Sora headings with Nunito Sans body
+fontHeading:
+  family: "Sora"
+  weights: [400, 500, 600, 700, 800]
+fontBody:
+  family: "Nunito Sans"
+  weights: [400, 500, 600, 700]
+fontMono:
+  family: "JetBrains Mono"
+  weights: [400, 500]

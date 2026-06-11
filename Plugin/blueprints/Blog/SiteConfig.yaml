@@ -1,0 +1,44 @@
+name: "My Blog"
+baseURL: "https://example.com"
+outputDirectory: "_Site"
+contentDirectory: "Content"
+defaultLanguage: "en"
+blogURLPrefix: "blog"
+
+author:
+  name: "Your Name"
+  email: "you@example.com"
+
+# Option A: Categories as top-level nav (recommended for standalone blog)
+navigation:
+  items:
+    - title: "Developer"
+      url: "/blog/developer/"
+    - title: "Personal"
+      url: "/blog/personal/"
+    - title: "About"
+      url: "/about/"
+
+# Option B: Single blog link (use this for a flat blog without categories)
+# navigation:
+#   items:
+#     - title: "Blog"
+#       url: "/blog/"
+#     - title: "About"
+#       url: "/about/"
+
+sections:
+  - name: "Blog"
+    slug: "blog"
+    contentDirectory: "Blog"
+    urlPrefix: "blog"
+    # Optional – remove this block for a flat blog without categories
+    categories:
+      - name: "Developer"
+        slug: "developer"
+      - name: "Personal"
+        slug: "personal"
+
+footer:
+  copyrightName: "Your Name"
+  startYear: 2026

@@ -1,0 +1,8 @@
+name: "Plain"
+colorScheme: "indigo"
+fontPairing: "system"
+css:
+   - "css/theme.css"
+js:
+   - "js/theme.js"
+headInlineScript: "(function(){var t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)})()"

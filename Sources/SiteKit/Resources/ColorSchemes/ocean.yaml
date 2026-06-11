@@ -1,0 +1,54 @@
+# Ocean color scheme – Cool blue-gray with ocean blue accent
+
+colorBg:
+  any: "#fafbfc"
+  dark: "#171923"
+colorBgAlt:
+  any: "#f1f3f5"
+  dark: "#1e2030"
+colorBgCard:
+  any: "#ffffff"
+  dark: "#252738"
+colorText:
+  any: "#1a1b2e"
+  dark: "#e2e4f0"
+colorTextSecondary:
+  any: "#4a4b6a"
+  dark: "#a0a3c0"
+colorTextMuted:
+  any: "#6b6e85"
+  dark: "#9194a8"
+colorBorder:
+  any: "#e2e4f0"
+  dark: "#353750"
+colorBorderLight:
+  any: "#f0f1f5"
+  dark: "#2a2c40"
+colorCodeBg:
+  any: "#eef0f7"
+  dark: "#0d0e18"
+colorCodeText:
+  any: "#1a1b2e"
+  dark: "#e2e4f0"
+colorSuccess:
+  any: "#047857"
+  dark: "#10b981"
+colorShadow:
+  any: "rgba(26, 27, 46, 0.06)"
+  dark: "rgba(0, 0, 0, 0.2)"
+colorShadowLg:
+  any: "rgba(26, 27, 46, 0.12)"
+  dark: "rgba(0, 0, 0, 0.35)"
+
+colorAccentContrast:
+  any: "#ffffff"
+  dark: "#0d0e18"
+colorAccent:
+  any: "#0369a1"
+  dark: "#38bdf8"
+colorAccentHover:
+  any: "#075985"
+  dark: "#0ea5e9"
+colorAccentLight:
+  any: "#f0f9ff"
+  dark: "#082f49"

@@ -1,0 +1,7 @@
+# System font pairing – Native system fonts, no web font loading
+fontHeading:
+  family: "system-ui, -apple-system, BlinkMacSystemFont, sans-serif"
+fontBody:
+  family: "system-ui, -apple-system, BlinkMacSystemFont, sans-serif"
+fontMono:
+  family: "ui-monospace, SFMono-Regular, Menlo, Monaco, monospace"

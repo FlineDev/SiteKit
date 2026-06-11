@@ -1,0 +1,52 @@
+name: "Sidebar & Stand-up"
+baseURL: "https://example.com"
+description: "A sample SiteKit podcast used to render real theme previews – two indie developers talk shipping."
+outputDirectory: "_Site"
+contentDirectory: "Content"
+language: "en"
+
+author:
+   name: "Sidebar & Stand-up"
+   email: "hello@example.com"
+
+podcast:
+   artworkPath: "/assets/artwork.svg"
+   feedPath: "/podcast.xml"
+   itunesCategory: "Technology"
+   hosts:
+      - name: "Maya Okonkwo"
+        image: "/assets/host-1.svg"
+      - name: "Daniel Reher"
+        image: "/assets/host-2.svg"
+   subscribeLinks:
+      - platform: "apple"
+        url: "https://podcasts.apple.com/podcast/id000000000"
+      - platform: "spotify"
+        url: "https://open.spotify.com/show/000000000"
+      - platform: "rss"
+        url: "https://example.com/podcast.xml"
+
+navigation:
+   logo:
+      text: "Sidebar & Stand-up"
+   items:
+      - title: "Episodes"
+        url: "/podcast/"
+
+homePage:
+   title: "Sidebar & Stand-up"
+   subtitle: "Two indie developers talk shipping – the small decisions behind getting an app out the door."
+   recentPostsCount: 3
+
+sections:
+   - name: "Episodes"
+     slug: "podcast"
+     contentDirectory: "Podcast"
+     urlPrefix: "podcast"
+
+footer:
+   copyrightName: "Sidebar & Stand-up"
+   startYear: 2026
+   social:
+      - platform: "mastodon"
+        url: "https://mastodon.social/@sidebarstandup"

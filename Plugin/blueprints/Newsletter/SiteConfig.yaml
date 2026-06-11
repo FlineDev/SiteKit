@@ -1,0 +1,76 @@
+name: "My Newsletter"
+baseURL: "https://example.com"
+language: "en"
+author:
+   name: "Your Name"
+   imageURL: "/assets/images/profile.webp"
+   url: "/about/"
+description: "A newsletter about your topic – subscribe to get the latest issues delivered to your inbox."
+contentDirectory: "Content"
+outputDirectory: "_Site"
+assetsDirectory: "Content/Assets"
+
+blogURLPrefix: "blog"
+categories: []
+
+sections:
+   - name: "Issues"
+     slug: "issues"
+     contentDirectory: "Blog"
+     urlPrefix: "blog"
+     description: "Newsletter issues covering your topic"
+
+navigation:
+   logo:
+      image: "/assets/images/logo-placeholder.svg"
+      text: "My Newsletter"
+   items:
+      - title: "Archive"
+        url: "/blog/"
+        icon: "fa-solid fa-box-archive"
+      - title: "About"
+        url: "/about/"
+        icon: "fa-solid fa-circle-info"
+
+footer:
+   links:
+      - title: "Privacy Policy"
+        url: "/privacy/"
+      - title: "Imprint"
+        url: "/imprint/"
+   social:
+      - platform: "bluesky"
+        url: "https://bsky.app/profile/your-handle.bsky.social"
+      - platform: "mastodon"
+        url: "https://mastodon.social/@your-handle"
+        rel: "me"
+   copyrightName: "Your Name"
+   startYear: 2026
+
+homePage:
+   title: "My Newsletter"
+   subtitle: "Your tagline here"
+   recentPostsCount: 6
+
+errorPages:
+   "404":
+      title: "Page Not Found"
+      message: "The page you're looking for doesn't exist or has been moved."
+
+# promotions:
+#    items:
+#       - id: "example-product"
+#         weight: 1
+#         style: "highlight"
+#         emoji: "🚀"
+#         title: "Check out our product"
+#         text: "A short description of what your [product](https://example.com) does."
+#         excludeTags: ["example"]
+
+tagDisplayNames:
+   swift: "Swift"
+   news: "News"
+   updates: "Updates"
+
+theme:
+   directory: "Theme"

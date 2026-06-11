@@ -1,0 +1,47 @@
+appStoreURL: "https://apps.apple.com/app/id000000000"
+
+hero:
+  title: "Your App Name"
+  subtitle: "One compelling line about what your app does for the user"
+
+features:
+  - title: "Feature One"
+    description: "Explain how this feature helps the user accomplish their goal"
+    imagePath: "/assets/images/Features/Feature1.webp"
+  - title: "Feature Two"
+    description: "Another key benefit that sets your app apart"
+    imagePath: "/assets/images/Features/Feature2.webp"
+  - title: "Feature Three"
+    description: "A third compelling reason to download your app"
+    imagePath: "/assets/images/Features/Feature3.webp"
+
+pricing:
+  title: "Simple, Transparent Pricing"
+  subtitle: "Start free. Upgrade when you need more."
+  ctaText: "Download Now"
+  tiers:
+    - name: "Free"
+      monthlyPrice: "$0"
+      features:
+        - "Core features included"
+        - "Basic support"
+    - name: "Pro"
+      badge: "Most Popular"
+      monthlyPrice: "$4.99"
+      features:
+        - "Everything in Free"
+        - "Advanced features"
+        - "Priority support"
+      highlighted: true
+
+faq:
+  - question: "How does it work?"
+    answer: "A clear, concise answer explaining your app's core workflow."
+  - question: "Is my data private?"
+    answer: "Yes. Your data stays on your device and is never shared."
+  - question: "What platforms are supported?"
+    answer: "Available on iPhone, iPad, and Mac."
+
+cta:
+  title: "Ready to Get Started?"
+  buttonText: "Download Free"

@@ -1,0 +1,7 @@
+/* Syntax highlighting – uses highlight.js atom-one-light via CDN */
+/* Additional overrides for dark mode */
+
+[data-theme="dark"] .hljs {
+   background: var(--color-code-bg);
+   color: var(--color-code-text);
+}

@@ -1,0 +1,12 @@
+# Theme for the podcast preview fixture. Unlike the blog preview-fixture (whose
+# Theme/ is overwritten by the PreviewGenerator driver), this fixture is built
+# manually to screenshot the universal theme's podcast components – so it pins
+# the Classic layout template + a fixed colorScheme directly.
+name: "Classic"
+colorScheme: "indigo"
+fontPairing: "modern"
+css:
+   - "css/theme.css"
+js:
+   - "js/theme.js"
+headInlineScript: "document.documentElement.setAttribute('data-theme','light')"

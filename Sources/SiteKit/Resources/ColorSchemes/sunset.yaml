@@ -1,0 +1,54 @@
+# Sunset color scheme – Warm ivory with red accent
+
+colorBg:
+  any: "#fafaf8"
+  dark: "#1a1917"
+colorBgAlt:
+  any: "#f3f3ef"
+  dark: "#252320"
+colorBgCard:
+  any: "#ffffff"
+  dark: "#2a2825"
+colorText:
+  any: "#1c1917"
+  dark: "#e7e5e4"
+colorTextSecondary:
+  any: "#57534e"
+  dark: "#a8a29e"
+colorTextMuted:
+  any: "#736c67"
+  dark: "#9c958f"
+colorBorder:
+  any: "#e7e5e4"
+  dark: "#3a3835"
+colorBorderLight:
+  any: "#f5f5f4"
+  dark: "#2a2825"
+colorCodeBg:
+  any: "#f5f0eb"
+  dark: "#0f0e0d"
+colorCodeText:
+  any: "#1c1917"
+  dark: "#e7e5e4"
+colorSuccess:
+  any: "#047857"
+  dark: "#10b981"
+colorShadow:
+  any: "rgba(28, 25, 23, 0.06)"
+  dark: "rgba(0, 0, 0, 0.2)"
+colorShadowLg:
+  any: "rgba(28, 25, 23, 0.12)"
+  dark: "rgba(0, 0, 0, 0.35)"
+
+colorAccentContrast:
+  any: "#ffffff"
+  dark: "#0f0e0d"
+colorAccent:
+  any: "#dc2626"
+  dark: "#f87171"
+colorAccentHover:
+  any: "#b91c1c"
+  dark: "#ef4444"
+colorAccentLight:
+  any: "#fef2f2"
+  dark: "#450a0a"

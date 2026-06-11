@@ -1,0 +1,10 @@
+# Geometric font pairing – Space Grotesk headings with Inter body
+fontHeading:
+  family: "Space Grotesk"
+  weights: [400, 500, 600, 700]
+fontBody:
+  family: "Inter"
+  weights: [400, 500, 600, 700]
+fontMono:
+  family: "JetBrains Mono"
+  weights: [400, 500]

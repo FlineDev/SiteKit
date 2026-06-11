@@ -1,0 +1,118 @@
+/* ============================================================
+   SiteKit Base CSS – Universal reset, accessibility, layout
+   These are truly universal styles no site should need to change.
+   Opinionated styles (header, nav, footer) belong in theme templates.
+   ============================================================ */
+
+/* --- Reset --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+   font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+   color: var(--color-text, #1c1917);
+   background: var(--color-bg, #ffffff);
+   line-height: 1.6;
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   overflow-x: hidden;
+}
+
+#main-content {
+   flex: 1;
+   display: flex;
+   flex-direction: column;
+}
+
+img {
+   max-width: 100%;
+   height: auto;
+   display: block;
+}
+
+a {
+   color: var(--color-accent, #4f46e5);
+   text-decoration: none;
+   transition: color var(--transition, 0.2s ease);
+}
+
+a:hover {
+   color: var(--color-accent-hover, var(--color-accent, #4f46e5));
+}
+
+/* Underline inline text links inside article bodies so they're distinguishable by more
+   than color (WCAG 1.4.1). Only inline-text contexts (paragraphs, lists, headings, tables,
+   blockquotes, figcaptions) – NOT direct children of <div>s, which are usually card/box
+   wrappers where the surrounding chrome already makes the click target obvious.
+   Footer/copyright/attribution/privacy/imprint links rely on color alone by design –
+   they sit in their own distinct footer chrome and adding underlines there looks cluttered. */
+.sk-article-body :is(p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, figcaption) a {
+   text-decoration: underline;
+   text-underline-offset: 2px;
+}
+
+/* --- Inlined Font Awesome icons ---
+   When FontAwesomeInliner substitutes <i class="fa-solid fa-user"></i> with an inline
+   SVG, it wraps the SVG inside the original <i> and the SVG gets class="fa-icon".
+
+   The sizing/alignment rules below mirror Font Awesome's own "SVG with JS" rendering
+   mode exactly:
+     - `.fa-icon { height: 1em; width: auto; vertical-align: -0.125em }`
+       Intrinsic aspect ratio – e.g. user icon (448×512 viewBox) renders at 1em × 0.875em.
+       This matches the box a FA-font-rendered glyph would occupy, so layout (including
+       flex `align-items: center` in theme CSS) behaves identically.
+     - `<i>` wrapper is a pass-through inline container; it exists so theme CSS rules
+       targeting `.sk-nav-item i` / `.podcast-subscribe-link i` etc. still match.
+
+   Belt-and-braces: the `::before { content: none }` rule prevents double rendering if
+   the FA stylesheet ever loads later (browser extension, cache, user override). */
+i[data-fa-inlined] {
+   display: inline-block;
+   line-height: 1;
+}
+i[data-fa-inlined]::before { content: none !important; }
+.fa-icon {
+   display: inline-block;
+   height: 1em;
+   width: auto;
+   fill: currentColor;
+   vertical-align: -0.125em;
+   overflow: visible;
+}
+
+/* Small breathing room between the icon box and the adjacent label. FA font glyphs
+   come with built-in side-bearing (glyph is inset inside its em-box); our inlined
+   SVGs fill the box edge-to-edge and would otherwise look visually squashed against
+   the text. The theme's own `gap` property adds to this – that's intentional; the
+   margin here compensates for the missing glyph side-bearing only. */
+.sk-nav-icon { margin-right: 0.2em; }
+
+/* --- Accessibility --- */
+:focus-visible {
+   outline: 2px solid var(--color-accent, #4f46e5);
+   outline-offset: 2px;
+}
+
+.sr-only {
+   position: absolute;
+   width: 1px;
+   height: 1px;
+   padding: 0;
+   margin: -1px;
+   overflow: hidden;
+   clip: rect(0, 0, 0, 0);
+   white-space: nowrap;
+   border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+   *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+   }
+}

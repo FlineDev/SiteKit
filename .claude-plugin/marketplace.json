@@ -1,0 +1,18 @@
+{
+  "name": "sitekit-dev",
+  "owner": {
+    "name": "Cihat Gündüz",
+    "url": "https://fline.dev"
+  },
+  "metadata": {
+    "description": "AI-guided website builder: blueprints, themes, and skills that take you from idea to published site."
+  },
+  "plugins": [
+    {
+      "name": "sitekit",
+      "source": "./Plugin",
+      "description": "Build static websites (blogs, podcasts, newsletters, portfolios) using SiteKit's Swift pipeline – guided end-to-end by AI through grill-me onboarding, blueprint selection, content writing, theming, and deployment.",
+      "category": "productivity"
+    }
+  ]
+}

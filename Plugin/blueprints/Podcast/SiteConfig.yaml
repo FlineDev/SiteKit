@@ -1,0 +1,50 @@
+name: "My Podcast"
+baseURL: "https://example.com"
+description: "A podcast about interesting topics."
+language: "en"
+outputDirectory: "_Site"
+contentDirectory: "Content"
+assetsDirectory: "Content/Assets"
+blogURLPrefix: "episode"
+categories: []
+
+author:
+  name: "Host Name"
+  email: "host@example.com"
+
+podcast:
+  artworkPath: "/assets/artwork.jpg"
+  feedPath: "/podcast.xml"
+  itunesCategory: "Technology"
+  hosts:
+    - name: "Host Name"
+      image: "/assets/host.webp"
+
+homePage:
+  title: "My Podcast"
+  subtitle: "A podcast about interesting topics."
+  recentPostsCount: 10
+
+navigation:
+  logo:
+    image: "/assets/artwork.jpg"
+    text: "My Podcast"
+  items:
+    - title: "Episodes"
+      url: "/episode/"
+    - title: "About"
+      url: "/about/"
+  showSearch: true
+  showThemeToggle: true
+
+sections:
+  - name: "Podcast"
+    slug: "podcast"
+    contentDirectory: "Podcast"
+    urlPrefix: "episode"
+    rssTitle: "My Podcast"
+    rssDescription: "A podcast about interesting topics."
+
+footer:
+  copyrightName: "My Podcast"
+  startYear: 2026

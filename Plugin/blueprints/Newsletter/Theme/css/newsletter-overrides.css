@@ -1,0 +1,99 @@
+/* ============================================================
+   Newsletter blueprint – overrides on the universal theme.
+
+   Universal theme styles every `sk-*` component (header, footer,
+   article body, post cards, listings, search). This file adds the
+   bespoke chrome the Newsletter blueprint needs:
+
+   - `.newsletter-signup` – subscribe widget rendered on the home
+     page (`Content/Pages/home.md`) and after every article.
+   - `.newsletter-welcome` – confirmation panel toggled by JS after
+     a successful subscribe.
+
+   Both classes are blueprint scaffolding – sites built from the
+   Newsletter blueprint inherit them. Remove this file if your site
+   replaces the signup widget with a hosted form.
+   ============================================================ */
+
+/* Newsletter editions are collections – give the preview summary
+   more vertical room than the universal blog default of 3 lines.
+   Sites can further override with a custom value on :root. */
+:root {
+   --post-summary-line-clamp: 6;
+}
+
+.newsletter-signup {
+   background: var(--color-bg-alt);
+   border: 1px solid var(--color-border-light);
+   border-radius: var(--radius-lg);
+   padding: 2rem;
+   text-align: center;
+   margin: 2rem 0;
+}
+
+.newsletter-signup h2 {
+   font-size: 1.5rem;
+   margin-top: 0;
+   margin-bottom: 0.5rem;
+   color: var(--color-accent);
+}
+
+.newsletter-signup p {
+   color: var(--color-text-secondary);
+   margin-bottom: 1.25rem;
+}
+
+.newsletter-signup form {
+   display: flex;
+   gap: 0.5rem;
+   max-width: 28rem;
+   margin: 0 auto;
+}
+
+.newsletter-signup input[type="email"] {
+   flex: 1;
+   padding: 0.6rem 1rem;
+   border: 1px solid var(--color-border);
+   border-radius: var(--radius);
+   font-size: 0.95rem;
+   background: var(--color-bg);
+   color: var(--color-text);
+}
+
+.newsletter-signup input[type="email"]:focus {
+   outline: 2px solid var(--color-accent);
+   outline-offset: -1px;
+   border-color: transparent;
+}
+
+.newsletter-signup button {
+   background: var(--color-accent);
+   color: #fff;
+   border: none;
+   padding: 0.6rem 1.5rem;
+   border-radius: var(--radius);
+   font-weight: 600;
+   font-size: 0.95rem;
+   cursor: pointer;
+   transition: background var(--transition);
+}
+
+.newsletter-signup button:hover {
+   background: var(--color-accent-hover);
+}
+
+.newsletter-signup-after-post {
+   margin-top: 3rem;
+   border-top: 1px solid var(--color-border-light);
+   padding-top: 2rem;
+}
+
+@media (max-width: 480px) {
+   .newsletter-signup form {
+      flex-direction: column;
+   }
+
+   .newsletter-signup button {
+      width: 100%;
+   }
+}

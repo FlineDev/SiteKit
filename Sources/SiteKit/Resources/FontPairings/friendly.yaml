@@ -1,0 +1,10 @@
+# Friendly font pairing – DM Sans headings with Nunito Sans body
+fontHeading:
+  family: "DM Sans"
+  weights: [400, 500, 600, 700]
+fontBody:
+  family: "Nunito Sans"
+  weights: [400, 500, 600, 700]
+fontMono:
+  family: "JetBrains Mono"
+  weights: [400, 500]

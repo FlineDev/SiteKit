@@ -1,0 +1,8 @@
+/* Placeholder. Before building this fixture, copy the Classic universal theme
+   in so the podcast components are styled by the real theme under test:
+
+      cp Plugin/themes/templates/Classic/theme.css \
+         Plugin/themes/preview-fixture-podcast/Theme/css/theme.css
+
+   The build output (_Site/, .build/) and the copied-in theme are artifacts –
+   do not commit them; keep this placeholder committed. */

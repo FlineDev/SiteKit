@@ -1,0 +1,10 @@
+name: "AppLanding"
+colorScheme: "violet"
+fontPairing: "professional"
+css:
+  - "css/theme.css"
+  - "css/landing.css"
+js:
+  - "js/theme.js"
+favicons:
+  - "images/favicon.svg"

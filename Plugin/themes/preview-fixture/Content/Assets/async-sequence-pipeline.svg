@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" role="img" aria-label="Diagram of a producer-consumer pipeline with backpressure">
+   <defs>
+      <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1">
+         <stop offset="0%" stop-color="#f1f5f9"/>
+         <stop offset="100%" stop-color="#e2e8f0"/>
+      </linearGradient>
+      <linearGradient id="producer" x1="0" x2="0" y1="0" y2="1">
+         <stop offset="0%" stop-color="#6366f1"/>
+         <stop offset="100%" stop-color="#4f46e5"/>
+      </linearGradient>
+      <linearGradient id="consumer" x1="0" x2="0" y1="0" y2="1">
+         <stop offset="0%" stop-color="#0ea5e9"/>
+         <stop offset="100%" stop-color="#0284c7"/>
+      </linearGradient>
+      <linearGradient id="pipe" x1="0" x2="1" y1="0" y2="0">
+         <stop offset="0%" stop-color="#94a3b8"/>
+         <stop offset="100%" stop-color="#cbd5e1"/>
+      </linearGradient>
+      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+         <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+      </marker>
+   </defs>
+
+   <rect width="1200" height="480" fill="url(#bg)" rx="24"/>
+
+   <!-- Producer -->
+   <g>
+      <rect x="60" y="160" width="240" height="160" rx="20" fill="url(#producer)"/>
+      <text x="180" y="232" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="28" font-weight="600" fill="#ffffff">Producer</text>
+      <text x="180" y="266" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="16" fill="#e0e7ff">yields elements</text>
+   </g>
+
+   <!-- Pipe -->
+   <g>
+      <rect x="300" y="220" width="600" height="44" rx="22" fill="url(#pipe)"/>
+      <circle cx="420" cy="242" r="14" fill="#1d4ed8"/>
+      <circle cx="520" cy="242" r="14" fill="#1d4ed8"/>
+      <circle cx="620" cy="242" r="14" fill="#1d4ed8"/>
+      <circle cx="720" cy="242" r="14" fill="#1d4ed8"/>
+      <circle cx="820" cy="242" r="14" fill="#1d4ed8"/>
+   </g>
+
+   <!-- Backpressure arrow back to producer -->
+   <g>
+      <path d="M 880 200 Q 600 100 320 200" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+      <text x="600" y="120" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="18" font-style="italic" fill="#475569">backpressure (await pauses delivery)</text>
+   </g>
+
+   <!-- Consumer -->
+   <g>
+      <rect x="900" y="160" width="240" height="160" rx="20" fill="url(#consumer)"/>
+      <text x="1020" y="232" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="28" font-weight="600" fill="#ffffff">Consumer</text>
+      <text x="1020" y="266" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="16" fill="#e0f2fe">for await in loop</text>
+   </g>
+
+   <!-- Caption strip -->
+   <text x="600" y="400" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, system-ui, sans-serif" font-size="20" fill="#1e293b">A single value in flight at a time – no buffer to size, no thread to park.</text>
+</svg>

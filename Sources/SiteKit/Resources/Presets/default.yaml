@@ -1,0 +1,67 @@
+# Default preset – Clean modern with system fonts
+# No Google Fonts dependency, works offline
+
+colorBg:
+  any: "#ffffff"
+  dark: "#111827"
+colorBgAlt:
+  any: "#f9fafb"
+  dark: "#1f2937"
+colorBgCard:
+  any: "#ffffff"
+  dark: "#1f2937"
+colorText:
+  any: "#111827"
+  dark: "#f9fafb"
+colorTextSecondary:
+  any: "#4b5563"
+  dark: "#d1d5db"
+colorTextMuted:
+  any: "#6b7280"
+  dark: "#9ca3af"
+colorAccent:
+  any: "#4f46e5"
+  dark: "#818cf8"
+colorAccentHover:
+  any: "#4338ca"
+  dark: "#6366f1"
+colorAccentLight:
+  any: "#eef2ff"
+  dark: "#1e1b4b"
+colorBorder:
+  any: "#e5e7eb"
+  dark: "#374151"
+colorBorderLight:
+  any: "#f3f4f6"
+  dark: "#1f2937"
+colorCodeBg:
+  any: "#1f2937"
+  dark: "#0f172a"
+colorCodeText:
+  any: "#e5e7eb"
+  dark: "#e5e7eb"
+colorSuccess:
+  any: "#059669"
+colorShadow:
+  any: "rgba(17, 24, 39, 0.06)"
+  dark: "rgba(0, 0, 0, 0.25)"
+colorShadowLg:
+  any: "rgba(17, 24, 39, 0.12)"
+  dark: "rgba(0, 0, 0, 0.4)"
+
+# Typography – system fonts, no external dependencies
+fontHeading:
+  family: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+fontBody:
+  family: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+fontMono:
+  family: "'SF Mono', 'Fira Code', Menlo, Monaco, monospace"
+
+# Layout
+maxWidth: "1200px"
+contentWidth: "720px"
+wideContentWidth: "900px"
+headerHeight: "64px"
+radius: "8px"
+radiusLg: "12px"
+transition: "0.2s ease"
