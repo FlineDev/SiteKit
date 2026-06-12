@@ -7,16 +7,15 @@ on:
 
 jobs:
   test-macos:
-    runs-on: macos-latest
+    # macos-26 ships Xcode's Swift 6.2 with a matching OS runtime. A swift.org
+    # toolchain on an older image builds fine but crashes at test load because
+    # the system Swift runtime lacks the newer stdlib symbols.
+    runs-on: macos-26
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      # The runner's default toolchain lags behind (Swift 6.1 on macos-latest
-      # as of mid-2026); install the declared minimum explicitly.
-      - name: Setup Swift
-        uses: swift-actions/setup-swift@v2
-        with:
-          swift-version: "6.2"
+      - name: Show toolchain
+        run: swift --version
       - name: Build
         run: swift build
       - name: Test
