@@ -58,7 +58,7 @@ SiteKit is built to be driven by an AI. Install the Claude Code plugin, then jus
 
 ```
 /plugin marketplace add FlineDev/SiteKit
-/plugin install sitekit@sitekit-dev
+/plugin install sitekit@sitekit
 ```
 
 Then tell Claude what you want – *"build me a developer blog with SiteKit"* – and it walks you through blueprint choice, theme, content, and deployment.
