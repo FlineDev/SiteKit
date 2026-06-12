@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://github.com/FlineDev/SiteKit/blob/main/Logo.png?raw=true" height="256" />
   <br><br>
-  <a href="#is-sitekit-for-you">Is it for you?</a> · <a href="#what-you-can-build">Blueprints</a> · <a href="#get-started">Get started</a> · <a href="#deploy">Deploy</a> · <a href="#contributing">Contributing</a>
+  <a href="#is-sitekit-for-you">Is it for you?</a> · <a href="#what-you-can-build">Blueprints</a> · <a href="#built-with-sitekit">Showcase</a> · <a href="#get-started">Get started</a> · <a href="#deploy">Deploy</a> · <a href="#contributing">Contributing</a>
 </p>
 
 # SiteKit
@@ -45,6 +45,16 @@ SiteKit ships **9 blueprints** – starter sites you scaffold and customise. Eac
 | **Plain** | Minimal, no opinions – a blank canvas | [Plain.md](Plugin/blueprints/Plain.md) |
 
 Not sure which to pick? The [blueprint catalog](Plugin/blueprints/INDEX.md) has a decision tree and a feature comparison.
+
+---
+
+## Built with SiteKit
+
+| | |
+|---|---|
+| [![fline.dev – indie-dev site built with SiteKit](Assets/Showcase/fline-dev.webp)](https://fline.dev)<br>**[fline.dev](https://fline.dev)** – apps, blog, snippets & portfolio (IndieDev blueprint) | [![evolutionkit.dev – newsletter site built with SiteKit](Assets/Showcase/evolutionkit-dev.webp)](https://evolutionkit.dev)<br>**[evolutionkit.dev](https://evolutionkit.dev)** – Swift Evolution newsletter (Newsletter blueprint) |
+| [![appstore-tagebuch.de – podcast site built with SiteKit](Assets/Showcase/appstore-tagebuch-de.webp)](https://appstore-tagebuch.de)<br>**[appstore-tagebuch.de](https://appstore-tagebuch.de)** – German indie-dev podcast (Podcast blueprint) | [![TranslateKit – app landing page built with SiteKit](Assets/Showcase/translatekit.webp)](https://translatekit.pages.dev)<br>**[TranslateKit](https://translatekit.pages.dev)** – app landing page (AppLanding blueprint) |
+| ![WWDCNotes – documentation site built with SiteKit](Assets/Showcase/wwdcnotes.webp)<br>**WWDCNotes** – community session notes across thousands of pages (DocC blueprint, relaunch in progress) | |
 
 ---
 
