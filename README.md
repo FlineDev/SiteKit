@@ -6,9 +6,9 @@
 
 # SiteKit
 
-**An AI-native static site generator for Swift developers.**
+**A static site generator written in Swift, designed to be driven by AI agents.**
 
-SiteKit is a Swift static site generator plus a Claude Code plugin: you can hand the whole job to an AI that scaffolds, themes, writes, and deploys your site for you – or drive the `sitekit` CLI yourself. Either way the output is a fast, SEO-complete, accessible static site you host anywhere.
+SiteKit is a static site generator written in Swift, paired with a Claude Code plugin: you can hand the whole job to an AI that scaffolds, themes, writes, and deploys your site for you – or drive the `sitekit` CLI yourself. Either way the output is a fast, SEO-complete, accessible static site you host anywhere.
 
 > **Looking for something specific?** The [use-case matrix](USE-CASES.md) maps every task – author, customize, deploy, extend – to the doc that answers it.
 
@@ -18,13 +18,13 @@ SiteKit is a Swift static site generator plus a Claude Code plugin: you can hand
 
 **Yes, if you want to:**
 - Ship a blog, podcast, newsletter, portfolio, or app-landing site as plain static files.
-- Stay in the Swift / Apple-platform world – your site is a Swift package, your content is Markdown.
+- Own your content as plain Markdown in a git repo – the site is a Swift package under the hood, but authoring needs no Swift code.
 - Let an AI assistant do the heavy lifting (scaffolding, theming, content drafting, deployment).
 
 **Probably not, if you need:**
 - A server-rendered CMS with a database, user logins, or live dynamic pages.
 - A no-code, point-and-click WYSIWYG editor.
-- A non-Swift toolchain – SiteKit builds with `swift`, and authoring assumes you're comfortable editing text files.
+- An environment without the Swift toolchain – building runs through `swift` (macOS or Linux), and authoring assumes you're comfortable editing text files.
 
 ---
 
@@ -50,7 +50,7 @@ Not sure which to pick? The [blueprint catalog](Plugin/blueprints/INDEX.md) has 
 
 ## Get started
 
-**Prerequisites:** macOS 26 or later with the Swift 6.2 toolchain (`swift --version`). Git. Optionally the GitHub CLI (`gh`) for publishing.
+**Prerequisites:** the Swift 6.2 toolchain (`swift --version`) on macOS or Linux – both run in CI. Git. Optionally the GitHub CLI (`gh`) for publishing, and ImageMagick (`magick`) if you want responsive image variants generated at build time.
 
 ### The AI-guided way (recommended)
 
@@ -73,6 +73,8 @@ cd SiteKit
 swift run sitekit doctor                          # check git + swift toolchain
 swift run sitekit new MySite --blueprint Blog     # scaffold (defaults to Blog)
 ```
+
+The clone is only needed for the scaffolder – your new site is standalone and pulls SiteKit as a regular Swift-package dependency, so you won't need the clone again until you scaffold the next site.
 
 Then run your new site locally:
 
