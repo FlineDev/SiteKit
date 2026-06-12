@@ -94,9 +94,9 @@ swift run --package-path /path/to/SiteKit sitekit update --to 1.2.0
 
 (If the `sitekit` binary has been installed globally – e.g. via `swift build -c release` and copied onto `PATH` – just run `sitekit update` directly from the site directory.)
 
-`sitekit update` is deliberately limited: it detects the version-pinned SiteKit dependency in `Package.swift`, bumps it, runs `swift package update`, then points at `MIGRATION.md`. If the build then fails, it says so and stops.
+`sitekit update` is deliberately limited: it detects the version-pinned SiteKit dependency in `Package.swift`, bumps it, runs `swift package update`, then points at the changelog. If the build then fails, it says so and stops.
 
-**It does NOT auto-apply `MIGRATION.md` recipes.** When a bump introduces a breaking change, that is where judgment work resumes: read `MIGRATION.md`, apply the relevant find/replace recipes by hand, and rebuild. Auto-migration is explicitly out of scope for v1.0.
+**It does NOT auto-apply migration steps.** When a bump introduces a breaking change, that is where judgment work resumes: read the CHANGELOG entry for the new version, apply the documented migration steps by hand, and rebuild. Auto-migration is explicitly out of scope for v1.0.
 
 If the dependency is declared by `branch:` or a local `path:` rather than a released version, `sitekit update` cannot bump it – edit `Package.swift` by hand in that case.
 

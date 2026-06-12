@@ -288,7 +288,6 @@ SiteKit/
 ├── Logo.png
 ├── Package.swift          ← Swift package manifest
 ├── Package.resolved       ← pinned dependency versions (reproducible contributor builds)
-├── MIGRATION.md           ← public v0.9 → v1.0 changelog
 ├── Docs/                  ← cross-tool guide, layout-protocol notes, vision, templates
 ├── Sources/
 │   ├── SiteKit/           ← the Swift library
@@ -335,4 +334,3 @@ For end-to-end testing of a custom plugin, scaffold a minimal site under the tes
 
 - **Use-case matrix:** `USE-CASES.md` – every task → the doc that answers it (spans the human docs and the AI reference bundle).
 - **Vision:** `Docs/Roadmap/Vision.md`.
-- **User-facing migration notes:** `MIGRATION.md` – v0.9 → v1.0 breaking changes.

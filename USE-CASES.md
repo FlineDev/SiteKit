@@ -57,5 +57,5 @@ This is the index, not the explanation. For a guided walkthrough read [README.md
 | I want to… | Go to |
 |---|---|
 | Understand SiteKit's architecture / contribute to it | [AGENTS.md](AGENTS.md) |
-| Upgrade a v0.9 site to v1.0 | [MIGRATION.md](MIGRATION.md) |
+| Update a site to a newer SiteKit version | [bootstrap.md – `sitekit update`](Plugin/skills/sitekit/references/bootstrap.md) |
 | (AI agent) Route any task to the right reference | [SKILL.md](Plugin/skills/sitekit/SKILL.md) |

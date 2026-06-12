@@ -146,7 +146,7 @@ error: package 'sitekit' could not be resolved
 
 After v1.0, the package URL is `https://github.com/FlineDev/SiteKit.git` (formerly `SiteKit-Package.git`).
 
-**Fix:** update `Package.swift` (per MIGRATION.md, pin to a released version):
+**Fix:** update `Package.swift` to pin a released version:
 
 ```swift
 .package(url: "https://github.com/FlineDev/SiteKit.git", from: "1.0.0")
@@ -209,7 +209,6 @@ If none of the above matches, open an issue at [github.com/FlineDev/SiteKit/issu
 
 ## See also
 
-- `MIGRATION.md` – v0.9 → v1.0 breaking changes (dependency URL, renamed APIs).
 - `siteconfig-reference.md` – required vs. optional `SiteConfig.yaml` keys.
 - `content-writing.md` – frontmatter fields and the `requiredFields` contract.
 - `localization.md` – multilingual config and translation status.

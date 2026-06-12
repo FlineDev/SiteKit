@@ -129,7 +129,7 @@ The blueprints cover the common cases. When you need something they don't ship â
 
 ## Status & versioning
 
-SiteKit is **v1.0**. Already running a v0.9 site? [MIGRATION.md](MIGRATION.md) documents every breaking change and the find/replace recipes to upgrade.
+SiteKit is **v1.0**, the first public release. From here on, breaking changes always get a major version bump and documented migration steps in the [CHANGELOG](CHANGELOG.md).
 
 ---
 

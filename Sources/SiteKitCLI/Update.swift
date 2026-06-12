@@ -5,7 +5,7 @@ import Foundation
 ///
 /// Deliberately limited (F03): it detects the version-pinned SiteKit dependency in
 /// `Package.swift`, bumps it (to `--to`, or to the version this CLI ships with), runs
-/// `swift package update`, then points at `MIGRATION.md`. It does NOT auto-apply migration
+/// `swift package update`, then points at the CHANGELOG. It does NOT auto-apply migration
 /// recipes – that is v1.1+. If the build then breaks, it says so and stops.
 struct Update: ParsableCommand {
    static let configuration = CommandConfiguration(
@@ -56,14 +56,15 @@ struct Update: ParsableCommand {
          throw ValidationError(
             """
             Build failed after the version bump. This usually means a breaking change needs a \
-            manual migration step – see MIGRATION.md in the SiteKit repo and apply the relevant \
-            recipe, then run `swift build` again. `sitekit update` does not auto-apply recipes.
+            manual migration step – check the CHANGELOG entry for the new version in the SiteKit \
+            repo and apply the documented steps, then run `swift build` again. `sitekit update` \
+            does not auto-apply migration steps.
             """
          )
       }
 
       print("")
       print("SiteKit updated to \(targetVersion) and the site still builds.")
-      print("Review MIGRATION.md for any optional manual migration steps.")
+      print("Review the CHANGELOG for any optional manual migration steps.")
    }
 }
