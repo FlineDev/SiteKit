@@ -50,11 +50,59 @@ Not sure which to pick? The [blueprint catalog](Plugin/blueprints/INDEX.md) has 
 
 ## Built with SiteKit
 
-| | |
-|---|---|
-| [![fline.dev – indie-dev site built with SiteKit](Assets/Showcase/fline-dev.webp)](https://fline.dev)<br>**[fline.dev](https://fline.dev)** – apps, blog, snippets & portfolio (IndieDev blueprint) | [![evolutionkit.dev – newsletter site built with SiteKit](Assets/Showcase/evolutionkit-dev.webp)](https://evolutionkit.dev)<br>**[evolutionkit.dev](https://evolutionkit.dev)** – Swift Evolution newsletter (Newsletter blueprint) |
-| [![appstore-tagebuch.de – podcast site built with SiteKit](Assets/Showcase/appstore-tagebuch-de.webp)](https://appstore-tagebuch.de)<br>**[appstore-tagebuch.de](https://appstore-tagebuch.de)** – German indie-dev podcast (Podcast blueprint) | [![TranslateKit – app landing page built with SiteKit](Assets/Showcase/translatekit.webp)](https://translatekit.pages.dev)<br>**[TranslateKit](https://translatekit.pages.dev)** – app landing page (AppLanding blueprint) |
-| ![WWDCNotes – documentation site built with SiteKit](Assets/Showcase/wwdcnotes.webp)<br>**WWDCNotes** – community session notes across thousands of pages (DocC blueprint, relaunch in progress) | |
+Real production sites, one per blueprint family. Screenshots follow your GitHub theme – dark or light.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://fline.dev">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/fline-dev-dark.webp">
+          <img alt="fline.dev – indie-dev site built with SiteKit" src="Assets/Showcase/fline-dev-light.webp">
+        </picture>
+      </a>
+      <br><b><a href="https://fline.dev">fline.dev</a></b> – apps, blog, snippets &amp; portfolio <em>(IndieDev)</em>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://evolutionkit.dev">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/evolutionkit-dev-dark.webp">
+          <img alt="evolutionkit.dev – newsletter site built with SiteKit" src="Assets/Showcase/evolutionkit-dev-light.webp">
+        </picture>
+      </a>
+      <br><b><a href="https://evolutionkit.dev">evolutionkit.dev</a></b> – Swift Evolution newsletter <em>(Newsletter)</em>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://appstore-tagebuch.de">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/appstore-tagebuch-de-dark.webp">
+          <img alt="appstore-tagebuch.de – podcast site built with SiteKit" src="Assets/Showcase/appstore-tagebuch-de-light.webp">
+        </picture>
+      </a>
+      <br><b><a href="https://appstore-tagebuch.de">appstore-tagebuch.de</a></b> – indie-dev podcast <em>(Podcast)</em>
+    </td>
+    <td width="50%" valign="top">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/wwdcnotes-dark.webp">
+        <img alt="WWDCNotes – documentation site built with SiteKit" src="Assets/Showcase/wwdcnotes-light.webp">
+      </picture>
+      <br><b>WWDCNotes</b> – community session notes across thousands of pages <em>(DocC, relaunch in progress)</em>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top">
+      <a href="https://translatekit.pages.dev">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/translatekit-dark.webp">
+          <img alt="TranslateKit – app landing page built with SiteKit" src="Assets/Showcase/translatekit-light.webp">
+        </picture>
+      </a>
+      <br><b><a href="https://translatekit.pages.dev">TranslateKit</a></b> – app landing page <em>(AppLanding)</em>
+    </td>
+  </tr>
+</table>
 
 ---
 
