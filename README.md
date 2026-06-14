@@ -1,14 +1,16 @@
 <p align="center">
   <img src="https://github.com/FlineDev/SiteKit/blob/main/Logo.png?raw=true" height="256" />
   <br><br>
-  <a href="#is-sitekit-for-you">Is it for you?</a> · <a href="#what-you-can-build">Blueprints</a> · <a href="#built-with-sitekit">Showcase</a> · <a href="#get-started">Get started</a> · <a href="#deploy">Deploy</a> · <a href="#contributing">Contributing</a>
+  <a href="#is-sitekit-for-you">Is it for you?</a> · <a href="#whats-built-in">Features</a> · <a href="#what-you-can-build">Blueprints</a> · <a href="#built-with-sitekit">Showcase</a> · <a href="#get-started">Get started</a> · <a href="#deploy">Deploy</a> · <a href="#contributing">Contributing</a>
 </p>
 
 # SiteKit
 
 **A static site generator written in Swift, designed to be driven by AI agents.**
 
-SiteKit is a static site generator written in Swift, paired with a Claude Code plugin: you can hand the whole job to an AI that scaffolds, themes, writes, and deploys your site for you – or drive the `sitekit` CLI yourself. Either way the output is a fast, SEO-complete, accessible static site you host anywhere.
+SiteKit is a static site generator written in Swift, driven by AI agents through an installable skill (Claude Code, Codex, Cursor, Windsurf, Xcode 26, and more) – you hand the whole job to an AI that scaffolds, themes, writes, and deploys your site for you, or drive the `sitekit` CLI yourself. Either way the output is a fast, SEO-complete, accessible static site you host anywhere.
+
+> **A note from the author.** I built SiteKit for myself – every site in the [showcase](#built-with-sitekit) below is one of my own projects. I'm an indie iOS developer, not a full-time web developer, so SiteKit lives in the world I know: Swift, plain Markdown, and a lot of care for UI/UX and for guiding AI well. I'm sharing it for people who, like me, want to put content online or ship a website with AI assistance instead of building everything from scratch. Corrections and improvements are very welcome. One thing to be clear about: SiteKit and its guides – including anything that touches legal pages like an imprint or a privacy policy – are orientation to help you and the AI, **not legal or professional advice**. What your site publishes is your responsibility.
 
 > **Looking for something specific?** The [use-case matrix](USE-CASES.md) maps every task – author, customize, deploy, extend – to the doc that answers it.
 
@@ -28,21 +30,38 @@ SiteKit is a static site generator written in Swift, paired with a Claude Code p
 
 ---
 
+## What's built in
+
+You write Markdown; SiteKit handles the parts that make a site modern, fast, and findable:
+
+- **Write in plain Markdown.** Posts and pages are Markdown with YAML frontmatter – no Swift, no HTML required.
+- **Built-in search – on a static site.** A search index ships with every site: full-text search for DocC docs, fast title/section search elsewhere, all client-side with no backend.
+- **Dark & light mode with auto-detection.** Themes follow the visitor's system preference and add a manual toggle – again, no server needed.
+- **SEO out of the box.** Canonical URLs, Open Graph, Twitter cards, JSON-LD, hreflang, `sitemap.xml`, `robots.txt`, and an `llms.txt` for AI crawlers – emitted for every page.
+- **Accessibility-minded defaults.** Semantic HTML landmarks, keyboard-navigable theme JavaScript, and 15 colour schemes hand-tuned for WCAG AA contrast.
+- **Performance by default.** Critical-CSS ordering, responsive image variants, inlined icons, and minification – a fast First Contentful Paint without hand-tuning.
+- **AI-assisted localization.** Go multilingual with AI translation guided by your own style guide; SiteKit handles locale URLs, hreflang, missing-translation fallback, UI chrome in 36 locales, and a machine-readable translation-status report.
+- **Shareable draft previews.** Every draft gets an unlisted preview URL – kept out of sitemaps, RSS, and listings – so you can share it for feedback and iterate before you publish.
+- **Guided content writing.** The AI skill ships writing guides (blog, snippets, social) so a draft reads well and stays on-brand before it goes live.
+- **Free hosting.** Deploy to Cloudflare Pages for free: you pay only for your domain (we don't sell that) and the AI assistant you use. Any static host works too.
+
+---
+
 ## What you can build
 
-SiteKit ships **9 blueprints** – starter sites you scaffold and customise. Each has a short guide:
+SiteKit ships **9 blueprints** – starter sites you scaffold and customise. Each has a short guide and a live demo:
 
-| Blueprint | For | Guide |
-|---|---|---|
-| **Blog** | Articles with categories, tags, RSS | [Blog.md](Plugin/blueprints/Blog.md) |
-| **Snippets** | Short-form tips, TILs, cheat sheets | [Snippets.md](Plugin/blueprints/Snippets.md) |
-| **Portfolio** | App / project showcase | [Portfolio.md](Plugin/blueprints/Portfolio.md) |
-| **IndieDev** | Blog + snippets + portfolio combined | [IndieDev.md](Plugin/blueprints/IndieDev.md) |
-| **Podcast** | Episode pages, audio player, iTunes RSS | [Podcast.md](Plugin/blueprints/Podcast.md) |
-| **Newsletter** | Issue archive, signup forms, email rendering | [Newsletter.md](Plugin/blueprints/Newsletter.md) |
-| **AppLanding** | Single product landing page (hero, features, pricing) | [AppLanding.md](Plugin/blueprints/AppLanding.md) |
-| **DocC** | DocC catalog → docs site with sidebar + full-text search | [DocC.md](Plugin/blueprints/DocC.md) |
-| **Plain** | Minimal, no opinions – a blank canvas | [Plain.md](Plugin/blueprints/Plain.md) |
+| Blueprint | For | Guide | Live demo |
+|---|---|---|---|
+| **Blog** | Articles with categories, tags, RSS | [Blog.md](Plugin/blueprints/Blog.md) | [fline.dev/blog](https://fline.dev/blog) |
+| **Snippets** | Short-form tips, TILs, cheat sheets | [Snippets.md](Plugin/blueprints/Snippets.md) | [fline.dev/snippets](https://fline.dev/snippets) |
+| **Portfolio** | App / project showcase | [Portfolio.md](Plugin/blueprints/Portfolio.md) | [fline.dev/apps](https://fline.dev/apps) |
+| **IndieDev** | Blog + snippets + portfolio combined | [IndieDev.md](Plugin/blueprints/IndieDev.md) | [fline.dev](https://fline.dev) |
+| **Podcast** | Episode pages, audio player, iTunes RSS | [Podcast.md](Plugin/blueprints/Podcast.md) | [appstore-tagebuch.de](https://appstore-tagebuch.de) |
+| **Newsletter** | Issue archive, signup forms, email rendering | [Newsletter.md](Plugin/blueprints/Newsletter.md) | [evolutionkit.dev](https://evolutionkit.dev) |
+| **AppLanding** | Single product landing page (hero, features, pricing) | [AppLanding.md](Plugin/blueprints/AppLanding.md) | [translatekit.pages.dev](https://translatekit.pages.dev) |
+| **DocC** | DocC catalog → docs site with sidebar + full-text search | [DocC.md](Plugin/blueprints/DocC.md) | [wwdcnotes.fline.dev](https://wwdcnotes.fline.dev) |
+| **Plain** | Minimal, no opinions – a blank canvas | [Plain.md](Plugin/blueprints/Plain.md) | – |
 
 Not sure which to pick? The [blueprint catalog](Plugin/blueprints/INDEX.md) has a decision tree and a feature comparison.
 
