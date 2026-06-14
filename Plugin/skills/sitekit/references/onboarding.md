@@ -151,6 +151,16 @@ Ask: "Will your site be in a single language, or do you want multi-language supp
 
 ---
 
+## Step 4b: Legal Pages & Jurisdiction
+
+Whether the site needs an **imprint** or a **privacy policy** depends on the owner's country and what the site does, so ask now:
+
+> "Which country are you based in, and is this a personal site or a business/commercial one?"
+
+Then load `references/legal-pages.md` and follow it: it has a per-country table and decides the form – a full legal page, just a footer line, or nothing. Privacy is driven by what the site collects (forms, analytics, embeds). Add any resulting `Content/Pages/Imprint.md` / `Content/Pages/Privacy.md` and link them in `footer` during the scaffold step below. State once, plainly, that this is orientation, **not legal advice** – accuracy is the owner's responsibility.
+
+---
+
 ## Step 5: Project Scaffold
 
 Scaffold the project with the `sitekit` CLI – do **not** copy blueprint files by hand. From a SiteKit clone (see `references/bootstrap.md` if SiteKit is not cloned yet):
@@ -195,45 +205,12 @@ See `siteconfig-reference.md` for all available fields.
 
 ## Step 5b: Project Context Files
 
-Create context files so future AI sessions understand the project:
+`sitekit new` already drops an `AGENTS.md` (skill-loading guidance: which `sitekit` reference to load for which task) and a `CLAUDE.md` (`@AGENTS.md`) into the new site. Do **not** replace that SiteKit guidance – personalize it instead:
 
-**If the repo is new (no existing `CLAUDE.md` or `AGENTS.md`):**
+- At the top of the generated `AGENTS.md`, add a one-line **Overview** of what this site is and a short **Content Structure** note (directories + file-naming convention), based on the user's earlier answers.
+- Leave the "When to load which reference" table and the commands intact – they keep future AI sessions pointed at the right guidance.
 
-Create `CLAUDE.md` with a single line:
-
-```
-@AGENTS.md
-```
-
-Create `AGENTS.md` with project context:
-
-```markdown
-# <Site Name>
-
-## Overview
-<One-sentence description of what this site is.>
-
-## Build & Serve
-swift run Site build          # Build the site
-swift run Site serve           # Build + start dev server on :8080
-
-## Content Structure
-<Brief description of content directories and file naming convention.>
-
-## SiteKit Skills
-This site is built with SiteKit. The following skills are available:
-- `/sitekit:deploy` – Deploy to hosting
-- `/sitekit:content` – Help with content creation
-- `/sitekit:a11y` – Accessibility checks
-- `/sitekit:i18n` – Multi-language setup
-
-## Configuration
-All site settings are in `SiteConfig.yaml`. See the SiteKit plugin docs for field reference.
-```
-
-Fill in the placeholders based on the user's answers from earlier steps.
-
-**If the repo already has an `AGENTS.md`:** Add a "SiteKit" section at the end with build commands, content structure, and available skills. Do not overwrite existing content.
+**If the repo already had its own `AGENTS.md`** (the CLI never overwrites one): add a short "SiteKit" section at the end with the build commands and a pointer to the `sitekit` skill. Do not overwrite existing content.
 
 ---
 

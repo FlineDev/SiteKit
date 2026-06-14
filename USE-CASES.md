@@ -22,7 +22,8 @@ This is the index, not the explanation. For a guided walkthrough read [README.md
 | Configure site metadata (name, URL, navigation, author) | [siteconfig-reference.md](Plugin/skills/sitekit/references/siteconfig-reference.md) |
 | Use DocC / Markdown directives (`@Metadata`, `@Row`, `@TabNavigator`, `@Video`, …) | [markdown-extensions.md](Plugin/skills/sitekit/references/markdown-extensions.md) |
 | Configure the DocC home page, appbar, sidebar, and search (the `docc:` block) | [siteconfig-reference.md – docc](Plugin/skills/sitekit/references/siteconfig-reference.md#docc) |
-| Add legal pages (Imprint / Privacy Policy) | [Imprint template](Docs/Templates/Imprint.md) · [Privacy Policy template](Docs/Templates/PrivacyPolicy.md) |
+| Decide whether you need an imprint / privacy page (per country) | [legal-pages.md](Plugin/skills/sitekit/references/legal-pages.md) |
+| Add legal pages (German example templates) | [Imprint template](Docs/Templates/Imprint.md) · [Privacy Policy template](Docs/Templates/PrivacyPolicy.md) |
 
 ## Customize & localize
 

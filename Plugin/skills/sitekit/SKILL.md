@@ -19,6 +19,7 @@ Route the user's intent to the right reference. Read only the references you nee
 | Setting up a new site from scratch | `references/onboarding.md` |
 | Picking a blueprint (Blog, Newsletter, Podcast, Portfolio, AppLanding, Snippets, IndieDev, DocC, Plain) | `references/blueprints.md` |
 | Writing content (blog posts, newsletter issues, static pages) | `references/content-writing.md` |
+| Imprint / privacy / legal pages (country-dependent, GDPR, cookies) | `references/legal-pages.md` |
 | DocC / Markdown directive extensions (`@Metadata`, `@Row`, `@TabNavigator`, `@Video`, `@Image`, `@Links`, …) + the graceful-degradation contract | `references/markdown-extensions.md` |
 | Multi-language sites (translations, locale suffixes, validation) | `references/localization.md` |
 | Accessibility audit (WCAG AA contrast, alt text, keyboard nav) | `references/accessibility.md` |
