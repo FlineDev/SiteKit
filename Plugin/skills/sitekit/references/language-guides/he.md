@@ -11,7 +11,7 @@ Read `principles.md` first. Modern Hebrew rules for SiteKit content. Apple's Xco
 
 ## Script & orthography
 - Body text is normally written **without niqqud** (vowel points). Use full spelling (ktiv male) as standard online.
-- Final letter forms (ך ם ן ף ץ) are handled by the text engine; write correctly.
+- Five letters have distinct **final forms** (ך ם ן ף ץ) used at the end of a word. They are separate characters you must type correctly – unlike Arabic's contextual shaping, the renderer does not convert a regular letter to its final form for you. Any correct Hebrew text or keyboard already produces them; just don't substitute the non-final letter at a word's end.
 
 ## Numbers & dates
 - Western Arabic numerals (1, 2, 3), left-to-right, are standard. Dates: `14 ביוני 2026` (Gregorian, common in tech).

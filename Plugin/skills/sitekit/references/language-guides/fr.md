@@ -1,6 +1,6 @@
 # French (fr) – Web Content Style Guide
 
-Read `principles.md` first. French-specific rules for SiteKit content. Apple's Xcode 26+ French guide is the authoritative app-string complement (and see `fr-CA.md` for Canadian differences).
+Read `principles.md` first. French-specific rules for SiteKit content. Apple's Xcode 26+ French guide is the authoritative app-string complement. For **Canadian French (fr-CA)**, the rules below mostly hold, with two notable differences: Québec usage avoids many English loanwords (`courriel` for email, `clavardage` for chat) and the thin space before `; ! ?` is often dropped (the space before `:` is kept).
 
 ## Address & formality
 - **"vous"** is the safe default for a public website, even for a casual brand. **"tu"** suits a deliberately informal, personal, or young-audience site – decide once and keep it.

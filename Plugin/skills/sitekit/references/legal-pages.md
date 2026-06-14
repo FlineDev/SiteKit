@@ -41,7 +41,7 @@ When unsure between two forms, pick the more complete one and tell the user why,
 
 ## Privacy policy: driven by what the site does, not just where you are
 
-A privacy policy is needed when the site **collects or processes personal data**. This is less about the owner's country and more about the site's content and the visitors' location (EU/EEA → GDPR; California → CCPA/CalOPPA).
+A privacy policy is needed when the site **collects or processes personal data**. This is less about the owner's country and more about the site's content and the visitors' location: EU/EEA visitors bring GDPR into scope; California has CalOPPA (commercial sites collecting personal data) and the CCPA/CPRA (which apply to larger for-profit businesses above set thresholds, not to a small personal site). Match the obligations to what the site actually is and does.
 
 Walk through what the site actually does:
 

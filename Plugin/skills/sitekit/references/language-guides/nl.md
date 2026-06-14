@@ -16,7 +16,7 @@ Read `principles.md` first. Dutch-specific rules for SiteKit content.
 - Dates: `14 juni 2026` – **months and weekdays lowercase**.
 
 ## Capitalization & terminology
-- **Sentence case** for headings; do not capitalize months, weekdays, or languages (`Nederlands` is an exception – language/nationality nouns are capitalized).
+- **Sentence case** for headings; do not capitalize months or weekdays (`maandag`, `juni`). Language and nationality names **are** capitalized in Dutch (`Nederlands`, `Engels`, `Frans`) – unlike French or German common nouns.
 - Common web terms: `bericht`/`artikel` (post), `abonneren`/`inschrijven` (subscribe), kept `newsletter` or `nieuwsbrief`, `privacy` (kept).
 
 ## Common pitfalls

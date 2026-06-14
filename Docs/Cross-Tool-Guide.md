@@ -40,7 +40,7 @@ Claude Code users can install the plugin from the marketplace:
 
 ```text
 /plugin marketplace add FlineDev/SiteKit
-/plugin install sitekit@sitekit-dev
+/plugin install sitekit@sitekit
 ```
 
 Other tools usually need a local checkout so they can read `Plugin/`:
