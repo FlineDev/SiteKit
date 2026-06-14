@@ -84,15 +84,6 @@ Real production sites, one per blueprint family. Screenshots follow your GitHub 
       <br><b><a href="https://appstore-tagebuch.de">appstore-tagebuch.de</a></b> – indie-dev podcast <em>(Podcast)</em>
     </td>
     <td width="50%" valign="top">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/wwdcnotes-dark.webp">
-        <img alt="WWDCNotes – documentation site built with SiteKit" src="Assets/Showcase/wwdcnotes-light.webp">
-      </picture>
-      <br><b>WWDCNotes</b> – community session notes across thousands of pages <em>(DocC, relaunch in progress)</em>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" valign="top">
       <a href="https://translatekit.pages.dev">
         <picture>
           <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/translatekit-dark.webp">
@@ -100,6 +91,15 @@ Real production sites, one per blueprint family. Screenshots follow your GitHub 
         </picture>
       </a>
       <br><b><a href="https://translatekit.pages.dev">TranslateKit</a></b> – app landing page <em>(AppLanding)</em>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/wwdcnotes-dark.webp">
+        <img alt="WWDCNotes – documentation site built with SiteKit" src="Assets/Showcase/wwdcnotes-light.webp">
+      </picture>
+      <br><b>WWDCNotes</b> – community session notes across thousands of pages <em>(DocC, relaunch in progress)</em>
     </td>
   </tr>
 </table>
