@@ -38,8 +38,9 @@ Before translating, locate the project's translation style guide:
 
 1. If `SiteConfig.yaml` has `localization.styleGuidePath` set, read that file.
 2. Otherwise read `Guidelines/Translations.md` at the project root if it exists.
+3. For the **per-language conventions** (formality, quotation marks, punctuation and spacing, number and date formats, capitalization, common pitfalls), read `references/language-guides/principles.md` and the file for each target language (e.g. `references/language-guides/de.md`). These are the baseline for web prose.
 
-The guide captures per-language translation rules, terminology choices, formality preferences, and the author's voice in each target language. These overrides take precedence over generic translation defaults – apply them throughout the workflow below.
+The project guide captures per-language translation rules, terminology choices, formality preferences, and the author's voice in each target language. Project overrides take precedence over both the generic defaults and the per-language baseline guides – apply them throughout the workflow below.
 
 ## Step 1: Language Configuration
 Check `SiteConfig.yaml` for:
