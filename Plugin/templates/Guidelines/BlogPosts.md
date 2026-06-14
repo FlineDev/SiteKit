@@ -2,7 +2,7 @@
 
 This file documents the voice, tone, and structural patterns for blog posts on this site.
 
-> **How this file improves over time**: The `sitekit:content` skill reads this file before drafting. After you edit an AI-drafted post, the skill compares the *first* AI draft against the final version (using the full session history of your corrections, not just the most recent diff) and proposes additions to this file based on the patterns it finds. Over time, the file becomes a living reflection of your voice – derived from real corrections, not a one-time elicitation.
+> **How this file improves over time**: the `sitekit` skill (`content-writing` reference) reads this file before drafting. After you edit an AI-drafted post, the skill compares the *first* AI draft against the final version (using the full session history of your corrections, not just the most recent diff) and proposes additions to this file based on the patterns it finds. Over time, the file becomes a living reflection of your voice – derived from real corrections, not a one-time elicitation.
 
 ---
 

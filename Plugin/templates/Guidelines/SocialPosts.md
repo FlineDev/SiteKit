@@ -2,7 +2,7 @@
 
 Conventions for adapting site content into social posts (Twitter/X, Bluesky, Mastodon, LinkedIn, etc.).
 
-> **How this file improves over time**: The `sitekit:content` skill reads this file when adapting content for social platforms. After you edit an AI-drafted post, the skill proposes additions to this file based on what you changed. Over time, the file becomes a living reflection of your social voice.
+> **How this file improves over time**: the `sitekit` skill (`content-writing` reference) reads this file when adapting content for social platforms. After you edit an AI-drafted post, the skill proposes additions to this file based on what you changed. Over time, the file becomes a living reflection of your social voice.
 
 ---
 

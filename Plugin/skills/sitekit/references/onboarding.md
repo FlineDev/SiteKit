@@ -375,7 +375,7 @@ Then ask the user to review and confirm the site looks as expected.
 
 Once the site is running locally, route the user:
 
-- **Deploy the site:** Run `/sitekit:deploy` to set up CI/CD with Cloudflare Pages, GitHub Pages, or another host
+- **Deploy the site:** load `deployment/SKILL.md` to set up CI/CD with Cloudflare Pages, GitHub Pages, or another host
 - **Customize the theme:** See `themes.md` for the full token system, presets, color schemes, and font pairings
 - **Write content:** Create `Content/Blog/YYYY-MM-DD_Title-Slug.md` files with YAML frontmatter
 - **Full reference:** See `siteconfig-reference.md` for every `SiteConfig.yaml` field
@@ -386,5 +386,5 @@ Once the site is running locally, route the user:
 
 - `bootstrap.md` – the mechanical prequel: clone SiteKit, `sitekit doctor`, `sitekit new`, `sitekit update`.
 - `Plugin/blueprints/INDEX.md` – the blueprint picker (decision tree + feature comparison).
-- `deployment/SKILL.md` – set up push-to-deploy (host + CI matrix); or run `/sitekit:deploy`.
+- `deployment/SKILL.md` – set up push-to-deploy (host + CI matrix).
 - `troubleshooting.md` – build/runtime issues encountered during any step above.

@@ -2,7 +2,7 @@
 
 This file documents conventions for code snippets on this site (short, focused posts that demonstrate a single technique or pattern).
 
-> **How this file improves over time**: The `sitekit:content` skill reads this file before drafting. After you edit an AI-drafted snippet, the skill compares the *first* AI draft against the final version and proposes additions to this file based on the patterns it finds. Over time, the file becomes a living reflection of your conventions.
+> **How this file improves over time**: the `sitekit` skill (`content-writing` reference) reads this file before drafting. After you edit an AI-drafted snippet, the skill compares the *first* AI draft against the final version and proposes additions to this file based on the patterns it finds. Over time, the file becomes a living reflection of your conventions.
 
 ---
 
