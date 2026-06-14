@@ -131,14 +131,22 @@ Real production sites, one per blueprint family. Screenshots follow your GitHub 
 
 ### The AI-guided way (recommended)
 
-SiteKit is built to be driven by an AI. Install the Claude Code plugin, then just ask:
+SiteKit is built to be driven by an AI. Install its skill once and your assistant learns the whole workflow – scaffolding, theming, writing, and deployment.
+
+**Any agent** (Claude Code, Codex, Cursor, Windsurf, Xcode 26, and [70+ more](https://skills.sh)) – install the [agent skill](https://agentskills.io):
+
+```bash
+npx skills add FlineDev/SiteKit
+```
+
+**Claude Code** – or install it as a plugin instead:
 
 ```
 /plugin marketplace add FlineDev/SiteKit
 /plugin install sitekit@sitekit
 ```
 
-Then tell Claude what you want – *"build me a developer blog with SiteKit"* – and it walks you through blueprint choice, theme, content, and deployment.
+Either way, then just ask – *"build me a developer blog with SiteKit"* – and your assistant walks you through blueprint choice, theme, content, and deployment. Every site SiteKit scaffolds also gets an `AGENTS.md` so the assistant keeps the right guidance loaded as the site grows.
 
 ### The manual CLI way
 

@@ -26,4 +26,11 @@ enum PackageRoot {
          .appendingPathComponent("Plugin")
          .appendingPathComponent("blueprints")
    }
+
+   /// The shared scaffolding-template directory (`Plugin/templates/`).
+   static var templatesDirectory: URL {
+      self.url
+         .appendingPathComponent("Plugin")
+         .appendingPathComponent("templates")
+   }
 }
