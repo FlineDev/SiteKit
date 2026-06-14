@@ -17,17 +17,17 @@ Read `<Name>.md` first, then copy files from `<Name>/`.
 
 ## Available Blueprints
 
-| Blueprint | Description | Best For | Guide |
-|---|---|---|---|
-| `Blog` | Articles, optional categories, tags, RSS | Developer blogs, personal writing | [Blog.md](Blog.md) |
-| `Snippets` | Short-form content, optional topic groups | Code tips, TIL sites, cheat sheets | [Snippets.md](Snippets.md) |
-| `Portfolio` | App/project showcase, static pages only | Indie dev portfolios, freelancer sites | [Portfolio.md](Portfolio.md) |
-| `IndieDev` | Combined blog + snippets + portfolio | Full indie developer websites | [IndieDev.md](IndieDev.md) |
-| `Podcast` | Episode pages, audio player, chapters, iTunes RSS | Podcast shows, interview series | [Podcast.md](Podcast.md) |
-| `Newsletter` | Email newsletter with issue archive, signup forms, email rendering | Topic newsletters, curated digests, weekly/monthly roundups | [Newsletter.md](Newsletter.md) |
-| `AppLanding` | Single product landing page with hero, features, pricing, reviews | App marketing pages, SaaS products | [AppLanding.md](AppLanding.md) |
-| `DocC` | DocC catalog → static, AI-fetchable HTML with a sidebar + full-text search | Documentation sites, API/guide docs | [DocC.md](DocC.md) |
-| `Plain` | Minimal structure, no opinions | Experimentation, custom pipelines | [Plain.md](Plain.md) |
+| Blueprint | Description | Best For | Guide | Live demo |
+|---|---|---|---|---|
+| `Blog` | Articles, optional categories, tags, RSS | Developer blogs, personal writing | [Blog.md](Blog.md) | [fline.dev/blog](https://fline.dev/blog) |
+| `Snippets` | Short-form content, optional topic groups | Code tips, TIL sites, cheat sheets | [Snippets.md](Snippets.md) | [fline.dev/snippets](https://fline.dev/snippets) |
+| `Portfolio` | App/project showcase, static pages only | Indie dev portfolios, freelancer sites | [Portfolio.md](Portfolio.md) | [fline.dev/apps](https://fline.dev/apps) |
+| `IndieDev` | Combined blog + snippets + portfolio | Full indie developer websites | [IndieDev.md](IndieDev.md) | [fline.dev](https://fline.dev) |
+| `Podcast` | Episode pages, audio player, chapters, iTunes RSS | Podcast shows, interview series | [Podcast.md](Podcast.md) | [appstore-tagebuch.de](https://appstore-tagebuch.de) |
+| `Newsletter` | Email newsletter with issue archive, signup forms, email rendering | Topic newsletters, curated digests, weekly/monthly roundups | [Newsletter.md](Newsletter.md) | [evolutionkit.dev](https://evolutionkit.dev) |
+| `AppLanding` | Single product landing page with hero, features, pricing, reviews | App marketing pages, SaaS products | [AppLanding.md](AppLanding.md) | [translatekit.pages.dev](https://translatekit.pages.dev) |
+| `DocC` | DocC catalog → static, AI-fetchable HTML with a sidebar + full-text search | Documentation sites, API/guide docs | [DocC.md](DocC.md) | [wwdcnotes.fline.dev](https://wwdcnotes.fline.dev) |
+| `Plain` | Minimal structure, no opinions | Experimentation, custom pipelines | [Plain.md](Plain.md) | – |
 
 ---
 
