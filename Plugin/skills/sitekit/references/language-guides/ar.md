@@ -1,6 +1,6 @@
 # Arabic (ar) – Web Content Style Guide
 
-Read `principles.md` first. Modern Standard Arabic rules for SiteKit content. Apple's Xcode 26+ Arabic guide is the authoritative app-string complement.
+Read `principles.md` first. Modern Standard Arabic rules for SiteKit content.
 
 ## Direction (critical for the web)
 - Arabic is **right-to-left**. SiteKit sets `<html lang="ar">` but does **not** auto-apply `dir="rtl"`. For an Arabic site you must add `dir="rtl"` and use CSS logical properties (`margin-inline-start`, `padding-inline-end`, `text-align: start`) in your `Theme/` so layout, icons, and alignment mirror correctly. Test the rendered page, not just the text.

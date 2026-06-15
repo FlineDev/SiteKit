@@ -1,6 +1,6 @@
 # Swedish (sv) – Web Content Style Guide
 
-Read `principles.md` first. Swedish-specific rules for SiteKit content. Apple's Xcode 26+ Swedish guide is the authoritative app-string complement.
+Read `principles.md` first. Swedish-specific rules for SiteKit content.
 
 ## Address & formality
 - Swedish is **informal by default** – "du" is used for everyone, including business and institutional sites (the "du-reform"). Capitalized "Ni" is rare and can read as old-fashioned; avoid unless deliberately formal. Keep tone direct and friendly.

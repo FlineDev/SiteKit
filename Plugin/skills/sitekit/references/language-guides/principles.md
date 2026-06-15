@@ -2,8 +2,6 @@
 
 Universal guidance for translating a SiteKit site's **content** (articles, pages, navigation labels, calls to action) into another language. The per-language files in this folder add the specifics; this file is the shared baseline.
 
-> **Web content, not app strings.** These guides target prose and site chrome. Apple ships excellent per-language *app-string* style guides with Xcode 26+ (the localization skill under Xcode's String Catalog tooling) – they go deep on UI-string mechanics (format specifiers, plural/device variations, key terminology). They are an authoritative complement: consult them for app-string-level detail. The guidance here is written for SiteKit and focuses on what matters for a website.
-
 ## The categories every language file covers
 
 1. **Reader address & formality.** The single biggest decision. Many languages distinguish formal and informal "you" (German du/Sie, French tu/vous, Spanish tú/usted, Japanese politeness levels). Pick one register per site and keep it consistent. Match the source site's voice: an indie developer blog is usually informal; a corporate or legal page is usually formal.
@@ -24,7 +22,3 @@ Universal guidance for translating a SiteKit site's **content** (articles, pages
 - **Localize the slug** only if the site wants language-specific URLs; otherwise keep a shared slug. Be consistent.
 - **Don't translate code, commands, file paths, or API names** in code blocks.
 - **Right-to-left (Arabic, Hebrew):** SiteKit sets `<html lang>` but does not auto-apply `dir="rtl"`. For an RTL site, add `dir="rtl"` and logical-property CSS in your `Theme/` (see `localization.md`).
-
-## Source guides used
-
-The per-language files were written for SiteKit from each language's web-writing conventions. Apple's Xcode 26+ localization style guides (ar, de, fi, fr, fr-CA, he, hi, it, ja, ms, nb, sv, uk, zh-Hans) were consulted as a reference for which conventions matter; they remain the authoritative source for app-string-level detail.

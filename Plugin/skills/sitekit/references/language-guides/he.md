@@ -1,6 +1,6 @@
 # Hebrew (he) – Web Content Style Guide
 
-Read `principles.md` first. Modern Hebrew rules for SiteKit content. Apple's Xcode 26+ Hebrew guide is the authoritative app-string complement.
+Read `principles.md` first. Modern Hebrew rules for SiteKit content.
 
 ## Direction (critical for the web)
 - Hebrew is **right-to-left**. SiteKit sets `<html lang="he">` but does **not** auto-apply `dir="rtl"`. Add `dir="rtl"` and use CSS logical properties (`margin-inline-start`, `text-align: start`) in your `Theme/` so the layout mirrors. Test the rendered page.

@@ -1,6 +1,6 @@
 # Japanese (ja) – Web Content Style Guide
 
-Read `principles.md` first. Japanese-specific rules for SiteKit content. Apple's Xcode 26+ Japanese guide is the authoritative app-string complement.
+Read `principles.md` first. Japanese-specific rules for SiteKit content.
 
 ## Tone & politeness
 - Use **です・ます (polite/desu-masu)** for almost all website content – it is the neutral register for addressing readers. Plain form (だ・である) suits a deliberately casual personal blog or essay voice. Keep one register throughout a page.
@@ -21,7 +21,7 @@ Read `principles.md` first. Japanese-specific rules for SiteKit content. Apple's
 
 ## Interface & terminology
 - Quote UI labels with `「」`: 「次へ」をタップ. On iOS say タップ (tap); for desktop クリック (click).
-- Keep terminology consistent; reuse established Apple-Japanese terms where the audience is Apple-platform developers.
+- Keep terminology consistent; reuse the standard, widely-recognized Japanese term for each concept across the site.
 
 ## Common pitfalls
 - Don't translate literally from English sentence structure – Japanese is topic-comment and verb-final; rewrite.

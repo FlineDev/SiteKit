@@ -1,6 +1,6 @@
 # Simplified Chinese (zh-Hans) – Web Content Style Guide
 
-Read `principles.md` first. Mainland-China Simplified Chinese rules for SiteKit content. Apple's Xcode 26+ zh-Hans guide is the authoritative app-string complement.
+Read `principles.md` first. Mainland-China Simplified Chinese rules for SiteKit content.
 
 ## Tone & address
 - Neutral, clear, and concise. Address the reader with **您** for formal/business sites, **你** for casual/personal ones – pick one. Often the pronoun is dropped entirely; rephrase rather than forcing it.
@@ -19,7 +19,7 @@ Read `principles.md` first. Mainland-China Simplified Chinese rules for SiteKit 
 - Currency: `¥1,200` or `1200 元`.
 
 ## Interface & terminology
-- Quote UI labels and keep terminology consistent across the site. Reuse established Apple-Chinese terms when the audience is Apple developers.
+- Quote UI labels and keep terminology consistent across the site. Reuse the standard, widely-recognized Chinese term for each concept rather than inventing new ones.
 - Common web terms: `文章`/`博文` (post), `订阅` (subscribe), `通讯`/kept `Newsletter`, `隐私` (privacy).
 
 ## Common pitfalls

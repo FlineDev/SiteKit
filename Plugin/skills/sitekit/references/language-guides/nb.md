@@ -1,6 +1,6 @@
 # Norwegian Bokmål (nb) – Web Content Style Guide
 
-Read `principles.md` first. Bokmål rules for SiteKit content. Apple's Xcode 26+ Norwegian guide is the authoritative app-string complement.
+Read `principles.md` first. Bokmål rules for SiteKit content.
 
 ## Address & formality
 - Norwegian is **informal by default** – "du" for everyone, including business sites. Formal "De" is archaic; avoid it. Keep tone direct and plain.

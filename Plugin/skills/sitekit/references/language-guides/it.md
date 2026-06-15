@@ -1,6 +1,6 @@
 # Italian (it) – Web Content Style Guide
 
-Read `principles.md` first. Italian-specific rules for SiteKit content. Apple's Xcode 26+ Italian guide is the authoritative app-string complement.
+Read `principles.md` first. Italian-specific rules for SiteKit content.
 
 ## Address & formality
 - **"tu"** suits personal, indie, and casual product sites. **"Lei"** (capitalized in the courtesy sense) is formal/business. Decide once and keep it. Italian often phrases impersonally (`è possibile…`) to avoid choosing.

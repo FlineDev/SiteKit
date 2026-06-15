@@ -1,6 +1,6 @@
 # German (de) – Web Content Style Guide
 
-Read `principles.md` first. This file adds German-specific rules for translating a SiteKit site's content. For app-string-level depth, Apple's Xcode 26+ German guide is the authoritative complement.
+Read `principles.md` first. This file adds German-specific rules for translating a SiteKit site's content.
 
 ## Address & formality
 - **Informal "du"** fits most indie, developer, and personal sites – lowercase (`du`, `dein`, `dir`), not capitalized in body text. **Formal "Sie"** fits business, legal, and institutional sites. Decide once per site and never mix.
