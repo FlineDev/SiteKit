@@ -144,7 +144,7 @@ let path = router.pagePath(for: page, in: snippets)
 error: package 'sitekit' could not be resolved
 ```
 
-After v1.0, the package URL is `https://github.com/FlineDev/SiteKit.git` (formerly `SiteKit-Package.git`).
+The dependency lives at `https://github.com/FlineDev/SiteKit.git` and follows semantic versioning.
 
 **Fix:** update `Package.swift` to pin a released version:
 
@@ -152,7 +152,7 @@ After v1.0, the package URL is `https://github.com/FlineDev/SiteKit.git` (former
 .package(url: "https://github.com/FlineDev/SiteKit.git", from: "1.0.0")
 ```
 
-Then `swift package update`. The old `SiteKit-Package` repo redirects (archived until the next minor release) but the dependency URL in `Package.swift` must point at the new host.
+Then run `swift package update`.
 
 ## Deploy failures
 
