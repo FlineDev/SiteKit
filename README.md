@@ -2,6 +2,11 @@
   <img src="https://github.com/FlineDev/SiteKit/blob/main/Logo.png?raw=true" height="256" />
   <br><br>
   <a href="#is-sitekit-for-you">Is it for you?</a> · <a href="#whats-built-in">Features</a> · <a href="#what-you-can-build">Blueprints</a> · <a href="#built-with-sitekit">Showcase</a> · <a href="#get-started">Get started</a> · <a href="#deploy">Deploy</a> · <a href="#contributing">Contributing</a>
+  <br><br>
+  <img src="https://img.shields.io/badge/Swift-6.2-F05138?logo=swift&logoColor=white" alt="Swift 6.2" />
+  <img src="https://img.shields.io/badge/Platforms-macOS%20%7C%20Linux-7d8590" alt="macOS | Linux" />
+  <img src="https://img.shields.io/badge/Agent%20Skill-npx%20skills%20add-3fb950" alt="Agent Skill" />
+  <img src="https://img.shields.io/badge/License-MIT-3b82f6" alt="MIT License" />
 </p>
 
 # SiteKit
@@ -14,9 +19,7 @@ SiteKit is a static site generator written in Swift, driven by AI agents through
 
 > **Looking for something specific?** The [use-case matrix](USE-CASES.md) maps every task – author, customize, deploy, extend – to the doc that answers it.
 
----
-
-## Is SiteKit for you?
+## 🤔 Is SiteKit for you?
 
 **Yes, if you want to:**
 - Ship a blog, podcast, newsletter, portfolio, or app-landing site as plain static files.
@@ -28,27 +31,23 @@ SiteKit is a static site generator written in Swift, driven by AI agents through
 - A no-code, point-and-click WYSIWYG editor.
 - An environment without the Swift toolchain – building runs through `swift` (macOS or Linux), and authoring assumes you're comfortable editing text files.
 
----
-
-## What's built in
+## ✨ What's built in
 
 You write Markdown; SiteKit handles the rest:
 
-- **Plain Markdown authoring** – posts and pages in Markdown with YAML frontmatter, no Swift or HTML.
-- **Responsive design** – layouts adapt to desktop, tablet, and phone out of the box.
-- **Dark & light mode** – follows the visitor's system preference, with a manual toggle.
-- **Built-in search** – a client-side index on a static site, full-text for docs.
-- **SEO complete** – canonical URLs, Open Graph, JSON-LD, hreflang, sitemap, robots, and `llms.txt`.
-- **Accessibility-minded** – semantic HTML, keyboard navigation, WCAG-AA-tuned colour schemes.
-- **Fast by default** – critical-CSS ordering, responsive images, inlined icons, minification.
-- **AI-assisted localization** – multilingual with hreflang, fallback, and UI chrome in 36 locales.
-- **Shareable draft previews** – unlisted URLs to share for feedback before publishing.
-- **Guided content writing** – built-in writing guides keep drafts on-brand.
-- **Free hosting** – deploy to Cloudflare Pages; you pay only for your domain.
+- 📝 **Plain Markdown authoring** – posts and pages in Markdown with YAML frontmatter, no Swift or HTML.
+- 📱 **Responsive design** – layouts adapt to desktop, tablet, and phone out of the box.
+- 🌗 **Dark & light mode** – follows the visitor's system preference, with a manual toggle.
+- 🔍 **Built-in search** – a client-side index on a static site, full-text for docs.
+- 🧭 **SEO complete** – canonical URLs, Open Graph, JSON-LD, hreflang, sitemap, robots, and `llms.txt`.
+- ♿ **Accessibility-minded** – semantic HTML, keyboard navigation, WCAG-AA-tuned colour schemes.
+- ⚡ **Fast by default** – critical-CSS ordering, responsive images, inlined icons, minification.
+- 🌍 **AI-assisted localization** – multilingual with hreflang, fallback, and UI chrome in 36 locales.
+- 👀 **Shareable draft previews** – unlisted URLs to share for feedback before publishing.
+- ✍️ **Guided content writing** – built-in writing guides keep drafts on-brand.
+- 🆓 **Free hosting** – deploy to Cloudflare Pages; you pay only for your domain.
 
----
-
-## What you can build
+## 🧩 What you can build
 
 SiteKit ships **9 blueprints** – starter sites you scaffold and customise. Each has a short guide and a live demo:
 
@@ -66,9 +65,7 @@ SiteKit ships **9 blueprints** – starter sites you scaffold and customise. Eac
 
 Not sure which to pick? The [blueprint catalog](Plugin/blueprints/INDEX.md) has a decision tree and a feature comparison.
 
----
-
-## Built with SiteKit
+## 🖼️ Built with SiteKit
 
 Real production sites, one per blueprint family. Screenshots follow your GitHub theme – dark or light.
 
@@ -125,9 +122,7 @@ Real production sites, one per blueprint family. Screenshots follow your GitHub 
   </tr>
 </table>
 
----
-
-## Get started
+## 🚀 Get started
 
 **The only hard requirement is the Swift 6.2 toolchain** (`swift --version`), on macOS or Linux – both run in CI. Everything else is optional and installed when it's actually needed: the AI assistant pulls in Git, the GitHub CLI (`gh`, only if you publish via GitHub), or ImageMagick (only if you want responsive image variants) on demand, and you pick where to host. SiteKit points you at the free, popular choices, but you can always swap in alternatives – the output is just static files.
 
@@ -172,9 +167,7 @@ swift run Site serve                              # dev server on http://localho
 
 `swift run Site build` produces the static output in `_Site/`; `swift run Site validate` checks for missing translations on multilingual sites.
 
----
-
-## Where things live (in your new site)
+## 📁 Your new site
 
 | Path | What it holds |
 |---|---|
@@ -184,44 +177,28 @@ swift run Site serve                              # dev server on http://localho
 | `Content/Assets/` | Images and logo; pre-generated favicons go in `Content/Assets/Favicons/` |
 | `_Site/` | Build output (gitignored) – what you deploy |
 
-Deeper references: [content writing](Plugin/skills/sitekit/references/content-writing.md) · [SiteConfig reference](Plugin/skills/sitekit/references/siteconfig-reference.md).
+**Customise the look:** open `Theme/theme.yaml` and pick a **color scheme** (15 to choose from), a **font pairing** (6 options), and a **layout template** (Classic, Sidebar, Minimal). Override individual design tokens for full control.
 
----
+Deeper references: [content writing](Plugin/skills/sitekit/references/content-writing.md) · [theming guide](Plugin/skills/sitekit/references/themes.md) · [SiteConfig reference](Plugin/skills/sitekit/references/siteconfig-reference.md).
 
-## Customise the look
-
-Open `Theme/theme.yaml` and pick a **color scheme** (15 to choose from), a **font pairing** (6 options), and a **layout template** (Classic, Sidebar, Minimal). Override individual design tokens for full control. See the [theming guide](Plugin/skills/sitekit/references/themes.md).
-
----
-
-## Deploy
+## ☁️ Deploy
 
 A build is just static files in `_Site/`, so **you can host it anywhere and switch hosts anytime** – the choice is yours.
 
 SiteKit *recommends* **Cloudflare Pages** because it's free, fast, and documented end to end: [Cloudflare Pages walkthrough](Plugin/skills/sitekit/references/deployment/hosts/cloudflare-pages.md). Prefer something else? GitHub Pages, Netlify, Vercel, or your own server work the same way, and the assistant sets up whichever you pick. See [all deployment guides](Plugin/skills/sitekit/references/deployment/).
 
----
-
-## When something goes wrong
+## 🛟 When something goes wrong
 
 Build failing or output not what you expected? Start with the [troubleshooting guide](Plugin/skills/sitekit/references/troubleshooting.md) – it covers frontmatter errors, missing fields, and the most common build failures.
 
----
-
-## Extending with custom Swift
+## 🔧 Extending with custom Swift
 
 The blueprints cover the common cases. When you need something they don't ship – a custom page type, a new output file, a bespoke content transform – that's Swift territory. SiteKit's pipeline is a set of swappable plugins you conform to: see [AGENTS.md](AGENTS.md) for the architecture and the [custom-pages reference](Plugin/skills/sitekit/references/custom-pages.md) for a worked example.
 
----
-
-## Status & versioning
-
-SiteKit is **v1.0**, the first public release. From here on, breaking changes always get a major version bump and documented migration steps in the [CHANGELOG](CHANGELOG.md).
-
----
-
-## Contributing
+## 🤝 Contributing
 
 Issues and pull requests welcome. Start with [AGENTS.md](AGENTS.md) – the contributor reference for how SiteKit is built and how to extend it.
+
+SiteKit is **v1.0**, the first public release. From here on, breaking changes always get a major version bump and documented migration steps in the [CHANGELOG](CHANGELOG.md).
 
 **License:** [MIT](LICENSE).
