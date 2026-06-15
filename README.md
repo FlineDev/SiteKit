@@ -15,7 +15,6 @@
 
 SiteKit is a static site generator written in Swift, driven by AI agents through an installable skill (Claude Code, Codex, Cursor, Windsurf, Xcode 26, and more) – you hand the whole job to an AI that scaffolds, themes, writes, and deploys your site for you, or drive the `sitekit` CLI yourself. Either way the output is a fast, SEO-complete, accessible static site you host anywhere.
 
-> [!NOTE]
 > I built this iteratively over several months for my own needs, and I'm sharing it with the community in case others are using AI in their website content workflow too. It was built with AI, for AI. Looking forward to your feedback.
 
 > [!TIP]
