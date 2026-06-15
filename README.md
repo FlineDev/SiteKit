@@ -129,7 +129,7 @@ Real production sites, one per blueprint family. Screenshots follow your GitHub 
 
 ## Get started
 
-**Prerequisites:** the Swift 6.2 toolchain (`swift --version`) on macOS or Linux – both run in CI. Git. Optionally the GitHub CLI (`gh`) for publishing, and ImageMagick (`magick`) if you want responsive image variants generated at build time.
+**The only hard requirement is the Swift 6.2 toolchain** (`swift --version`), on macOS or Linux – both run in CI. Everything else is optional and installed when it's actually needed: the AI assistant pulls in Git, the GitHub CLI (`gh`, only if you publish via GitHub), or ImageMagick (only if you want responsive image variants) on demand, and you pick where to host. SiteKit points you at the free, popular choices, but you can always swap in alternatives – the output is just static files.
 
 ### The AI-guided way (recommended)
 
@@ -196,9 +196,9 @@ Open `Theme/theme.yaml` and pick a **color scheme** (15 to choose from), a **fon
 
 ## Deploy
 
-**Cloudflare Pages** is the canonical path – free, fast, and the deployment is fully documented: [Cloudflare Pages walkthrough](Plugin/skills/sitekit/references/deployment/hosts/cloudflare-pages.md).
+A build is just static files in `_Site/`, so **you can host it anywhere and switch hosts anytime** – the choice is yours.
 
-Because the build is plain static files in `_Site/`, **any static host works** – GitHub Pages, Netlify, Vercel, or your own server. See [all deployment guides](Plugin/skills/sitekit/references/deployment/).
+SiteKit *recommends* **Cloudflare Pages** because it's free, fast, and documented end to end: [Cloudflare Pages walkthrough](Plugin/skills/sitekit/references/deployment/hosts/cloudflare-pages.md). Prefer something else? GitHub Pages, Netlify, Vercel, or your own server work the same way, and the assistant sets up whichever you pick. See [all deployment guides](Plugin/skills/sitekit/references/deployment/).
 
 ---
 
