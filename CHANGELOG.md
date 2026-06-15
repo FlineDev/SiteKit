@@ -14,5 +14,5 @@ Initial public release: an AI-first Swift static site generator with a phase-ori
 - SEO-complete output: canonical URLs, Open Graph, JSON-LD, hreflang, sitemap, robots, and `llms.txt`.
 - Built-in client-side search, responsive images, dark and light mode, and accessibility-minded semantic HTML.
 - AI-assisted localization with hreflang and fallbacks across 36 locales.
-- The `sitekit` command-line interface for building and previewing sites.
+- The `sitekit` command-line interface to scaffold new sites and manage the toolchain (`new`, `doctor`, `blueprints`, `update`).
 - An installable agent skill (`npx skills add FlineDev/SiteKit`) and a Claude Code plugin, also usable from Codex, Cursor, Windsurf, and Xcode 26.
