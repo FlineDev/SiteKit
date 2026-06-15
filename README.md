@@ -32,18 +32,19 @@ SiteKit is a static site generator written in Swift, driven by AI agents through
 
 ## What's built in
 
-You write Markdown; SiteKit handles the parts that make a site modern, fast, and findable:
+You write Markdown; SiteKit handles the rest:
 
-- **Write in plain Markdown.** Posts and pages are Markdown with YAML frontmatter – no Swift, no HTML required.
-- **Built-in search – on a static site.** A search index ships with every site: full-text search for DocC docs, fast title/section search elsewhere, all client-side with no backend.
-- **Dark & light mode with auto-detection.** Themes follow the visitor's system preference and add a manual toggle – again, no server needed.
-- **SEO out of the box.** Canonical URLs, Open Graph, Twitter cards, JSON-LD, hreflang, `sitemap.xml`, `robots.txt`, and an `llms.txt` for AI crawlers – emitted for every page.
-- **Accessibility-minded defaults.** Semantic HTML landmarks, keyboard-navigable theme JavaScript, and 15 colour schemes hand-tuned for WCAG AA contrast.
-- **Performance by default.** Critical-CSS ordering, responsive image variants, inlined icons, and minification – a fast First Contentful Paint without hand-tuning.
-- **AI-assisted localization.** Go multilingual with AI translation guided by your own style guide; SiteKit handles locale URLs, hreflang, missing-translation fallback, UI chrome in 36 locales, and a machine-readable translation-status report.
-- **Shareable draft previews.** Every draft gets an unlisted preview URL – kept out of sitemaps, RSS, and listings – so you can share it for feedback and iterate before you publish.
-- **Guided content writing.** The AI skill ships writing guides (blog, snippets, social) so a draft reads well and stays on-brand before it goes live.
-- **Free hosting.** Deploy to Cloudflare Pages for free: you pay only for your domain (we don't sell that) and the AI assistant you use. Any static host works too.
+- **Plain Markdown authoring** – posts and pages in Markdown with YAML frontmatter, no Swift or HTML.
+- **Responsive design** – layouts adapt to desktop, tablet, and phone out of the box.
+- **Dark & light mode** – follows the visitor's system preference, with a manual toggle.
+- **Built-in search** – a client-side index on a static site, full-text for docs.
+- **SEO complete** – canonical URLs, Open Graph, JSON-LD, hreflang, sitemap, robots, and `llms.txt`.
+- **Accessibility-minded** – semantic HTML, keyboard navigation, WCAG-AA-tuned colour schemes.
+- **Fast by default** – critical-CSS ordering, responsive images, inlined icons, minification.
+- **AI-assisted localization** – multilingual with hreflang, fallback, and UI chrome in 36 locales.
+- **Shareable draft previews** – unlisted URLs to share for feedback before publishing.
+- **Guided content writing** – built-in writing guides keep drafts on-brand.
+- **Free hosting** – deploy to Cloudflare Pages; you pay only for your domain.
 
 ---
 
