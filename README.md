@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://github.com/FlineDev/SiteKit/blob/main/Logo.png?raw=true" height="256" />
   <br><br>
-  <a href="#is-sitekit-for-you">Is it for you?</a> · <a href="#whats-built-in">Features</a> · <a href="#what-you-can-build">Blueprints</a> · <a href="#built-with-sitekit">Showcase</a> · <a href="#get-started">Get started</a> · <a href="#deploy">Deploy</a> · <a href="#contributing">Contributing</a>
+  <a href="#-is-sitekit-for-you">Is it for you?</a> · <a href="#-whats-built-in">Features</a> · <a href="#-what-you-can-build">Blueprints</a> · <a href="#️-built-with-sitekit">Showcase</a> · <a href="#-get-started">Get started</a> · <a href="#️-deploy">Deploy</a> · <a href="#-contributing">Contributing</a>
   <br><br>
   <img src="https://img.shields.io/badge/Swift-6.2-F05138?logo=swift&logoColor=white" alt="Swift 6.2" />
   <img src="https://img.shields.io/badge/Platforms-macOS%20%7C%20Linux-7d8590" alt="macOS | Linux" />

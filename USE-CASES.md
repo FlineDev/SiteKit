@@ -8,9 +8,9 @@ This is the index, not the explanation. For a guided walkthrough read [README.md
 
 | I want to… | Go to |
 |---|---|
-| Decide whether SiteKit fits my project | [README – Is SiteKit for you?](README.md#is-sitekit-for-you) |
+| Decide whether SiteKit fits my project | [README – Is SiteKit for you?](README.md#-is-sitekit-for-you) |
 | Pick a blueprint | [Blueprint catalog](Plugin/blueprints/INDEX.md) · deep: [blueprints.md](Plugin/skills/sitekit/references/blueprints.md) |
-| Install SiteKit + scaffold my first site | [README – Get started](README.md#get-started) · deep: [bootstrap.md](Plugin/skills/sitekit/references/bootstrap.md) |
+| Install SiteKit + scaffold my first site | [README – Get started](README.md#-get-started) · deep: [bootstrap.md](Plugin/skills/sitekit/references/bootstrap.md) |
 | Set up a new site end-to-end (the judgment-heavy flow) | [onboarding.md](Plugin/skills/sitekit/references/onboarding.md) |
 | Build a documentation site from a DocC catalog | [DocC blueprint](Plugin/blueprints/DocC.md) · deep: [markdown-extensions.md](Plugin/skills/sitekit/references/markdown-extensions.md) |
 
@@ -29,7 +29,7 @@ This is the index, not the explanation. For a guided walkthrough read [README.md
 
 | I want to… | Go to |
 |---|---|
-| Change colors, fonts, or layout | [README – Customise the look](README.md#customise-the-look) · deep: [themes.md](Plugin/skills/sitekit/references/themes.md) |
+| Change colors, fonts, or layout | [README – Customise the look](README.md#-your-new-site) · deep: [themes.md](Plugin/skills/sitekit/references/themes.md) |
 | Make the site multi-language | [localization.md](Plugin/skills/sitekit/references/localization.md) |
 | Audit accessibility (WCAG AA, alt text, keyboard nav) | [accessibility.md](Plugin/skills/sitekit/references/accessibility.md) |
 | Improve SEO / ASO / AI-discoverability | [seo-aso.md](Plugin/skills/sitekit/references/seo-aso.md) |
@@ -43,7 +43,7 @@ This is the index, not the explanation. For a guided walkthrough read [README.md
 | Deploy elsewhere or set up CI | [deployment – start here](Plugin/skills/sitekit/references/deployment/SKILL.md) |
 | Run a self-hosted newsletter (Keila + SMTP) | [newsletter-setup.md](Plugin/skills/sitekit/references/newsletter-setup.md) |
 | Choose external services (email sending, integrations) | [external-services.md](Plugin/skills/sitekit/references/external-services.md) |
-| Fix a failing build | [README – When something goes wrong](README.md#when-something-goes-wrong) · deep: [troubleshooting.md](Plugin/skills/sitekit/references/troubleshooting.md) |
+| Fix a failing build | [README – When something goes wrong](README.md#-when-something-goes-wrong) · deep: [troubleshooting.md](Plugin/skills/sitekit/references/troubleshooting.md) |
 
 ## Extend with Swift
 
