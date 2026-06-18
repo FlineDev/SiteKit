@@ -26,7 +26,7 @@ Read `<Name>.md` first, then copy files from `<Name>/`.
 | `Podcast` | Episode pages, audio player, chapters, iTunes RSS | Podcast shows, interview series | [Podcast.md](Podcast.md) | [appstore-tagebuch.de](https://appstore-tagebuch.de) |
 | `Newsletter` | Email newsletter with issue archive, signup forms, email rendering | Topic newsletters, curated digests, weekly/monthly roundups | [Newsletter.md](Newsletter.md) | [evolutionkit.dev](https://evolutionkit.dev) |
 | `AppLanding` | Single product landing page with hero, features, pricing, reviews | App marketing pages, SaaS products | [AppLanding.md](AppLanding.md) | [translatekit.pages.dev](https://translatekit.pages.dev) |
-| `DocC` | DocC catalog → static, AI-fetchable HTML with a sidebar + full-text search | Documentation sites, API/guide docs | [DocC.md](DocC.md) | [wwdcnotes.fline.dev](https://wwdcnotes.fline.dev) |
+| `DocC` | DocC catalog → static, AI-fetchable HTML with a sidebar + full-text search | Documentation sites, API/guide docs | [DocC.md](DocC.md) | [wwdcnotes.com](https://wwdcnotes.com) |
 | `Plain` | Minimal structure, no opinions | Experimentation, custom pipelines | [Plain.md](Plain.md) | – |
 
 ---

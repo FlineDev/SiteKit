@@ -733,7 +733,7 @@ extension SiteBuilder {
 enum BaseURLOverrideError: Error, Equatable, CustomStringConvertible {
    /// `--base-url` was passed as the last argument, with no value following it.
    case missingValue
-   /// The value is not an absolute http(s) URL (e.g. `wwdcnotes.fline.dev` without a scheme).
+   /// The value is not an absolute http(s) URL (e.g. `wwdcnotes.com` without a scheme).
    case notAnAbsoluteHTTPURL(String)
 
    var description: String {
