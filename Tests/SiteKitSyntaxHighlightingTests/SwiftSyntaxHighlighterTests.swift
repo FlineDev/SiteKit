@@ -78,50 +78,31 @@ struct SwiftSyntaxHighlighterTests {
       self.expectSpan(result, role: "variable", text: "count")
    }
 
-   // MARK: - Framework-vs-project type split (the committed allowlist heuristic)
+   // MARK: - Capitalized types all map to the single type role
 
-   @Test("A framework type stays type (purple) – present in the committed allowlist")
-   func frameworkTypeStaysType() {
-      // `ScrollView` is an SDK type in the committed allowlist, so it keeps the framework `type` role.
-      let code = "ScrollView { Text(title) }"
-      let result = self.highlighter.highlight(code: code, language: "swift")
-      self.expectSpan(result, role: "type", text: "ScrollView")
-      self.expectSpan(result, role: "type", text: "Text")
-   }
-
-   @Test("A project type becomes projecttype (green) – absent from the allowlist")
-   func projectTypeBecomesProjectType() {
-      // `StickerListItemView` is a project-defined type (not in the allowlist), so it splits off the
-      // framework purple into the green `projecttype` role – the headline of this refinement.
+   @Test("A project-defined type is classified type, just like an SDK type")
+   func projectDefinedTypeIsType() {
+      // With the framework-vs-project split removed, every capitalized type – SDK or project-defined –
+      // takes the single `type` role, exactly like the regex highlighter.
       let code = "StickerListItemView(sticker: sticker)"
       let result = self.highlighter.highlight(code: code, language: "swift")
-      self.expectSpan(result, role: "projecttype", text: "StickerListItemView")
-   }
-
-   @Test("A type in TYPE position is split too (annotation, not just an initializer)")
-   func typePositionIsSplit() {
-      // The base SwiftIDEUtils pass classifies these as `.type` (not via the expression visitors), so
-      // the split must apply to the base mapping as well: `View` framework→type, `Sticker` project→projecttype.
-      let code = "struct Row: View { var items: [Sticker] = [] }"
-      let result = self.highlighter.highlight(code: code, language: "swift")
-      self.expectSpan(result, role: "type", text: "View")
-      self.expectSpan(result, role: "projecttype", text: "Sticker")
-   }
-
-   @Test("additionalFrameworkTypes promotes a name to the framework type role")
-   func additionalFrameworkTypesPromotesToType() {
-      // A site can color its own umbrella/design-system types like the SDK by passing them in. The
-      // same name that is `projecttype` by default becomes framework `type` once added.
-      let code = "StickerListItemView(sticker: sticker)"
-      let promoting = SwiftSyntaxHighlighter(additionalFrameworkTypes: ["StickerListItemView"])
-      let result = promoting.highlight(code: code, language: "swift")
       self.expectSpan(result, role: "type", text: "StickerListItemView")
    }
 
-   @Test("The swipe-actions block splits framework vs project types and keeps values green")
-   func swipeBlockFrameworkVsProjectSplit() {
-      // The representative SwiftUI swipe-actions block: SDK container/iteration types stay purple,
-      // the project's row/button types go green, and the value references stay the headline green.
+   @Test("A type in TYPE position is classified type (annotation, not just an initializer)")
+   func typePositionIsType() {
+      // The base SwiftIDEUtils pass classifies these as `.type` (not via the expression visitors), so
+      // the base mapping must also produce `type`: both `View` and the project's `Sticker`.
+      let code = "struct Row: View { var items: [Sticker] = [] }"
+      let result = self.highlighter.highlight(code: code, language: "swift")
+      self.expectSpan(result, role: "type", text: "View")
+      self.expectSpan(result, role: "type", text: "Sticker")
+   }
+
+   @Test("The swipe-actions block classifies every capitalized type as type and keeps values green")
+   func swipeBlockTypesAndGreenValues() {
+      // The representative SwiftUI swipe-actions block: SDK and project types alike read as `type`,
+      // and the value references stay the headline green `variable`.
       let code = """
       ScrollView {
          LazyVStack {
@@ -138,8 +119,8 @@ struct SwiftSyntaxHighlighterTests {
       self.expectSpan(result, role: "type", text: "ScrollView")
       self.expectSpan(result, role: "type", text: "LazyVStack")
       self.expectSpan(result, role: "type", text: "ForEach")
-      self.expectSpan(result, role: "projecttype", text: "StickerListItemView")
-      self.expectSpan(result, role: "projecttype", text: "DeleteButton")
+      self.expectSpan(result, role: "type", text: "StickerListItemView")
+      self.expectSpan(result, role: "type", text: "DeleteButton")
       self.expectSpan(result, role: "variable", text: "stickers")
       self.expectSpan(result, role: "variable", text: "sticker")
    }
@@ -173,8 +154,8 @@ struct SwiftSyntaxHighlighterTests {
       let result = self.highlighter.highlight(code: code, language: "swift")
       #expect(!result.isEmpty)
       self.expectSpan(result, role: "variable", text: "stickers")
-      // `StickerListItemView` is a project type (absent from the framework allowlist) → projecttype.
-      self.expectSpan(result, role: "projecttype", text: "StickerListItemView")
+      // `StickerListItemView` is a capitalized type → the single `type` role.
+      self.expectSpan(result, role: "type", text: "StickerListItemView")
    }
 
    @Test("Empty input returns empty output")

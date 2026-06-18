@@ -4138,23 +4138,15 @@ body.sk-docc-shell-body {
    font-weight: 600;
 }
 
-/* Framework / known type references: purple. `sk-tok-type` now means a capitalized type whose name is
-   in the highlighter's committed framework allowlist (SDK + curated UIKit/AppKit/CoreGraphics/stdlib),
-   so `ScrollView` reads purple while a project's own type goes green via sk-tok-projecttype below. */
+/* Type references: purple. Every capitalized type – initializer, annotation, or bare reference –
+   uses this single role, matching the regex highlighter (`ScrollView`, `Text`, and a project's own
+   `StickerListItemView` all read purple). */
 .sk-docc-highlight .sk-tok-type {
    color: #703DAA;
 }
 
-/* Project (non-framework) type references: green – approximates Xcode, where a project's own
-   `StickerListItemView` reads green while SDK types read purple. Placeholder green (matches the
-   variable green for now); the exact, distinct-from-variable green is finalised in the colour pass. */
-.sk-docc-highlight .sk-tok-projecttype {
-   color: #3C7D3C;
-}
-
-/* Calls: seeded green for "more colour" (it greens project initializers like `StickerListItemView`);
-   flip to the type purple for the cleaner look that keeps framework `ForEach` from going green – a
-   CSS-only change, no Swift rebuild. */
+/* Free-function calls – a lowercase callee like `print`: green. A capitalized callee is a type
+   initializer and takes the purple `sk-tok-type` above instead. */
 .sk-docc-highlight .sk-tok-call {
    color: #3C7D3C;
 }
@@ -4193,9 +4185,6 @@ body.sk-docc-shell-body {
 }
 [data-theme="dark"] .sk-docc-highlight .sk-tok-type {
    color: #DABAFF;
-}
-[data-theme="dark"] .sk-docc-highlight .sk-tok-projecttype {
-   color: #7FD98A;
 }
 [data-theme="dark"] .sk-docc-highlight .sk-tok-call {
    color: #7FD98A;
