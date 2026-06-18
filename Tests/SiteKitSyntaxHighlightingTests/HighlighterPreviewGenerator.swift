@@ -71,8 +71,12 @@ struct HighlighterPreviewGenerator {
       <body>
       <h1>SwiftSyntax Swift highlighter preview</h1>
       <p class="note">Each syntactic role is a separate <code>sk-tok-*</code> class, so the palette is a
-      pure-CSS concern. Variable references (<code>stickers</code>, the <code>sticker</code> usage,
-      <code>count</code>) classify as <b>variable</b> and render <span class="legend-var">green</span>.</p>
+      pure-CSS concern. Variable references (<code>stickers</code>, the <code>sticker</code> usage)
+      classify as <b>variable</b> and render <span class="legend-var">green</span>. Capitalized types
+      are split by a committed framework allowlist: framework types (<code>ScrollView</code>,
+      <code>View</code>) stay <b>type</b> (purple), project types (<code>StickerListItemView</code>,
+      <code>DeleteButton</code>, <code>Sticker</code>) become <b>projecttype</b>
+      (<span class="legend-var">green</span>), as in Xcode.</p>
 
       <h2>1 · Classification – each role in a distinct debug color</h2>
       <p class="note">Arbitrary, deliberately-distinct colors so every role is visible; proves the
@@ -99,7 +103,8 @@ struct HighlighterPreviewGenerator {
 
    private static let legend: String = {
       let roles: [(String, String)] = [
-         ("keyword", "struct, var, in"), ("type", "ScrollView, Sticker"), ("call", "lowercase callee"),
+         ("keyword", "struct, var, in"), ("type", "ScrollView, View (framework)"),
+         ("projecttype", "StickerListItemView (project)"), ("call", "lowercase callee"),
          ("variable", "stickers, sticker (use)"), ("member", ".swipeActions, .id"), ("param", "sticker binding"),
          ("string", "\"Delete\""), ("number", "12"), ("boolean", "true / nil"),
          ("attribute", "@State"), ("comment", "// …"), ("operator", "=="), ("label", "spacing:, edge:"),
@@ -129,10 +134,11 @@ struct HighlighterPreviewGenerator {
    .chip small { color: #777; }
 
    /* Panel 1 – distinct debug colors (one per role). */
-   .debug .sk-tok-keyword   { color: #C026D3; font-weight: 700; }
-   .debug .sk-tok-type      { color: #2563EB; }
-   .debug .sk-tok-call      { color: #EA580C; }
-   .debug .sk-tok-variable  { color: #16A34A; font-weight: 600; }
+   .debug .sk-tok-keyword     { color: #C026D3; font-weight: 700; }
+   .debug .sk-tok-type        { color: #2563EB; }
+   .debug .sk-tok-projecttype { color: #059669; font-weight: 600; }
+   .debug .sk-tok-call        { color: #EA580C; }
+   .debug .sk-tok-variable    { color: #16A34A; font-weight: 600; }
    .debug .sk-tok-member    { color: #0D9488; }
    .debug .sk-tok-param     { color: #CA8A04; }
    .debug .sk-tok-string    { color: #DC2626; }
@@ -144,10 +150,11 @@ struct HighlighterPreviewGenerator {
    .debug .sk-tok-label     { color: #9333EA; }
 
    /* Panel 2 – the Apple/Xcode palette that core docc.css ships. call = green. */
-   .palette.light .sk-tok-keyword   { color: #AD3DA4; font-weight: 600; }
-   .palette.light .sk-tok-type      { color: #703DAA; }
-   .palette.light .sk-tok-call      { color: #3C7D3C; }
-   .palette.light .sk-tok-variable  { color: #3C7D3C; }
+   .palette.light .sk-tok-keyword     { color: #AD3DA4; font-weight: 600; }
+   .palette.light .sk-tok-type        { color: #703DAA; }
+   .palette.light .sk-tok-projecttype { color: #3C7D3C; }
+   .palette.light .sk-tok-call        { color: #3C7D3C; }
+   .palette.light .sk-tok-variable    { color: #3C7D3C; }
    .palette.light .sk-tok-string    { color: #D12F1B; }
    .palette.light .sk-tok-number    { color: #272AD8; }
    .palette.light .sk-tok-boolean   { color: #AD3DA4; }
@@ -155,10 +162,11 @@ struct HighlighterPreviewGenerator {
    .palette.light .sk-tok-comment   { color: #707F8C; font-style: italic; }
    /* member / param / operator / label inherit the default text color. */
 
-   .palette.dark .sk-tok-keyword   { color: #FF7AB2; font-weight: 600; }
-   .palette.dark .sk-tok-type      { color: #DABAFF; }
-   .palette.dark .sk-tok-call      { color: #7FD98A; }
-   .palette.dark .sk-tok-variable  { color: #7FD98A; }
+   .palette.dark .sk-tok-keyword     { color: #FF7AB2; font-weight: 600; }
+   .palette.dark .sk-tok-type        { color: #DABAFF; }
+   .palette.dark .sk-tok-projecttype { color: #7FD98A; }
+   .palette.dark .sk-tok-call        { color: #7FD98A; }
+   .palette.dark .sk-tok-variable    { color: #7FD98A; }
    .palette.dark .sk-tok-string    { color: #FF8170; }
    .palette.dark .sk-tok-number    { color: #D9C97C; }
    .palette.dark .sk-tok-boolean   { color: #FF7AB2; }

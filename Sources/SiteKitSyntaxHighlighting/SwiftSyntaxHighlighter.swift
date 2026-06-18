@@ -13,9 +13,11 @@ import SwiftSyntax
 /// labels (`label`). It does so purely from the parsed syntax tree – no type-checker or symbol
 /// graph – so it is fast and error-tolerant on the partial code fragments common in DocC notes.
 ///
-/// Known limit: the classification is SYNTACTIC, not semantic. It cannot reproduce Xcode's
-/// framework-vs-project split (e.g. `ScrollView` vs a project's `StickerListItemView` are both
-/// just capitalized type references), so every type reference shares the one `type` role.
+/// The classification is SYNTACTIC, not semantic, so the framework-vs-project type split (e.g.
+/// `ScrollView` vs a project's `StickerListItemView`) is APPROXIMATED from a committed framework-type
+/// allowlist rather than a symbol graph: a capitalized type whose name is in the allowlist keeps the
+/// `type` role (framework, purple), any other capitalized type becomes `projecttype` (project, green).
+/// Extend the allowlist per site with `additionalFrameworkTypes`.
 ///
 /// Non-Swift snippets (and nil/empty languages) are delegated to a fallback highlighter – by
 /// default the zero-dependency regex `CodeHighlighter` – so a DocC site can inject this single
@@ -23,13 +25,23 @@ import SwiftSyntax
 public struct SwiftSyntaxHighlighter: CodeHighlighting {
    private let fallback: any CodeHighlighting
 
+   /// The effective framework-type set: the committed `FrameworkTypeAllowlist` unioned with any
+   /// `additionalFrameworkTypes` passed at init. Capitalized types in this set render as framework
+   /// `type`; all other capitalized types render as project `projecttype`.
+   private let frameworkTypes: Set<String>
+
    /// Creates a SwiftSyntax-based highlighter.
    ///
-   /// - Parameter fallback: The highlighter used for non-Swift snippets and nil/empty languages.
-   ///   Pass nil (the default) to use the zero-dependency regex `CodeHighlighter`. Resolved
-   ///   internally so the default does not reference an internal type across the module boundary.
-   public init(fallback: (any CodeHighlighting)? = nil) {
+   /// - Parameters:
+   ///   - fallback: The highlighter used for non-Swift snippets and nil/empty languages. Pass nil
+   ///     (the default) to use the zero-dependency regex `CodeHighlighter`. Resolved internally so the
+   ///     default does not reference an internal type across the module boundary.
+   ///   - additionalFrameworkTypes: Extra type names to treat as framework (purple) types on top of
+   ///     the committed allowlist, e.g. a site's own design-system or umbrella-framework types it
+   ///     wants colored like the SDK. Defaults to empty, leaving the behavior unchanged.
+   public init(fallback: (any CodeHighlighting)? = nil, additionalFrameworkTypes: Set<String> = []) {
       self.fallback = fallback ?? CodeHighlighter()
+      self.frameworkTypes = FrameworkTypeAllowlist.frameworkTypeNames.union(additionalFrameworkTypes)
    }
 
    public func highlight(code: String, language: String?) -> String {
@@ -37,20 +49,20 @@ public struct SwiftSyntaxHighlighter: CodeHighlighting {
             language == "swift" else {
          return self.fallback.highlight(code: code, language: language)
       }
-      return Self.highlightSwift(code)
+      return self.highlightSwift(code)
    }
 
    // MARK: - Swift highlighting
 
    /// Parses `code`, merges the base syntactic classification with the per-token role refinement,
    /// and emits one HTML fragment of escaped, role-tagged spans.
-   static func highlightSwift(_ code: String) -> String {
+   func highlightSwift(_ code: String) -> String {
       let bytes = Array(code.utf8)
       let count = bytes.count
       guard count > 0 else { return "" }
 
       let tree = Parser.parse(source: code)
-      let roleMap = SwiftTokenRoleClassifier.classify(tree)
+      let roleMap = SwiftTokenRoleClassifier.classify(tree, frameworkTypes: self.frameworkTypes)
 
       var output = ""
       var cursor = 0
@@ -68,7 +80,7 @@ public struct SwiftSyntaxHighlighter: CodeHighlighting {
          }
 
          let text = Self.escapedSlice(bytes, from: lower, to: upper)
-         if let role = Self.role(forKind: classified.kind, offset: lower, bytes: bytes, from: lower, to: upper, roleMap: roleMap) {
+         if let role = self.role(forKind: classified.kind, offset: lower, bytes: bytes, from: lower, to: upper, roleMap: roleMap) {
             output += "<span class=\"sk-tok-\(role)\">\(text)</span>"
          } else {
             output += text
@@ -84,7 +96,7 @@ public struct SwiftSyntaxHighlighter: CodeHighlighting {
 
    /// Resolves the final `sk-tok-*` role class for one classified range: a visitor refinement when
    /// present, otherwise a direct mapping of the base `SyntaxClassification`.
-   private static func role(
+   private func role(
       forKind kind: SyntaxClassification,
       offset: Int,
       bytes: [UInt8],
@@ -99,7 +111,11 @@ public struct SwiftSyntaxHighlighter: CodeHighlighting {
       case .keyword, .ifConfigDirective:
          return "keyword"
       case .type:
-         return "type"
+         // A token the base pass already knows sits in TYPE position (`View` in `: View`, `Sticker`
+         // in `[Sticker]`). Split it by the framework allowlist like the expression-visitor types, so
+         // type annotations get the same framework-vs-project palette as type initializers.
+         let name = String(decoding: bytes[lower..<upper], as: UTF8.self)
+         return FrameworkTypeAllowlist.role(forTypeName: name, in: self.frameworkTypes)
       case .stringLiteral, .regexLiteral:
          return "string"
       case .integerLiteral, .floatLiteral:
@@ -117,10 +133,10 @@ public struct SwiftSyntaxHighlighter: CodeHighlighting {
          return "variable"
       case .identifier:
          // An identifier the role visitor did not refine. Mirror the regex highlighter's only
-         // heuristic – a capitalized identifier is a type – and leave anything else uncolored
-         // rather than guess.
+         // heuristic – a capitalized identifier is a type – then split it by the framework allowlist;
+         // leave anything else uncolored rather than guess.
          let text = String(decoding: bytes[lower..<upper], as: UTF8.self)
-         return text.first?.isUppercase == true ? "type" : nil
+         return text.first?.isUppercase == true ? FrameworkTypeAllowlist.role(forTypeName: text, in: self.frameworkTypes) : nil
       case .editorPlaceholder, .none:
          return nil
       @unknown default:

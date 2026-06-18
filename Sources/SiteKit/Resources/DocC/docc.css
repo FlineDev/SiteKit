@@ -4138,10 +4138,18 @@ body.sk-docc-shell-body {
    font-weight: 600;
 }
 
-/* Type references: purple. All type references share this one colour – a syntactic highlighter cannot
-   reproduce Xcode's framework-vs-project split, so `ScrollView` and a project's own type look alike. */
+/* Framework / known type references: purple. `sk-tok-type` now means a capitalized type whose name is
+   in the highlighter's committed framework allowlist (SDK + curated UIKit/AppKit/CoreGraphics/stdlib),
+   so `ScrollView` reads purple while a project's own type goes green via sk-tok-projecttype below. */
 .sk-docc-highlight .sk-tok-type {
    color: #703DAA;
+}
+
+/* Project (non-framework) type references: green – approximates Xcode, where a project's own
+   `StickerListItemView` reads green while SDK types read purple. Placeholder green (matches the
+   variable green for now); the exact, distinct-from-variable green is finalised in the colour pass. */
+.sk-docc-highlight .sk-tok-projecttype {
+   color: #3C7D3C;
 }
 
 /* Calls: seeded green for "more colour" (it greens project initializers like `StickerListItemView`);
@@ -4185,6 +4193,9 @@ body.sk-docc-shell-body {
 }
 [data-theme="dark"] .sk-docc-highlight .sk-tok-type {
    color: #DABAFF;
+}
+[data-theme="dark"] .sk-docc-highlight .sk-tok-projecttype {
+   color: #7FD98A;
 }
 [data-theme="dark"] .sk-docc-highlight .sk-tok-call {
    color: #7FD98A;

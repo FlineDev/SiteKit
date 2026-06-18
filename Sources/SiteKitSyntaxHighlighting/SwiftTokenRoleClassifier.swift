@@ -23,14 +23,32 @@ final class SwiftTokenRoleClassifier: SyntaxVisitor {
    /// Byte offset of a token's content start → its refined `sk-tok-*` role class.
    private(set) var roles: [Int: String] = [:]
 
-   /// Classifies every refinable token in `tree` and returns the offset→role map.
-   static func classify(_ tree: SourceFileSyntax) -> [Int: String] {
-      let visitor = SwiftTokenRoleClassifier(viewMode: .sourceAccurate)
+   /// The effective framework-type set used to split a capitalized type into a framework `type` or a
+   /// project `projecttype`. Holds the committed allowlist optionally unioned with per-highlighter
+   /// additions; the split itself goes through `FrameworkTypeAllowlist.role(forTypeName:in:)`.
+   private let frameworkTypes: Set<String>
+
+   private init(frameworkTypes: Set<String>) {
+      self.frameworkTypes = frameworkTypes
+      super.init(viewMode: .sourceAccurate)
+   }
+
+   /// Classifies every refinable token in `tree` and returns the offset→role map. `frameworkTypes` is
+   /// the effective allowlist that decides, per capitalized type token, framework `type` vs project
+   /// `projecttype`.
+   static func classify(_ tree: SourceFileSyntax, frameworkTypes: Set<String>) -> [Int: String] {
+      let visitor = SwiftTokenRoleClassifier(frameworkTypes: frameworkTypes)
       visitor.walk(tree)
       return visitor.roles
    }
 
    // MARK: - Helpers
+
+   /// The role for a capitalized type token (`type` if its name is a framework / known type, else the
+   /// project-type `projecttype`), resolved against this classifier's effective framework set.
+   private func typeRole(forName name: String) -> String {
+      FrameworkTypeAllowlist.role(forTypeName: name, in: self.frameworkTypes)
+   }
 
    private func byteOffset(of token: TokenSyntax) -> Int {
       token.positionAfterSkippingLeadingTrivia.utf8Offset
@@ -59,14 +77,15 @@ final class SwiftTokenRoleClassifier: SyntaxVisitor {
 
    override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {
       // The callee identifies what kind of call this is. A capitalized callee is a type
-      // initializer (`ScrollView { … }`, `ForEach(…)`, `StickerListItemView(…)`) – we cannot
-      // tell a framework type from a project type syntactically, so every type reference shares
-      // the one `type` role. A lowercase callee is a free-function call (`print(…)`). A member
-      // callee (`view.swipeActions(…)`) is left to the member-access visitor so the member keeps
-      // its `member` role whether or not it is called.
+      // initializer (`ScrollView { … }`, `ForEach(…)`, `StickerListItemView(…)`); its name is split
+      // against the committed framework allowlist into a framework `type` (purple) or a project
+      // `projecttype` (green), approximating Xcode's framework-vs-project palette without a symbol
+      // graph. A lowercase callee is a free-function call (`print(…)`). A member callee
+      // (`view.swipeActions(…)`) is left to the member-access visitor so the member keeps its
+      // `member` role whether or not it is called.
       if let reference = node.calledExpression.as(DeclReferenceExprSyntax.self),
          self.isIdentifierToken(reference.baseName) {
-         let role = self.startsUppercased(reference.baseName.text) ? "type" : "call"
+         let role = self.startsUppercased(reference.baseName.text) ? self.typeRole(forName: reference.baseName.text) : "call"
          self.set(role, at: reference.baseName)
       }
       return .visitChildren
@@ -91,12 +110,13 @@ final class SwiftTokenRoleClassifier: SyntaxVisitor {
       // Reached for every declaration reference. Callees and member names were already assigned
       // by their parent above, so only fill the ones still unset: a lowercase reference is a value
       // (`stickers`, `sticker`) → the headline green `variable`; a capitalized one is a bare type
-      // reference (`Color.red`'s `Color`, a metatype) → `type`.
+      // reference (`Color.red`'s `Color`, a metatype) → split by the framework allowlist into a
+      // framework `type` or a project `projecttype`.
       let token = node.baseName
       guard self.isIdentifierToken(token) else { return .visitChildren }
       let offset = self.byteOffset(of: token)
       guard self.roles[offset] == nil else { return .visitChildren }
-      self.roles[offset] = self.startsUppercased(token.text) ? "type" : "variable"
+      self.roles[offset] = self.startsUppercased(token.text) ? self.typeRole(forName: token.text) : "variable"
       return .visitChildren
    }
 
