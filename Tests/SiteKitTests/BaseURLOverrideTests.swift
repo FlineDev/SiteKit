@@ -39,8 +39,8 @@ struct BaseURLOverrideTests {
 
    @Test("Scheme-less value throws instead of silently building broken absolute URLs")
    func schemelessValue() {
-      #expect(throws: BaseURLOverrideError.notAnAbsoluteHTTPURL("wwdcnotes.fline.dev")) {
-         try SiteBuilder.baseURLOverride(from: ["Site", "build", "--base-url", "wwdcnotes.fline.dev"])
+      #expect(throws: BaseURLOverrideError.notAnAbsoluteHTTPURL("wwdcnotes.com")) {
+         try SiteBuilder.baseURLOverride(from: ["Site", "build", "--base-url", "wwdcnotes.com"])
       }
    }
 

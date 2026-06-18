@@ -27,10 +27,28 @@ public struct DocCLoader: Loader {
    /// untagged blocks are highlighted as if they were tagged with this language. Nil means
    /// plain escaped text. Does not override an explicitly tagged block's language.
    private let defaultCodeLanguage: String?
+   /// The code highlighter applied to fenced code blocks. Defaults to the zero-dependency
+   /// regex `CodeHighlighter`; a DocC site can inject `SwiftSyntaxHighlighter` (from the
+   /// `SiteKitSyntaxHighlighting` product) for semantic-near Swift token roles.
+   private let highlighter: any CodeHighlighting
 
-   public init(language: String = "en", defaultCodeLanguage: String? = nil) {
+   /// Creates a DocC loader.
+   ///
+   /// - Parameters:
+   ///   - language: The locale this loader produces pages for.
+   ///   - defaultCodeLanguage: Fallback language for untagged fenced code blocks.
+   ///   - highlighter: The code highlighter for fenced blocks. Pass nil (the default) to use the
+   ///     zero-dependency regex `CodeHighlighter`; inject `SwiftSyntaxHighlighter` for the richer
+   ///     SwiftSyntax-based Swift roles. The default is resolved internally so callers depending
+   ///     only on `SiteKit` never reference the swift-syntax product.
+   public init(
+      language: String = "en",
+      defaultCodeLanguage: String? = nil,
+      highlighter: (any CodeHighlighting)? = nil
+   ) {
       self.language = language
       self.defaultCodeLanguage = defaultCodeLanguage
+      self.highlighter = highlighter ?? CodeHighlighter()
    }
 
    public func load(source: MarkdownSource) throws -> PageModel {
@@ -119,7 +137,7 @@ public struct DocCLoader: Loader {
          extensions["doccAIOnly"] = true
       } else if let aiBody = self.aiVariantBodyHTML(communityPath: source.filePath) {
          // Apply syntax highlighting to the AI-variant body as well.
-         let highlightedAI = CodeHighlighter.applyToBodyHTML(aiBody, defaultLanguage: self.defaultCodeLanguage)
+         let highlightedAI = self.highlighter.applyToBodyHTML(aiBody, defaultLanguage: self.defaultCodeLanguage)
          extensions["doccAIVariant"] = highlightedAI
       }
 
@@ -127,7 +145,7 @@ public struct DocCLoader: Loader {
       // DocC notes only: the MarkdownRenderer is shared across all site types and must
       // not be changed. Highlighting is applied here (post-rendering, pre-PageModel) so
       // it is cleanly isolated and does not affect non-DocC pages.
-      let highlightedBodyHTML = CodeHighlighter.applyToBodyHTML(
+      let highlightedBodyHTML = self.highlighter.applyToBodyHTML(
          parsed.bodyHTML,
          defaultLanguage: self.defaultCodeLanguage
       )

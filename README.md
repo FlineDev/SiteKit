@@ -61,7 +61,7 @@ SiteKit ships **9 blueprints** – starter sites you scaffold and customise. Eac
 | **Podcast** | Episode pages, audio player, iTunes RSS | [Podcast.md](Plugin/blueprints/Podcast.md) | [appstore-tagebuch.de](https://appstore-tagebuch.de) |
 | **Newsletter** | Issue archive, signup forms, email rendering | [Newsletter.md](Plugin/blueprints/Newsletter.md) | [evolutionkit.dev](https://evolutionkit.dev) |
 | **AppLanding** | Single product landing page (hero, features, pricing) | [AppLanding.md](Plugin/blueprints/AppLanding.md) | [translatekit.pages.dev](https://translatekit.pages.dev) |
-| **DocC** | DocC catalog → docs site with sidebar + full-text search | [DocC.md](Plugin/blueprints/DocC.md) | [wwdcnotes.fline.dev](https://wwdcnotes.fline.dev) |
+| **DocC** | DocC catalog → docs site with sidebar + full-text search | [DocC.md](Plugin/blueprints/DocC.md) | [wwdcnotes.com](https://wwdcnotes.com) |
 | **Plain** | Minimal, no opinions – a blank canvas | [Plain.md](Plugin/blueprints/Plain.md) | – |
 
 Not sure which to pick? The [blueprint catalog](Plugin/blueprints/INDEX.md) has a decision tree and a feature comparison.
