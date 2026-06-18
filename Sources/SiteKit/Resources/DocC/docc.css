@@ -4039,6 +4039,33 @@ body.sk-docc-shell-body {
    border-radius: 4px;
 }
 
+/* A linked inline-code pill must read as interactive, not as just another code pill. The base link
+   affordance (accent color + prose underline) is otherwise lost: the neutral pill above already
+   carries an accent-leaning border, and a host theme that sets a bare `code { color: ... }` (legacy
+   sites often do) flattens the inherited link color outright. The DESCENDANT selector with
+   :not([class]) lands at specificity (0,2,2), so it out-ranks both the neutral pill (0,2,1) for the
+   border/tint and any bare `code` color rule (0,0,1) for the text color. Give the pill an explicit
+   accent text color, a visible underline, and an accent-dominant border + tint so it is unmistakably
+   a link in every scheme while keeping the redesign's pill shape. `code a` covers the reverse nesting
+   (a link wrapped inside a code span). */
+.sk-article-body a code:not([class]) {
+   color: var(--color-accent);
+   border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-border));
+   background: color-mix(in srgb, var(--color-accent) 14%, var(--color-bg-code-inline));
+   text-decoration: underline;
+   text-underline-offset: 2px;
+}
+.sk-article-body code a {
+   color: var(--color-accent);
+   text-decoration: underline;
+   text-underline-offset: 2px;
+}
+.sk-article-body a:hover code:not([class]),
+.sk-article-body code a:hover {
+   color: var(--color-accent-hover, var(--color-accent));
+   border-color: var(--color-accent);
+}
+
 /* Code inside any fenced block fills the block and drops the inline treatment: block display, no
    padding/border, inherited size. Covers both highlighted (<code class="language-...">) and the
    class-less <code> of an un-highlighted block. */
@@ -4062,11 +4089,21 @@ body.sk-docc-shell-body {
 }
 
 /* ── Syntax-highlight token colors ───────────────────────────────
-   Token spans emitted by CodeHighlighter during build time. All colors are
-   theme-token-driven via color-mix so they adapt to every color scheme and
-   both light/dark modes without per-scheme overrides.
-   The .sk-docc-highlight scope gate ensures these rules never affect non-DocC
-   or un-highlighted code blocks. */
+   Token spans emitted by CodeHighlighter during build time.
+
+   The palette is INDEPENDENT, not accent-derived. An earlier version mixed every token from
+   var(--color-accent), which collapsed to near-monochrome under a strongly saturated accent: the
+   accent-dominant mix swamped each token's secondary hue, so keyword/type/string/number all read as
+   one colour (e.g. all-blue or all-orange) and only comments stood apart. Syntax highlighting works
+   on stable, learned colours, so code legibility outranks per-scheme tinting here. Each token gets a
+   curated, distinct hue (Xcode/DocC-like): green strings, teal types, violet numbers, magenta
+   attributes. Only the KEYWORD stays var(--color-accent) – it is the strongest signal and keeps a
+   thread of brand/scheme cohesion. Comments stay muted + italic.
+
+   Light values live here at the default scope; dark values flip under [data-theme="dark"] below,
+   matching the same mechanism the generated tokens.css uses to switch modes. Hexes are hand-checked
+   for WCAG AA (>= 4.5:1) against --color-bg-code in both modes. The .sk-docc-highlight scope gate
+   ensures these rules never affect non-DocC or un-highlighted code blocks. */
 
 /* Comments: muted, italicised – conventional across editors. */
 .sk-docc-highlight .sk-tok-comment {
@@ -4074,31 +4111,47 @@ body.sk-docc-shell-body {
    font-style: italic;
 }
 
-/* String literals: accent-adjacent warm tone derived from the scheme accent.
-   color-mix shifts toward a green-adjacent hue on most schemes while keeping
-   contrast – works in both light and dark because the accent itself is always
-   legible against the code surface. */
+/* String literals: green – the most widely learned string colour. */
 .sk-docc-highlight .sk-tok-string {
-   color: color-mix(in srgb, var(--color-accent) 80%, #22c55e);
+   color: #166534;
 }
 
-/* Numeric literals: a complementary warm tone. */
+/* Numeric literals: violet, distinct from a blue or warm accent in either mode. */
 .sk-docc-highlight .sk-tok-number {
-   color: color-mix(in srgb, var(--color-accent) 60%, #f59e0b);
+   color: #6d28d9;
 }
 
-/* Keywords: accent color (the strongest semantic signal). */
+/* Keywords: accent colour (the strongest semantic signal, and the one brand-tied token). */
 .sk-docc-highlight .sk-tok-keyword {
    color: var(--color-accent);
    font-weight: 600;
 }
 
-/* Type names: a slightly lighter or shifted accent-adjacent tone. */
+/* Type names: teal – the conventional DocC type colour, and the most frequent token, so it must
+   stay clearly separate from the accent-coloured keyword. */
 .sk-docc-highlight .sk-tok-type {
-   color: color-mix(in srgb, var(--color-accent) 75%, #818cf8);
+   color: #115e59;
 }
 
-/* Attributes (@MainActor, @State, …): a purple-shifted tone distinct from keywords. */
+/* Attributes (@MainActor, @State, …): magenta, distinct from the violet numbers. */
 .sk-docc-highlight .sk-tok-attribute {
-   color: color-mix(in srgb, var(--color-accent) 55%, #a78bfa);
+   color: #a21caf;
+}
+
+/* Dark mode: the same hue families, lifted to lighter tints so each token clears WCAG AA against the
+   darker --color-bg-code. Driven by [data-theme="dark"] (the toggle the head script sets and the
+   generated tokens.css switches on), so it tracks the active theme. Keyword and comment need no flip
+   – keyword rides var(--color-accent) and comment rides var(--color-text-secondary), both of which
+   the token layer already swaps per mode. */
+[data-theme="dark"] .sk-docc-highlight .sk-tok-string {
+   color: #4ade80;
+}
+[data-theme="dark"] .sk-docc-highlight .sk-tok-number {
+   color: #c4b5fd;
+}
+[data-theme="dark"] .sk-docc-highlight .sk-tok-type {
+   color: #2dd4bf;
+}
+[data-theme="dark"] .sk-docc-highlight .sk-tok-attribute {
+   color: #f0abfc;
 }
