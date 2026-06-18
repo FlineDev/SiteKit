@@ -19,9 +19,21 @@ import Foundation
 /// ```swift
 /// let html = CodeHighlighter.highlight(code: rawCode, language: "swift")
 /// ```
-struct CodeHighlighter {
+public struct CodeHighlighter: CodeHighlighting {
 
-   // MARK: - Public API
+   /// Creates the zero-dependency regex highlighter – the default DocC code highlighter.
+   public init() {}
+
+   // MARK: - CodeHighlighting
+
+   /// Highlights `code` for `language`, satisfying the `CodeHighlighting` seam. Forwards to the
+   /// static `highlight(code:language:)` entry point that carries the regex implementation, so
+   /// the regex logic has a single home while `DocCLoader` can hold this as `any CodeHighlighting`.
+   public func highlight(code: String, language: String?) -> String {
+      Self.highlight(code: code, language: language)
+   }
+
+   // MARK: - Static API
 
    /// Highlights `code` for the given `language` and returns an HTML fragment
    /// containing `<span class="sk-tok-*">` tokens. The returned string is
@@ -53,92 +65,30 @@ struct CodeHighlighter {
    /// This method is DocC-only: it is called from `DocCLoader` after the body
    /// HTML is produced and is not referenced by any shared renderer.
    ///
+   /// The block-extraction plumbing now lives on the `CodeHighlighting` protocol so every
+   /// conformer shares it; this static entry point is a thin shim over the regex conformer
+   /// for callers (and tests) that reach `CodeHighlighter` directly.
+   ///
    /// - Parameters:
    ///   - html: The rendered article body HTML (code content is already HTML-escaped
    ///     by `MarkdownRenderer`).
    ///   - defaultLanguage: Optional fallback language for untagged fences.
    static func applyToBodyHTML(_ html: String, defaultLanguage: String?) -> String {
-      // Match: <pre><code class="language-X">...content...</code></pre>
-      // or     <pre><code>...content...</code></pre>  (no language class)
-      // The content may span multiple lines, so .dotMatchesLineSeparators is required.
-      guard let regex = try? NSRegularExpression(
-         pattern: #"<pre><code((?:\s+class="language-([^"]*)")?)\s*>(.*?)</code></pre>"#,
-         options: [.dotMatchesLineSeparators]
-      ) else { return html }
-
-      let ns = html as NSString
-      var result = ""
-      var cursor = 0
-
-      let matches = regex.matches(in: html, range: NSRange(location: 0, length: ns.length))
-      for match in matches {
-         // Append verbatim text before this match.
-         let wholeRange = match.range
-         result += ns.substring(with: NSRange(location: cursor, length: wholeRange.location - cursor))
-
-         // Extract language from `class="language-X"` (group 2). When the class
-         // attribute is entirely absent group 1 and group 2 are both empty.
-         let language: String?
-         if match.range(at: 2).location != NSNotFound {
-            let langRaw = ns.substring(with: match.range(at: 2))
-            language = langRaw.isEmpty ? defaultLanguage : langRaw
-         } else {
-            language = defaultLanguage
-         }
-
-         // The already-escaped code content (group 3).
-         let escapedContent: String
-         if match.range(at: 3).location != NSNotFound {
-            escapedContent = ns.substring(with: match.range(at: 3))
-         } else {
-            escapedContent = ""
-         }
-
-         // Unescape then re-highlight so the tokenizer works on plain text.
-         let rawContent = unescapeHTML(escapedContent)
-         let highlighted: String
-         let classAttr: String
-         if let lang = language?.lowercased().trimmingCharacters(in: .whitespaces), !lang.isEmpty {
-            highlighted = highlight(code: rawContent, language: lang)
-            classAttr = " class=\"language-\(escapeAttribute(lang))\""
-         } else {
-            // No language and no default: just re-escape the raw content.
-            highlighted = escapeHTML(rawContent)
-            classAttr = ""
-         }
-
-         result += "<pre class=\"sk-docc-highlight\"><code\(classAttr)>\(highlighted)</code></pre>"
-         cursor = wholeRange.location + wholeRange.length
-      }
-
-      result += ns.substring(with: NSRange(location: cursor, length: ns.length - cursor))
-      return result
+      CodeHighlighter().applyToBodyHTML(html, defaultLanguage: defaultLanguage)
    }
 
    // MARK: - HTML helpers
 
-   /// Escapes `<`, `>`, `&`, and `"` so the text is safe in HTML content.
+   /// Escapes `<`, `>`, `&`, and `"` so the text is safe in HTML content. Forwards to the
+   /// shared `HTMLEscaping` helper so every highlighter escapes identically.
    static func escapeHTML(_ string: String) -> String {
-      string
-         .replacing("&", with: "&amp;")
-         .replacing("<", with: "&lt;")
-         .replacing(">", with: "&gt;")
-         .replacing("\"", with: "&quot;")
+      HTMLEscaping.escape(string)
    }
 
    /// Reverses the four basic HTML entities used by `escapeHTML`.
    /// Used to recover raw source text from already-escaped HTML before re-tokenizing.
    static func unescapeHTML(_ string: String) -> String {
-      string
-         .replacing("&lt;", with: "<")
-         .replacing("&gt;", with: ">")
-         .replacing("&quot;", with: "\"")
-         .replacing("&amp;", with: "&")
-   }
-
-   /// Escapes a string for use in an HTML attribute value (double-quote context).
-   private static func escapeAttribute(_ string: String) -> String {
-      escapeHTML(string)
+      HTMLEscaping.unescape(string)
    }
 
    // MARK: - Tokenization engine

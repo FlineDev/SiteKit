@@ -496,7 +496,8 @@ public struct SiteBuilder {
    public static func docc(
       config: SiteConfig,
       projectDirectory: URL,
-      cleanBeforeBuild: Bool = true
+      cleanBeforeBuild: Bool = true,
+      highlighter: (any CodeHighlighting)? = nil
    ) -> SiteBuilder {
       let urlPrefix = config.effectiveSections.first?.urlPrefix ?? "documentation"
 
@@ -505,7 +506,7 @@ public struct SiteBuilder {
       var builder = SiteBuilder(config: config, projectDirectory: projectDirectory)
          .cleanBeforeBuild(cleanBeforeBuild)
          .contentDiscovery(DocCCatalogDiscovery())
-         .articleLoader(DocCLoader(language: config.language, defaultCodeLanguage: config.docc?.defaultCodeLanguage))
+         .articleLoader(DocCLoader(language: config.language, defaultCodeLanguage: config.docc?.defaultCodeLanguage, highlighter: highlighter))
          // Emit every *.docc/Images/ asset into output /assets/ so @PageImage icon
          // URLs like /assets/WWDC25.svg resolve to real files in production.
          .additionalTeleporter(DocCCatalogImageTeleporter(contentDirectory: contentDirectory))
@@ -698,11 +699,12 @@ extension SiteBuilder {
    /// ```
    public static func docc(
       configPath: String,
-      cleanBeforeBuild: Bool = true
+      cleanBeforeBuild: Bool = true,
+      highlighter: (any CodeHighlighting)? = nil
    ) throws -> SiteBuilder {
       let projectDirectory = URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true)
       let config = SiteBuilder.loadConfigOrExit(at: configPath, in: projectDirectory)
-      return docc(config: config, projectDirectory: projectDirectory, cleanBeforeBuild: cleanBeforeBuild)
+      return docc(config: config, projectDirectory: projectDirectory, cleanBeforeBuild: cleanBeforeBuild, highlighter: highlighter)
    }
 
    /// Loads the site configuration for a `configPath:` convenience factory, reporting
