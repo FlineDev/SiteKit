@@ -78,58 +78,27 @@ extension CodeHighlighting {
    public func applyToBodyHTML(_ html: String, defaultLanguage: String?) -> String {
       // Match: <pre><code class="language-X">...content...</code></pre>
       // or     <pre><code>...content...</code></pre>  (no language class)
-      // The content may span multiple lines, so .dotMatchesLineSeparators is required.
-      guard let regex = try? NSRegularExpression(
-         pattern: #"<pre><code((?:\s+class="language-([^"]*)")?)\s*>(.*?)</code></pre>"#,
-         options: [.dotMatchesLineSeparators]
-      ) else { return html }
+      // `lang` is nil when the class attribute is absent; `body` may span multiple lines, so the dot
+      // must match newlines. `replacing` rewrites each non-overlapping block and leaves the rest of
+      // the body verbatim.
+      let blockPattern = #/<pre><code(?:\s+class="language-(?<lang>[^"]*)")?\s*>(?<body>.*?)</code></pre>/#
+         .dotMatchesNewlines()
 
-      let ns = html as NSString
-      var result = ""
-      var cursor = 0
+      return html.replacing(blockPattern) { match in
+         // An absent class attribute and an empty `language-` value both fall back to `defaultLanguage`.
+         let language = match.lang.flatMap { $0.isEmpty ? nil : String($0) } ?? defaultLanguage
 
-      let matches = regex.matches(in: html, range: NSRange(location: 0, length: ns.length))
-      for match in matches {
-         // Append verbatim text before this match.
-         let wholeRange = match.range
-         result += ns.substring(with: NSRange(location: cursor, length: wholeRange.location - cursor))
+         // The captured content is already HTML-escaped; unescape so the tokenizer works on plain text.
+         let rawContent = HTMLEscaping.unescape(String(match.body))
 
-         // Extract language from `class="language-X"` (group 2). When the class attribute is
-         // entirely absent group 1 and group 2 are both empty.
-         let language: String?
-         if match.range(at: 2).location != NSNotFound {
-            let langRaw = ns.substring(with: match.range(at: 2))
-            language = langRaw.isEmpty ? defaultLanguage : langRaw
-         } else {
-            language = defaultLanguage
-         }
-
-         // The already-escaped code content (group 3).
-         let escapedContent: String
-         if match.range(at: 3).location != NSNotFound {
-            escapedContent = ns.substring(with: match.range(at: 3))
-         } else {
-            escapedContent = ""
-         }
-
-         // Unescape then re-highlight so the tokenizer works on plain text.
-         let rawContent = HTMLEscaping.unescape(escapedContent)
-         let highlighted: String
-         let classAttr: String
          if let lang = language?.lowercased().trimmingCharacters(in: .whitespaces), !lang.isEmpty {
-            highlighted = self.highlight(code: rawContent, language: lang)
-            classAttr = " class=\"language-\(HTMLEscaping.escape(lang))\""
+            let highlighted = self.highlight(code: rawContent, language: lang)
+            return "<pre class=\"sk-docc-highlight\"><code class=\"language-\(HTMLEscaping.escape(lang))\">\(highlighted)</code></pre>"
          } else {
             // No language and no default: just re-escape the raw content.
-            highlighted = HTMLEscaping.escape(rawContent)
-            classAttr = ""
+            let highlighted = HTMLEscaping.escape(rawContent)
+            return "<pre class=\"sk-docc-highlight\"><code>\(highlighted)</code></pre>"
          }
-
-         result += "<pre class=\"sk-docc-highlight\"><code\(classAttr)>\(highlighted)</code></pre>"
-         cursor = wholeRange.location + wholeRange.length
       }
-
-      result += ns.substring(with: NSRange(location: cursor, length: ns.length - cursor))
-      return result
    }
 }
