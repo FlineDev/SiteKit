@@ -585,7 +585,11 @@ extension OutputFileRenderer {
       // Language picker shell (menu populated by theme JS for custom styling)
       if self.config.isMultilingual {
          let langUpper = self.uiStrings.locale.uppercased()
-         let globeIcon = "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"2\" y1=\"12\" x2=\"22\" y2=\"12\"/><path d=\"M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z\"/></svg>"
+         // Globe is a stroked circle of radius 10 (∅20), so like the theme toggle below it would
+         // otherwise render wider than the search lens (∅16). Same fix: pad the viewBox to
+         // -3 -3 30 30 so the drawn circle matches the magnifier lens while the 16×16 element box
+         // (and the button height/baseline) stays exactly the same. See the theme toggle for detail.
+         let globeIcon = "<svg width=\"16\" height=\"16\" viewBox=\"-3 -3 30 30\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"2\" y1=\"12\" x2=\"22\" y2=\"12\"/><path d=\"M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z\"/></svg>"
          navParts.append("<div class=\"sk-lang-picker\"><button class=\"sk-lang-btn\" aria-label=\"\(self.uiStrings.string(for: .switchLanguage).htmlEscaped)\">\(globeIcon)<span class=\"sk-lang-current\">\(langUpper)</span></button><div class=\"sk-lang-menu\" role=\"menu\"></div></div>")
       }
 
