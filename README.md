@@ -113,11 +113,13 @@ Real production sites, one per blueprint family. Screenshots follow your GitHub 
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/wwdcnotes-dark.webp">
-        <img alt="WWDCNotes – documentation site built with SiteKit" src="Assets/Showcase/wwdcnotes-light.webp">
-      </picture>
-      <br><b>WWDCNotes</b> – community session notes across thousands of pages <em>(DocC, relaunch in progress)</em>
+      <a href="https://wwdcnotes.com">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/wwdcnotes-dark.webp">
+          <img alt="WWDCNotes – documentation site built with SiteKit" src="Assets/Showcase/wwdcnotes-light.webp">
+        </picture>
+      </a>
+      <br><b><a href="https://wwdcnotes.com">WWDCNotes</a></b> – community session notes across thousands of pages <em>(DocC)</em>
     </td>
     <td width="50%" valign="top"></td>
   </tr>
