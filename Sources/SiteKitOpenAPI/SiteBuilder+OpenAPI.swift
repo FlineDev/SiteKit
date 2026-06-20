@@ -16,11 +16,10 @@ extension SiteBuilder {
    /// SiteKit factories are non-throwing by convention like `.docc(...)`).
    ///
    /// Like `.docc(...)`, the blueprint brings its own shell and reads the token
-   /// CSS variables, so all color schemes work and no layout is touched. The
-   /// page renderers that turn the loaded ``OpenAPISpec`` into landing, tag,
-   /// operation, and schema pages are composed in a later slice; this factory
-   /// wires spec discovery, the loader, and the content-independent system
-   /// renderers (sitemap, robots, CSS, favicons, llms.txt).
+   /// CSS variables, so all color schemes work and no layout is touched. When the
+   /// spec loads, the landing, tag, operation, and schema page renderers consume it
+   /// and produce the multi-page docs site; alongside them this factory wires the
+   /// content-independent system renderers (sitemap, robots, CSS, favicons, llms.txt).
    ///
    /// - Parameters:
    ///   - config: The site configuration.
@@ -34,13 +33,20 @@ extension SiteBuilder {
       cleanBeforeBuild: Bool = true,
       specPath: String? = nil
    ) -> SiteBuilder {
-      // Discover and load the spec now so discovery + decoding are exercised at
-      // compose time; a problem is logged and the build continues (warn-and-continue).
-      // The loaded model is the contract the page renderers consume once they land
-      // in a later slice, at which point S2 revisits whether to fail the build instead.
+      var builder = SiteBuilder(config: config, projectDirectory: projectDirectory)
+         .cleanBeforeBuild(cleanBeforeBuild)
+
+      // Discover and load the spec now; on any problem log a warning and continue
+      // (warn-and-continue), so a missing or malformed spec yields a site without the
+      // API pages rather than aborting the build. The loaded model is injected into
+      // each page renderer (the renderers are OpenAPIKit-free and read only OpenAPISpec).
+      // S2: a real fail-fast surface (build-phase error) may fit better than a silently
+      // empty site once consumers rely on the API pages – factories are non-throwing by
+      // convention like `.docc(...)`, so revisit then.
       if let specURL = Self.resolveSpecURL(specPath: specPath, config: config, projectDirectory: projectDirectory) {
          do {
-            _ = try OpenAPISpecLoader().load(source: specURL)
+            let spec = try OpenAPISpecLoader().load(source: specURL)
+            builder = builder.openAPIPageRenderers(for: spec)
          } catch {
             print("[SiteKit] Warning: OpenAPI spec at '\(specURL.path)' could not be loaded – \(error)")
          }
@@ -50,8 +56,8 @@ extension SiteBuilder {
          )
       }
 
-      return SiteBuilder(config: config, projectDirectory: projectDirectory)
-         .cleanBeforeBuild(cleanBeforeBuild)
+      return
+         builder
          .renderer(SitemapRenderer())
          .renderer(RobotsTxtRenderer())
          .renderer(TokenCSSOutputRenderer())
@@ -60,6 +66,13 @@ extension SiteBuilder {
          .renderer(CloudflareHeadersRenderer())
          .renderer(FaviconRenderer())
          .renderer(LlmsTxtRenderer())
+   }
+
+   /// Registers the OpenAPI page renderers (landing, tag, operation, schema) for a
+   /// loaded `spec`. Each renderer captures the spec and produces its pages from it.
+   func openAPIPageRenderers(for spec: OpenAPISpec) -> SiteBuilder {
+      self
+         .renderer(OpenAPILandingPage(spec: spec))
    }
 
    /// Resolves the spec file URL: the explicit `specPath` (relative to the
