@@ -131,6 +131,9 @@
       toggle.textContent = "☰"; // ☰
 
       var scrim = document.querySelector("[data-openapi-nav-scrim]");
+      // The scrolling content region (landing cards, page body, footer) – everything that
+      // sits behind the scrim when the drawer is open.
+      var mainEl = document.querySelector(".sk-openapi-scroll");
 
       function setOpen(open) {
          layout.classList.toggle("is-nav-open", open);
@@ -138,11 +141,25 @@
          if (scrim) {
             scrim.hidden = !open;
          }
+         // Contain focus the way base SiteKit's docc-sidebar.js does: make the background
+         // content inert (a native focus trap + aria-hidden rollup, so Tab cannot reach the
+         // page content hidden behind the scrim), lock the body scroll, and mark the rail a
+         // modal dialog. The appbar is intentionally NOT inert – it holds the toggle, the
+         // drawer's own close control – so closing by hamburger keeps working; Escape and a
+         // scrim tap close it too.
+         if (mainEl) {
+            mainEl.inert = open;
+         }
+         document.documentElement.style.overflow = open ? "hidden" : "";
          if (open) {
+            nav.setAttribute("role", "dialog");
+            nav.setAttribute("aria-modal", "true");
             // Move focus into the rail so keyboard users land in the just-opened drawer.
             nav.setAttribute("tabindex", "-1");
             nav.focus();
          } else {
+            nav.removeAttribute("aria-modal");
+            nav.removeAttribute("role");
             toggle.focus();
          }
       }
