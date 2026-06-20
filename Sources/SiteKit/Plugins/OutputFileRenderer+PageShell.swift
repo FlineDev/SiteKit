@@ -585,13 +585,24 @@ extension OutputFileRenderer {
       // Language picker shell (menu populated by theme JS for custom styling)
       if self.config.isMultilingual {
          let langUpper = self.uiStrings.locale.uppercased()
-         let globeIcon = "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"2\" y1=\"12\" x2=\"22\" y2=\"12\"/><path d=\"M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z\"/></svg>"
+         // Globe is a stroked circle of radius 10 (∅20), so like the theme toggle below it would
+         // otherwise render wider than the search lens (∅16). Same fix: pad the viewBox to
+         // -3 -3 30 30 so the drawn circle matches the magnifier lens while the 16×16 element box
+         // (and the button height/baseline) stays exactly the same. See the theme toggle for detail.
+         let globeIcon = "<svg width=\"16\" height=\"16\" viewBox=\"-3 -3 30 30\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"2\" y1=\"12\" x2=\"22\" y2=\"12\"/><path d=\"M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z\"/></svg>"
          navParts.append("<div class=\"sk-lang-picker\"><button class=\"sk-lang-btn\" aria-label=\"\(self.uiStrings.string(for: .switchLanguage).htmlEscaped)\">\(globeIcon)<span class=\"sk-lang-current\">\(langUpper)</span></button><div class=\"sk-lang-menu\" role=\"menu\"></div></div>")
       }
 
-      // Theme toggle – inline SVG icon (no Font Awesome dependency)
+      // Theme toggle – inline SVG icon (no Font Awesome dependency).
+      // The contrast glyph is a filled disc of radius 10 (∅20 in a 24 viewBox), whereas the
+      // search magnifier is a stroked lens of radius 8 (∅16). At equal 16×16 boxes the filled
+      // disc therefore renders ~25% wider and far heavier than the magnifier, so the two header
+      // action icons look mismatched in size even though their button boxes are pixel-identical.
+      // Padding the viewBox to -3 -3 30 30 scales the drawn glyph to 0.8 (24/30) and keeps it
+      // centered, making the disc diameter equal the magnifier lens while the 16×16 element box –
+      // and thus the button height and baseline – stays exactly the same.
       if nav.showThemeToggle ?? true {
-         let themeIcon = "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18V4a8 8 0 1 1 0 16z\"/></svg>"
+         let themeIcon = "<svg width=\"16\" height=\"16\" viewBox=\"-3 -3 30 30\" fill=\"currentColor\"><path d=\"M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18V4a8 8 0 1 1 0 16z\"/></svg>"
          navParts.append("<button class=\"sk-theme-toggle\" aria-label=\"Theme\">\(themeIcon)</button>")
       }
 
