@@ -746,6 +746,19 @@ a.sk-openapi-nav-group-title:hover {
    margin: 0;
 }
 
+/* ── 404 ──────────────────────────────────────────────────────────────────────
+   The not-found page renders through the full shell; the back-to-landing link is
+   an accent call to action. */
+.sk-openapi-notfound-home {
+   color: var(--color-accent);
+   font-weight: 600;
+   text-decoration: none;
+}
+
+.sk-openapi-notfound-home:hover {
+   text-decoration: underline;
+}
+
 /* The scrim is hidden until the drawer opens (the responsive rule below reveals it). */
 .sk-openapi-scrim {
    display: none;

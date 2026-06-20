@@ -64,14 +64,23 @@ struct OpenAPIChromeTests {
       #expect(!withoutFooter.contains("sk-openapi-footer"))
    }
 
-   // MARK: - 404
+   // MARK: - 404 (rendered through the full shell)
 
-   @Test("The error renderer emits a styled 404 page")
-   func errorPageEmits404() throws {
-      let files = try ErrorPageRenderer().render(context: self.context())
+   @Test("The 404 page renders through the full shell with a way back into the docs")
+   func notFoundRendersFullShell() throws {
+      let footer = FooterConfig(links: [NavigationItemConfig(title: "Privacy", url: "/privacy/")], copyright: "© 2026 Example")
+      let files = try OpenAPIMissingPage(spec: try self.petstoreSpec()).render(context: self.context(footer: footer))
       let notFound = try #require(files.first { $0.outputPath.lastPathComponent == "404.html" })
-      #expect(!notFound.content.isEmpty)
-      #expect(notFound.content.contains("<html"))
+      let html = notFound.content
+
+      // Appbar (brand link back to the landing), the nav rail, and the footer – the full shell.
+      #expect(html.contains("sk-openapi-brand"))
+      #expect(html.contains("<nav class=\"sk-openapi-nav\""))
+      #expect(html.contains("sk-openapi-footer"))
+      // The not-found message and the explicit link back to the API landing.
+      #expect(html.contains("Page not found"))
+      #expect(html.contains("sk-openapi-notfound-home"))
+      #expect(html.contains("href=\"/api/\""))
    }
 
    // MARK: - F2 skip link
@@ -98,6 +107,17 @@ struct OpenAPIChromeTests {
       let js = try #require(try OpenAPINavScriptRenderer().render(context: self.context()).first?.content)
       #expect(js.contains("data-openapi-nav-scrim"))
       #expect(js.contains("\"Escape\""))
+   }
+
+   @Test("The open drawer contains focus: background inert, scroll locked, rail aria-modal")
+   func drawerContainsFocus() throws {
+      let js = try #require(try OpenAPINavScriptRenderer().render(context: self.context()).first?.content)
+      // The mechanism mirrors docc-sidebar.js: inert the background content, lock body scroll,
+      // and mark the rail a modal dialog – all driven by the open flag, so they clear on close.
+      #expect(js.contains("mainEl.inert = open"))
+      #expect(js.contains("documentElement.style.overflow = open ?"))
+      #expect(js.contains("\"aria-modal\""))
+      #expect(js.contains("removeAttribute(\"aria-modal\")"))
    }
 
    // MARK: - F4 theme toggle (consistent with base SiteKit)
@@ -193,8 +213,12 @@ struct OpenAPIChromeTests {
          try String(contentsOf: output.appendingPathComponent(relativePath), encoding: .utf8)
       }
 
-      // 404 page shipped.
+      // 404 page shipped, through the full shell (appbar + nav rail + back-to-landing link).
       #expect(exists("404.html"))
+      let notFound = try read("404.html")
+      #expect(notFound.contains("sk-openapi-brand"))
+      #expect(notFound.contains("<nav class=\"sk-openapi-nav\""))
+      #expect(notFound.contains("sk-openapi-notfound-home"))
       // Redirect outputs: the Cloudflare `_redirects` map and the HTML stub.
       #expect(exists("_redirects"))
       #expect(exists("old-endpoint/index.html"))

@@ -49,6 +49,9 @@ extension SiteBuilder {
             builder =
                builder
                .openAPIPageRenderers(for: spec)
+               // The 404 renders through the full OpenAPIShell (appbar + nav + footer) so a reader
+               // on a missing URL can navigate back; it needs the spec for the shared nav rail.
+               .renderer(OpenAPIMissingPage(spec: spec))
                // Register the spec-derived pages into the build context so sitemap, nav-index,
                // search index, and llms.txt all enumerate them (they walk context.sections).
                .contentSectionProvider(OpenAPIContentProvider(spec: spec))
@@ -79,9 +82,9 @@ extension SiteBuilder {
          .renderer(OpenAPIStylesheetRenderer())
          .renderer(OpenAPINavScriptRenderer())
          .renderer(OpenAPIThemeScriptRenderer())
-         // System renderers at parity with `.docc`: a styled 404, plus the two redirect
-         // renderers (both no-ops unless `SiteConfig.redirectsFile` is set).
-         .renderer(ErrorPageRenderer())
+         // System renderers at parity with `.docc`: the two redirect renderers (both no-ops
+         // unless `SiteConfig.redirectsFile` is set). The 404 is the OpenAPIShell-rendered
+         // `OpenAPIMissingPage`, registered above with the spec.
          .renderer(CloudflareHeadersRenderer())
          .renderer(HTMLRedirectPageRenderer())
          .renderer(CloudflareRedirectsRenderer())
