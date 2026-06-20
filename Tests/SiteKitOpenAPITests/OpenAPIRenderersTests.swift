@@ -235,3 +235,82 @@ struct OpenAPIComponentRefTests {
       #expect(html.contains("data-status=\"200\""))
    }
 }
+
+/// Slug collision-guard tests: distinct tag names and distinct operation ids that
+/// pre-fold to the same slug must still resolve to distinct output paths (suffixed
+/// `-2`), never silently overwriting one another, and accented names must fold to
+/// ASCII slugs.
+@Suite("OpenAPI slug collisions")
+struct OpenAPISlugCollisionTests {
+   private func collisionsSpec() throws -> OpenAPISpec {
+      let url = try #require(
+         Bundle.module.url(forResource: "slug-collisions-3.1", withExtension: "yaml", subdirectory: "Fixtures")
+      )
+      return try OpenAPISpecLoader().load(source: url)
+   }
+
+   private func makeContext() -> BuildContext {
+      BuildContext(
+         config: SiteConfig(
+            name: "Collisions",
+            baseURL: "https://example.com",
+            description: "Slug collision docs.",
+            sections: [SectionConfig(name: "API", slug: "api", contentDirectory: "Content", urlPrefix: "api")]
+         ),
+         themeConfig: nil,
+         sections: [],
+         staticPages: [],
+         tags: [:],
+         homeContent: nil,
+         outputDirectory: URL(fileURLWithPath: "/tmp/_OpenAPICollisionsSite"),
+         projectDirectory: URL(fileURLWithPath: "/tmp")
+      )
+   }
+
+   private func allOutputPaths() throws -> [String] {
+      let spec = try self.collisionsSpec()
+      let context = self.makeContext()
+      var paths: [String] = []
+      for renderer: any Renderer in [
+         OpenAPILandingPage(spec: spec),
+         OpenAPITagPage(spec: spec),
+         OpenAPIOperationPage(spec: spec),
+         OpenAPISchemaPage(spec: spec),
+      ] {
+         paths += try renderer.render(context: context).map(\.outputPath.path)
+      }
+      return paths
+   }
+
+   @Test("No two pages resolve to the same output path")
+   func noSilentOverwrite() throws {
+      let paths = try self.allOutputPaths()
+      // The guard's core promise: every page has a unique output file, so nothing is
+      // silently overwritten.
+      #expect(Set(paths).count == paths.count)
+   }
+
+   @Test("Two tags that fold to the same slug get distinct tag pages")
+   func collidingTagsAreDistinct() throws {
+      let paths = try self.allOutputPaths()
+      // "Pets" and "pets" both fold to "pets"; the second is suffixed to "pets-2".
+      #expect(paths.contains("/tmp/_OpenAPICollisionsSite/api/pets/index.html"))
+      #expect(paths.contains("/tmp/_OpenAPICollisionsSite/api/pets-2/index.html"))
+   }
+
+   @Test("Two operations that fold to the same slug get distinct operation pages")
+   func collidingOperationsAreDistinct() throws {
+      let paths = try self.allOutputPaths()
+      // operationIds "listItems" and "ListItems" both fold to "listitems" under the
+      // same tag; the second is suffixed to "listitems-2".
+      #expect(paths.contains("/tmp/_OpenAPICollisionsSite/api/pets/listitems/index.html"))
+      #expect(paths.contains("/tmp/_OpenAPICollisionsSite/api/pets/listitems-2/index.html"))
+   }
+
+   @Test("An accented tag name folds to an ASCII slug")
+   func accentedTagFoldsToASCII() throws {
+      let paths = try self.allOutputPaths()
+      // "Café" folds to the ASCII slug "cafe".
+      #expect(paths.contains("/tmp/_OpenAPICollisionsSite/api/cafe/index.html"))
+   }
+}

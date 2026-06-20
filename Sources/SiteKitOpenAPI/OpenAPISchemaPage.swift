@@ -18,7 +18,7 @@ public struct OpenAPISchemaPage: Page {
 
    public func pages(in context: BuildContext) -> [PageModel] {
       self.spec.schemas.map { schema in
-         let slug = OpenAPIRoutes.schemaSlug(schema.name)
+         let slug = OpenAPIRoutes.schemaSlug(for: schema.name, in: self.spec)
          let path = OpenAPIRoutes.schemaPath(context, schemaSlug: slug)
          return PageModel(
             title: schema.name,
@@ -43,7 +43,7 @@ public struct OpenAPISchemaPage: Page {
       let body =
          "<article class=\"sk-openapi-schema\" data-schema=\"\(OpenAPIHTML.escape(schema.name))\">"
          + "<header class=\"sk-openapi-schema-header\"><h1 class=\"sk-openapi-title\"><code>\(OpenAPIHTML.escape(schema.name))</code></h1></header>"
-         + OpenAPISchemaHTML.detail(schema.schema, context: context)
+         + OpenAPISchemaHTML.detail(schema.schema, context: context, spec: self.spec)
          + "</article>"
 
       return OpenAPIShell.wrap(content: body, page: page, context: context, head: self.head(page: page, context: context))

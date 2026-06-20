@@ -24,15 +24,26 @@ enum OpenAPIRoutes {
    /// The tag an untagged operation is grouped under, so no operation is dropped.
    static let defaultTag = "general"
 
-   /// Lowercases and hyphenates an arbitrary string into a URL-safe slug: runs of
-   /// non-alphanumeric characters collapse to a single hyphen, and leading/trailing
-   /// hyphens are trimmed (so `"/pets/{petId}"` becomes `"pets-petid"`).
+   /// Path segments the schema pages own (`/<prefix>/schemas/<schema>/`). A tag must
+   /// never slug to one of these, or that tag's operation pages would collide with
+   /// the schema namespace; the slug allocator reserves them up front.
+   static let reservedTagSlugs: Set<String> = ["schemas"]
+
+   /// Folds an arbitrary string into an ASCII URL slug `[a-z0-9-]`: accented and
+   /// diacritic characters map to their ASCII base via ICU (`Café` → `cafe`, `Größe`
+   /// → `grosse`), the result is lowercased, only `[a-z0-9]` is kept, and every other
+   /// run collapses to a single hyphen (so `"/pets/{petId}"` becomes `"pets-petid"`).
+   ///
+   /// URL slugs are machine identifiers for deep links and SEO canonicals, where
+   /// ASCII is the safe, percent-encoding-free form; display text keeps its real
+   /// characters (umlauts included) and only the slug folds. The fold is a clean ICU
+   /// character mapping, never a `ue`→`ü`-style find-replace.
    static func slugify(_ string: String) -> String {
-      let lowered = string.lowercased()
+      let folded = string.folding(options: .diacriticInsensitive, locale: Locale(identifier: "en_US_POSIX")).lowercased()
       var slug = ""
       var lastWasHyphen = false
-      for character in lowered {
-         if character.isLetter || character.isNumber {
+      for character in folded {
+         if character.isASCII, character.isLetter || character.isNumber {
             slug.append(character)
             lastWasHyphen = false
          } else if !lastWasHyphen {
@@ -41,6 +52,38 @@ enum OpenAPIRoutes {
          }
       }
       return slug.trimmingCharacters(in: CharacterSet(charactersIn: "-"))
+   }
+
+   /// Assigns each raw name a unique slug. The base comes from ``slugify(_:)``;
+   /// when two names fold to the same slug, the fold is empty (an all-non-ASCII
+   /// name), or the base is already reserved, the slug is disambiguated
+   /// deterministically with a numeric suffix (`-2`, `-3`, …) and a build warning,
+   /// so two pages never silently overwrite each other at the same output path.
+   ///
+   /// - Parameters:
+   ///   - rawNames: the names to slug, in order (the order fixes which name keeps
+   ///     the bare slug and which gets suffixed).
+   ///   - reserved: slugs that are already taken before allocation begins.
+   ///   - kind: a noun for the warning message (`tag`, `operation`, `schema`).
+   static func uniqueSlugs(_ rawNames: [String], reserving reserved: Set<String> = [], kind: String) -> [String] {
+      var used = reserved
+      var result: [String] = []
+      for raw in rawNames {
+         var base = self.slugify(raw)
+         if base.isEmpty { base = "section" }
+         var candidate = base
+         if used.contains(candidate) {
+            var suffix = 2
+            while used.contains("\(base)-\(suffix)") { suffix += 1 }
+            candidate = "\(base)-\(suffix)"
+            print(
+               "[SiteKit] Warning: OpenAPI \(kind) slug collision – '\(raw)' folds to '\(base)', already in use; using '\(candidate)' to keep deep links unique."
+            )
+         }
+         used.insert(candidate)
+         result.append(candidate)
+      }
+      return result
    }
 
    /// The slug for a tag name.
@@ -63,9 +106,21 @@ enum OpenAPIRoutes {
       return self.slugify("\(operation.method)-\(operation.path)")
    }
 
-   /// The slug for a component schema name.
-   static func schemaSlug(_ name: String) -> String {
-      self.slugify(name)
+   /// The collision-safe slug assignment for the spec's component schemas, keyed by
+   /// schema name. Component schema names are unique keys, but two distinct names can
+   /// still fold to the same slug (`Pet` and `pet`), so the slugs are uniqued in
+   /// document order. Both the schema pages and the `$ref` links resolve through this
+   /// one map, so a link always lands on the page it names.
+   static func schemaSlugMap(_ spec: OpenAPISpec) -> [String: String] {
+      let names = spec.schemas.map(\.name)
+      let slugs = self.uniqueSlugs(names, kind: "schema")
+      return Dictionary(uniqueKeysWithValues: zip(names, slugs))
+   }
+
+   /// The unique slug for one schema `name` within `spec`, falling back to the bare
+   /// fold for a name not declared in `components/schemas` (a dangling `$ref`).
+   static func schemaSlug(for name: String, in spec: OpenAPISpec) -> String {
+      self.schemaSlugMap(spec)[name] ?? self.slugify(name)
    }
 
    /// `/<prefix>/` – the landing page.
@@ -88,35 +143,92 @@ enum OpenAPIRoutes {
       "/\(self.prefix(context))/schemas/\(schemaSlug)/"
    }
 
-   /// Groups the spec's operations by their canonical tag (first declared tag, or
-   /// ``defaultTag`` when untagged), so the landing, tag pages, and operation URLs
-   /// all agree on which tag owns an operation.
+   /// One operation as listed under a tag section: the operation itself, its unique
+   /// slug, and the slug of its canonical tag (the tag whose page hosts the
+   /// operation's one canonical URL). `isCanonical` is true when the enclosing
+   /// section IS that canonical tag. A cross-listed entry on a secondary tag carries
+   /// the same `slug`/`canonicalTagSlug`, so its link points at the one canonical
+   /// page rather than a duplicate.
+   struct OperationRef {
+      let operation: OpenAPISpec.Operation
+      let slug: String
+      let canonicalTagSlug: String
+      let isCanonical: Bool
+   }
+
+   /// One tag's section: the tag (name + description), its collision-safe slug, and
+   /// the operations listed under it.
+   struct TagSection {
+      let tag: OpenAPISpec.Tag
+      let slug: String
+      let operations: [OperationRef]
+   }
+
+   /// Groups the spec's operations into tag sections, with collision-safe tag and
+   /// operation slugs so no two pages resolve to the same output path.
    ///
-   /// Order: declared tags in document order first, then any extra tag only an
-   /// operation introduces, then the synthetic `general` group. A declared tag that
-   /// owns no operation is omitted (no empty group). Each group's `tag` carries the
-   /// declared description where one exists.
-   static func tagGroups(_ spec: OpenAPISpec) -> [(tag: OpenAPISpec.Tag, operations: [OpenAPISpec.Operation])] {
-      var order: [String] = spec.tags.map(\.name)
+   /// Each operation has one canonical tag (its first declared tag, or ``defaultTag``
+   /// when untagged) under which its single page lives. Tag sections appear in
+   /// document order: declared tags first, then any tag an operation introduces, with
+   /// the synthetic `general` section always last. A tag that lists no operation is
+   /// omitted. Tag slugs are uniqued (reserving the schema namespace) and operation
+   /// slugs are uniqued within their canonical tag, so the landing, tag pages, and
+   /// operation URLs all agree on one stable, non-colliding path per page.
+   static func tagSections(_ spec: OpenAPISpec) -> [TagSection] {
       var descriptions: [String: String?] = [:]
       for tag in spec.tags {
          descriptions[tag.name] = tag.description
       }
 
-      var operationsByTag: [String: [OpenAPISpec.Operation]] = [:]
-      for operation in spec.operations {
-         let tag = self.canonicalTag(for: operation)
-         operationsByTag[tag, default: []].append(operation)
-         if !order.contains(tag) {
-            order.append(tag)
+      // Tag order: declared tags first, then tags an operation introduces, general last.
+      var order: [String] = spec.tags.map(\.name)
+      for operation in spec.operations where !order.contains(self.canonicalTag(for: operation)) {
+         order.append(self.canonicalTag(for: operation))
+      }
+      if let generalIndex = order.firstIndex(of: self.defaultTag) {
+         order.remove(at: generalIndex)
+         order.append(self.defaultTag)
+      }
+
+      // Collision-safe tag slugs (reserving the schema namespace) and per-canonical-tag
+      // operation slugs, computed once so every renderer agrees on the same paths.
+      let tagSlugs = self.uniqueSlugs(order, reserving: self.reservedTagSlugs, kind: "tag")
+      let tagSlugByName = Dictionary(uniqueKeysWithValues: zip(order, tagSlugs))
+
+      var operationSlugByIndex: [Int: String] = [:]
+      for name in order {
+         let indices = spec.operations.indices.filter { self.canonicalTag(for: spec.operations[$0]) == name }
+         let rawNames = indices.map { self.operationRawName(spec.operations[$0]) }
+         let slugs = self.uniqueSlugs(rawNames, kind: "operation")
+         for (index, slug) in zip(indices, slugs) {
+            operationSlugByIndex[index] = slug
          }
       }
 
+      // Build each section. This slice lists an operation only under its canonical
+      // tag; cross-listing secondary tags is a later slice (the OperationRef already
+      // carries the canonical link target so that addition is non-breaking).
       return order.compactMap { name in
-         guard let operations = operationsByTag[name], !operations.isEmpty else { return nil }
+         let sectionSlug = tagSlugByName[name] ?? self.slugify(name)
+         let refs: [OperationRef] = spec.operations.indices.compactMap { index in
+            let operation = spec.operations[index]
+            guard self.canonicalTag(for: operation) == name else { return nil }
+            let operationSlug = operationSlugByIndex[index] ?? self.operationSlug(for: operation)
+            return OperationRef(operation: operation, slug: operationSlug, canonicalTagSlug: sectionSlug, isCanonical: true)
+         }
+         guard !refs.isEmpty else { return nil }
          let tag = OpenAPISpec.Tag(name: name, description: descriptions[name] ?? nil)
-         return (tag, operations)
+         return TagSection(tag: tag, slug: sectionSlug, operations: refs)
       }
+   }
+
+   /// The human-meaningful raw identifier an operation slug is folded from: its
+   /// `operationId` when present, otherwise `"<method> <path>"`.
+   private static func operationRawName(_ operation: OpenAPISpec.Operation) -> String {
+      if let operationId = operation.operationId, !operationId.isEmpty {
+         return operationId
+      }
+      return "\(operation.method) \(operation.path)"
    }
 
    /// Maps a site-relative path (`/api/pets/`) to its `index.html` file URL under

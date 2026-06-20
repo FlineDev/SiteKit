@@ -7,7 +7,7 @@ import SiteKit
 ///
 /// Mirrors `DocCHomePage`: it emits a single synthetic `PageModel` (not backed by a
 /// Markdown file) and wraps its body in the `OpenAPIShell`. The cards come from
-/// ``OpenAPIRoutes/tagGroups(_:)`` so the landing, tag pages, and operation URLs
+/// ``OpenAPIRoutes/tagSections(_:)`` so the landing, tag pages, and operation URLs
 /// agree on which operations belong to which tag.
 public struct OpenAPILandingPage: Page {
    private let spec: OpenAPISpec
@@ -84,19 +84,20 @@ public struct OpenAPILandingPage: Page {
       return "<section class=\"sk-openapi-intro\">\(page.htmlContent)</section>"
    }
 
-   /// A card per tag group, linking to the tag page.
+   /// A card per tag section, linking to the tag page. The endpoint count reflects
+   /// every operation listed under the tag (an operation is counted under each tag it
+   /// carries), matching what the tag page shows.
    private func tagCardsHTML(context: BuildContext) -> String {
-      let groups = OpenAPIRoutes.tagGroups(self.spec)
-      guard !groups.isEmpty else { return "" }
+      let sections = OpenAPIRoutes.tagSections(self.spec)
+      guard !sections.isEmpty else { return "" }
 
-      let cards = groups.map { group -> String in
-         let slug = OpenAPIRoutes.tagSlug(group.tag.name)
-         let href = OpenAPIHTML.escape(OpenAPIRoutes.tagPath(context, tagSlug: slug))
-         let count = group.operations.count
+      let cards = sections.map { section -> String in
+         let href = OpenAPIHTML.escape(OpenAPIRoutes.tagPath(context, tagSlug: section.slug))
+         let count = section.operations.count
          let countLabel = count == 1 ? "1 endpoint" : "\(count) endpoints"
          var card = "<a class=\"sk-openapi-tag-card\" href=\"\(href)\">"
-         card += "<h2 class=\"sk-openapi-tag-card-title\">\(OpenAPIHTML.escape(group.tag.name))</h2>"
-         if let description = group.tag.description, !description.isEmpty {
+         card += "<h2 class=\"sk-openapi-tag-card-title\">\(OpenAPIHTML.escape(section.tag.name))</h2>"
+         if let description = section.tag.description, !description.isEmpty {
             card += "<p class=\"sk-openapi-tag-card-desc\">\(OpenAPIHTML.escape(description))</p>"
          }
          card += "<p class=\"sk-openapi-tag-card-count\">\(countLabel)</p>"

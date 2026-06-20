@@ -19,14 +19,16 @@ public struct OpenAPIOperationPage: Page {
    }
 
    public func pages(in context: BuildContext) -> [PageModel] {
-      OpenAPIRoutes.tagGroups(self.spec).flatMap { group -> [PageModel] in
-         let tagSlug = OpenAPIRoutes.tagSlug(group.tag.name)
-         return group.operations.map { operation in
-            let operationSlug = OpenAPIRoutes.operationSlug(for: operation)
-            let path = OpenAPIRoutes.operationPath(context, tagSlug: tagSlug, operationSlug: operationSlug)
+      OpenAPIRoutes.tagSections(self.spec).flatMap { section -> [PageModel] in
+         // One page per operation, at its canonical location only. A cross-listed
+         // operation appears in several tag sections but renders a single page here,
+         // so skip the non-canonical entries.
+         section.operations.filter(\.isCanonical).map { ref in
+            let operation = ref.operation
+            let path = OpenAPIRoutes.operationPath(context, tagSlug: ref.canonicalTagSlug, operationSlug: ref.slug)
             return PageModel(
                title: operation.summary ?? "\(operation.method) \(operation.path)",
-               slug: operationSlug,
+               slug: ref.slug,
                htmlContent: "",
                sourcePath: context.projectDirectory
                   .appendingPathComponent(context.config.contentDirectory)
@@ -90,7 +92,9 @@ public struct OpenAPIOperationPage: Page {
             parameter.required
             ? "<span class=\"sk-openapi-required\" data-required=\"true\">required</span>"
             : "<span class=\"sk-openapi-optional\">optional</span>"
-         let type = parameter.schema.map { OpenAPISchemaHTML.typeLabel($0, context: context) } ?? "<span class=\"sk-openapi-type\">any</span>"
+         let type =
+            parameter.schema.map { OpenAPISchemaHTML.typeLabel($0, context: context, spec: self.spec) }
+            ?? "<span class=\"sk-openapi-type\">any</span>"
          let description = parameter.description.map { OpenAPIHTML.escape($0) } ?? ""
          return "<tr class=\"sk-openapi-param\">"
             + "<td class=\"sk-openapi-param-name\"><code>\(OpenAPIHTML.escape(parameter.name))</code></td>"
@@ -142,8 +146,8 @@ public struct OpenAPIOperationPage: Page {
          var html = "<div class=\"sk-openapi-media\" data-content-type=\"\(OpenAPIHTML.escape(media.contentType))\">"
          html += "<p class=\"sk-openapi-content-type\"><code>\(OpenAPIHTML.escape(media.contentType))</code></p>"
          if let schema = media.schema {
-            html += "<p class=\"sk-openapi-media-type\">\(OpenAPISchemaHTML.typeLabel(schema, context: context))</p>"
-            html += OpenAPISchemaHTML.propertyTable(schema, context: context)
+            html += "<p class=\"sk-openapi-media-type\">\(OpenAPISchemaHTML.typeLabel(schema, context: context, spec: self.spec))</p>"
+            html += OpenAPISchemaHTML.propertyTable(schema, context: context, spec: self.spec)
          }
          if let example = media.example {
             html += "<details class=\"sk-openapi-example\"><summary>Example</summary>"
