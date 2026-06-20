@@ -178,7 +178,7 @@ struct OpenAPISpecLoaderFeatureTests {
       let discriminator = try #require(composition.discriminator)
       #expect(discriminator.propertyName == "petType")
       // The mapping value is captured faithfully (the raw spec value – here a `$ref`
-      // string); S2 resolves it to a schema page when rendering.
+      // string); the renderer resolves it to a schema page when rendering.
       #expect(discriminator.mapping["cat"] == "#/components/schemas/Cat")
    }
 

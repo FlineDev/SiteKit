@@ -175,9 +175,9 @@ public struct OpenAPIOperationPage: Page {
       let path: String = page.extensionValue("openAPIPath") ?? OpenAPIRoutes.landingPath(context)
       return OutputFileRenderer(context: context).buildHead(
          title: "\(page.title) – \(context.config.name)",
-         // Per-page, never blank (AC-5): the operation's summary/description, else its title,
-         // which is itself the summary or a unique "<METHOD> <path>" – so the meta description
-         // is always present and page-specific even for a bare operation.
+         // Per-page, never blank: the operation's summary/description, else its title, which is
+         // itself the summary or a unique "<METHOD> <path>" – so the meta description is always
+         // present and page-specific even for a bare operation.
          description: page.summary ?? page.description ?? page.title,
          canonicalURL: "\(context.config.baseURL)\(path)",
          ogType: "website"

@@ -100,7 +100,7 @@ public struct OpenAPISpecLoader: Loader {
 
    /// Reads the `openapi:` field and maps it to a ``MajorVersion``.
    ///
-   /// S2: this re-parses the whole document as `VersionProbe` before the real
+   /// Note: this re-parses the whole document as `VersionProbe` before the real
    /// decode (a second full parse). Fine for build-time specs; revisit only if it
    /// shows up in profiles.
    private static func detectMajorVersion(data: Data, isJSON: Bool) throws -> MajorVersion {
@@ -386,7 +386,7 @@ public struct OpenAPISpecLoader: Loader {
    }
 
    /// Maps each per-operation security requirement (a named scheme reference plus
-   /// its scopes). S2: flatten the `components/securitySchemes` *definitions*
+   /// its scopes). A future change could flatten the `components/securitySchemes` *definitions*
    /// (type / location / OAuth flows) when the operation pages need to render them.
    private static func makeSecurity(_ security: [OpenAPIKit.OpenAPI.SecurityRequirement]?) -> [OpenAPISpec.SecurityRequirement] {
       (security ?? []).map { requirement in
@@ -539,7 +539,7 @@ public struct OpenAPISpecLoader: Loader {
       return OpenAPISpec.Composition.Discriminator(propertyName: discriminator.propertyName, mapping: mapping)
    }
 
-   /// Renders enum values to their string form. S2: a structured (non-scalar) enum
+   /// Renders enum values to their string form. A structured (non-scalar) enum
    /// value would yield a Swift debug string here; revisit if such enums appear.
    private static func makeEnumValues(_ values: [AnyCodable]?) -> [String] {
       (values ?? []).map { value in

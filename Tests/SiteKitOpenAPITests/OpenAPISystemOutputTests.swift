@@ -4,7 +4,7 @@ import Testing
 
 @testable import SiteKitOpenAPI
 
-/// S4b proof: the spec-derived OpenAPI pages, once registered into `BuildContext.sections`
+/// Machine-output proof: the spec-derived OpenAPI pages, once registered into `BuildContext.sections`
 /// via ``OpenAPIContentProvider``, are enumerated by every machine-index renderer – sitemap,
 /// nav-index, search-index, and llms.txt. The headline keystone test is a red-green showing the
 /// sitemap goes from missing the pages to containing them; a full pipeline build proves the
@@ -139,7 +139,7 @@ struct OpenAPISystemOutputTests {
       #expect(html.contains("<script defer src=\"/assets/js/openapi-search.js\"></script>"))
    }
 
-   // MARK: - Per-page SEO (AC-5)
+   // MARK: - Per-page SEO
 
    @Test("Operation and schema pages carry per-page, non-blank title/description/canonical")
    func perPageSEO() throws {

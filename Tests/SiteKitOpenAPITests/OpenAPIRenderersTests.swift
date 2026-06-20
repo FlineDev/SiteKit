@@ -5,9 +5,9 @@ import Testing
 @testable import SiteKitOpenAPI
 
 /// HTML-structure and sample-site tests for the OpenAPI page renderers. The fixtures
-/// are the S1 Petstore specs; the assertions check the semantic output (classes,
-/// `data-` attributes, paths, names) that the stylesheet slice will target, plus the
-/// expected `OutputFile` set for a full sample build.
+/// are the bundled Petstore specs; the assertions check the semantic output (classes,
+/// `data-` attributes, paths, names) the stylesheet targets, plus the expected
+/// `OutputFile` set for a full sample build.
 @Suite("OpenAPI renderers")
 struct OpenAPIRenderersTests {
    private func petstoreSpec() throws -> OpenAPISpec {
@@ -515,10 +515,10 @@ struct OpenAPINavTests {
    }
 }
 
-/// Styling-slice tests: the stylesheet and script render as output files, the CSS
-/// carries a generated color rule per HTTP verb, the shell links the stylesheet and
-/// defers the script, and the three S3 nav follow-ups (single aria-current, summary
-/// labels, explicit landing path) hold.
+/// Styling tests: the stylesheet and script render as output files, the CSS carries a
+/// generated color rule per HTTP verb, the shell links the stylesheet and defers the
+/// script, and the three nav follow-ups (single aria-current, summary labels, explicit
+/// landing path) hold.
 @Suite("OpenAPI styling")
 struct OpenAPIStylingTests {
    private func spec(_ name: String) throws -> OpenAPISpec {
@@ -615,8 +615,8 @@ struct OpenAPIStylingTests {
    }
 }
 
-/// Code-review-fix-slice tests: the two MEDIUM and four LOW follow-ups from the S4a
-/// review. Each asserts on the served artifact (generated CSS, bundled JS, rendered
+/// Styling code-review follow-up tests: the two MEDIUM and four LOW findings from the
+/// styling review. Each asserts on the served artifact (generated CSS, bundled JS, rendered
 /// nav markup), so the fix is proven by the file a browser actually receives.
 @Suite("OpenAPI styling fixes")
 struct OpenAPIStylingFixTests {
