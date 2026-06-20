@@ -243,8 +243,24 @@ public struct OpenAPISpecLoader: Loader {
    private static func makeContent(_ content: OpenAPIKit.OpenAPI.Content.Map) -> [OpenAPISpec.MediaType] {
       content.compactMap { entry in
          guard case .b(let inline) = entry.value else { return nil }
-         return OpenAPISpec.MediaType(contentType: entry.key.rawValue, schema: inline.schema.map { Self.makeSchema($0) })
+         return OpenAPISpec.MediaType(
+            contentType: entry.key.rawValue,
+            schema: inline.schema.map { Self.makeSchema($0) },
+            example: Self.makeExample(inline)
+         )
       }
+   }
+
+   /// Extracts the media type's single `example`, pretty-printed as JSON. The
+   /// `examples` map (whose entries can also be external `$ref`/URL values) is left
+   /// to a later slice; the inline `example` covers the common case.
+   private static func makeExample(_ content: OpenAPIKit.OpenAPI.Content) -> String? {
+      guard let example = content.example else { return nil }
+
+      let encoder = JSONEncoder()
+      encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+      guard let data = try? encoder.encode(example), let json = String(data: data, encoding: .utf8) else { return nil }
+      return json
    }
 
    /// Maps each per-operation security requirement (a named scheme reference plus

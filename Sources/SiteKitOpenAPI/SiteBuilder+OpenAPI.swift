@@ -73,6 +73,9 @@ extension SiteBuilder {
    func openAPIPageRenderers(for spec: OpenAPISpec) -> SiteBuilder {
       self
          .renderer(OpenAPILandingPage(spec: spec))
+         .renderer(OpenAPITagPage(spec: spec))
+         .renderer(OpenAPIOperationPage(spec: spec))
+         .renderer(OpenAPISchemaPage(spec: spec))
    }
 
    /// Resolves the spec file URL: the explicit `specPath` (relative to the

@@ -267,10 +267,16 @@ extension OpenAPISpec {
       /// The flattened schema describing this representation, if it declares one.
       public let schema: SchemaNode?
 
+      /// A representative example for this media type, pretty-printed as JSON, if
+      /// the spec declares an `example` or `examples` for it. Static-first: the
+      /// operation page renders this verbatim; there is no live request widget.
+      public let example: String?
+
       /// Memberwise initializer.
-      public init(contentType: String, schema: SchemaNode? = nil) {
+      public init(contentType: String, schema: SchemaNode? = nil, example: String? = nil) {
          self.contentType = contentType
          self.schema = schema
+         self.example = example
       }
    }
 
