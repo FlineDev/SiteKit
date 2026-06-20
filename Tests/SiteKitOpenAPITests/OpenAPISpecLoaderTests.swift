@@ -3,6 +3,15 @@ import Testing
 
 @testable import SiteKitOpenAPI
 
+/// Loads a fixture from the test bundle's `Fixtures` directory and runs it through the loader.
+private func loadFixture(_ name: String, _ fileExtension: String = "yaml") throws -> OpenAPISpec {
+   let url = try #require(
+      Bundle.module.url(forResource: name, withExtension: fileExtension, subdirectory: "Fixtures"),
+      "Missing fixture \(name).\(fileExtension)"
+   )
+   return try OpenAPISpecLoader().load(source: url)
+}
+
 @Suite("OpenAPISpecLoader")
 struct OpenAPISpecLoaderTests {
    /// One fixture in the 2×2 decode matrix: an OpenAPI major version crossed with a serialization format.
@@ -23,11 +32,7 @@ struct OpenAPISpecLoaderTests {
    ]
 
    private func loadSpec(_ fixture: Fixture) throws -> OpenAPISpec {
-      let url = try #require(
-         Bundle.module.url(forResource: fixture.name, withExtension: fixture.fileExtension, subdirectory: "Fixtures"),
-         "Missing fixture \(fixture)"
-      )
-      return try OpenAPISpecLoader().load(source: url)
+      try loadFixture(fixture.name, fixture.fileExtension)
    }
 
    @Test("Decodes the info block", arguments: fixtures)
@@ -120,24 +125,112 @@ struct OpenAPISpecLoaderTests {
       #expect(pets.schema.type == "array")
       #expect(pets.schema.items.first?.referenceName == "Pet")
    }
+}
 
-   @Test("Rejects an unsupported OpenAPI major version")
-   func unsupportedVersion() throws {
-      let directory = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-      let url = directory.appendingPathComponent("unsupported-\(UUID().uuidString).yaml")
-      let swagger2 = """
-         swagger: '2.0'
-         openapi: '2.0'
-         info:
-           title: Legacy
-           version: 1.0.0
-         paths: {}
-         """
-      try swagger2.write(to: url, atomically: true, encoding: .utf8)
-      defer { try? FileManager.default.removeItem(at: url) }
+/// Coverage for the schema-mapping branches the Petstore happy path never touches:
+/// `nullable` convergence across 3.0/3.1, `enum`, schema-level `deprecated`, and
+/// `oneOf` + discriminator. The `features-3.0`/`features-3.1` fixtures carry the
+/// same logical schemas in each dialect, so a shared assertion run over both also
+/// proves the 3.0-via-Compat path preserves these facets.
+@Suite("OpenAPISpecLoader feature mapping")
+struct OpenAPISpecLoaderFeatureTests {
+   /// The same feature schemas expressed in 3.0 and in 3.1 (both YAML).
+   static let dialects = ["features-3.0", "features-3.1"]
 
-      #expect(throws: OpenAPISpecLoader.LoadError.self) {
+   @Test("Normalizes nullable identically: 3.0 `nullable: true` and 3.1 `[\"T\",\"null\"]`")
+   func nullableConverges() throws {
+      let spec30 = try loadFixture("features-3.0")
+      let spec31 = try loadFixture("features-3.1")
+      let nickname30 = try #require(self.nicknameProperty(in: spec30))
+      let nickname31 = try #require(self.nicknameProperty(in: spec31))
+
+      #expect(nickname30.schema.nullable == true)
+      #expect(nickname31.schema.nullable == true)
+      #expect(nickname30.schema.type == "string")
+      #expect(nickname31.schema.type == "string")
+      // The whole node converges, not just the two facets above – the core correctness claim.
+      #expect(nickname30.schema == nickname31.schema)
+   }
+
+   @Test("Maps enum values", arguments: dialects)
+   func enumValues(_ fixture: String) throws {
+      let spec = try loadFixture(fixture)
+      let widget = try #require(spec.schemas.first { $0.name == "Widget" })
+      let status = try #require(widget.schema.properties.first { $0.name == "status" })
+      #expect(status.schema.enumValues == ["available", "pending", "sold"])
+   }
+
+   @Test("Maps schema-level deprecated", arguments: dialects)
+   func deprecatedField(_ fixture: String) throws {
+      let spec = try loadFixture(fixture)
+      let widget = try #require(spec.schemas.first { $0.name == "Widget" })
+      let legacyId = try #require(widget.schema.properties.first { $0.name == "legacyId" })
+      #expect(legacyId.schema.deprecated == true)
+   }
+
+   @Test("Maps oneOf composition with its discriminator", arguments: dialects)
+   func oneOfDiscriminator(_ fixture: String) throws {
+      let spec = try loadFixture(fixture)
+      let animal = try #require(spec.schemas.first { $0.name == "Animal" })
+      let composition = try #require(animal.schema.composition)
+      #expect(composition.kind == .oneOf)
+      #expect(Set(composition.subschemas.compactMap(\.referenceName)) == ["Cat", "Dog"])
+      let discriminator = try #require(composition.discriminator)
+      #expect(discriminator.propertyName == "petType")
+      // The mapping value is captured faithfully (the raw spec value – here a `$ref`
+      // string); S2 resolves it to a schema page when rendering.
+      #expect(discriminator.mapping["cat"] == "#/components/schemas/Cat")
+   }
+
+   private func nicknameProperty(in spec: OpenAPISpec) -> OpenAPISpec.SchemaProperty? {
+      spec.schemas.first { $0.name == "Widget" }?.schema.properties.first { $0.name == "nickname" }
+   }
+}
+
+/// Coverage for the loader's error paths: an unsupported version (a real Swagger
+/// 2.0 document with no `openapi` field), an empty file, malformed YAML, and a
+/// missing file.
+@Suite("OpenAPISpecLoader errors")
+struct OpenAPISpecLoaderErrorTests {
+   @Test("A Swagger 2.0 document (no openapi field) throws unsupportedVersion, not a DecodingError")
+   func swagger2IsRejected() throws {
+      let url = try #require(Bundle.module.url(forResource: "swagger-2.0", withExtension: "yaml", subdirectory: "Fixtures"))
+      #expect(throws: OpenAPISpecLoader.LoadError.unsupportedVersion("<missing>")) {
          try OpenAPISpecLoader().load(source: url)
       }
+   }
+
+   @Test("An empty spec throws")
+   func emptySpecThrows() throws {
+      let url = try Self.writeTemporary("", fileExtension: "yaml")
+      defer { try? FileManager.default.removeItem(at: url) }
+      #expect(throws: (any Error).self) {
+         try OpenAPISpecLoader().load(source: url)
+      }
+   }
+
+   @Test("A malformed YAML spec throws")
+   func malformedSpecThrows() throws {
+      let url = try Self.writeTemporary("openapi: '3.1.0'\npaths: { : : :", fileExtension: "yaml")
+      defer { try? FileManager.default.removeItem(at: url) }
+      #expect(throws: (any Error).self) {
+         try OpenAPISpecLoader().load(source: url)
+      }
+   }
+
+   @Test("A missing file throws")
+   func missingFileThrows() throws {
+      let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+         .appendingPathComponent("does-not-exist-\(UUID().uuidString).yaml")
+      #expect(throws: (any Error).self) {
+         try OpenAPISpecLoader().load(source: url)
+      }
+   }
+
+   private static func writeTemporary(_ contents: String, fileExtension: String) throws -> URL {
+      let url = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+         .appendingPathComponent("openapi-loader-\(UUID().uuidString).\(fileExtension)")
+      try contents.write(to: url, atomically: true, encoding: .utf8)
+      return url
    }
 }

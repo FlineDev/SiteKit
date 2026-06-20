@@ -7,8 +7,13 @@ extension SiteBuilder {
    ///
    /// The spec is discovered by convention at `Content/openapi.yaml` (falling
    /// back to `openapi.yml` / `openapi.json`), or pointed at explicitly with
-   /// `specPath`. It is loaded and validated up front so a missing or malformed
-   /// document surfaces immediately rather than producing a half-built site.
+   /// `specPath`. It is loaded up front and any discovery/decoding problem is
+   /// logged as a warning – the build then continues (warn-and-continue), so a
+   /// missing or malformed spec yields a site without the API pages rather than
+   /// aborting the build.
+   /// S2: once the page renderers consume the loaded spec, decide real fail-fast
+   /// (a build-phase error surface fits better than a throwing factory, since
+   /// SiteKit factories are non-throwing by convention like `.docc(...)`).
    ///
    /// Like `.docc(...)`, the blueprint brings its own shell and reads the token
    /// CSS variables, so all color schemes work and no layout is touched. The
@@ -30,8 +35,9 @@ extension SiteBuilder {
       specPath: String? = nil
    ) -> SiteBuilder {
       // Discover and load the spec now so discovery + decoding are exercised at
-      // compose time and a bad spec fails loud and early. The loaded model is the
-      // contract the page renderers consume once they land in a later slice.
+      // compose time; a problem is logged and the build continues (warn-and-continue).
+      // The loaded model is the contract the page renderers consume once they land
+      // in a later slice, at which point S2 revisits whether to fail the build instead.
       if let specURL = Self.resolveSpecURL(specPath: specPath, config: config, projectDirectory: projectDirectory) {
          do {
             _ = try OpenAPISpecLoader().load(source: specURL)
@@ -59,7 +65,7 @@ extension SiteBuilder {
    /// Resolves the spec file URL: the explicit `specPath` (relative to the
    /// project root) when given, otherwise the first existing conventional
    /// candidate under the content directory. Returns `nil` when no spec exists.
-   static func resolveSpecURL(specPath: String?, config: SiteConfig, projectDirectory: URL) -> URL? {
+   private static func resolveSpecURL(specPath: String?, config: SiteConfig, projectDirectory: URL) -> URL? {
       if let specPath {
          return projectDirectory.appendingPathComponent(specPath)
       }
