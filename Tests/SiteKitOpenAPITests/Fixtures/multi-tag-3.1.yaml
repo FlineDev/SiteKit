@@ -1,0 +1,27 @@
+openapi: 3.1.0
+info:
+  title: Multi-tag API
+  version: 1.0.0
+  description: An operation that carries two tags, to exercise cross-listing.
+tags:
+  - name: pets
+    description: Pet endpoints.
+  - name: admin
+    description: Administrative endpoints.
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      summary: List pets
+      tags: [pets]
+      responses:
+        '200':
+          description: OK.
+  /pets/{id}/ban:
+    post:
+      operationId: banPet
+      summary: Ban a pet
+      tags: [pets, admin]
+      responses:
+        '200':
+          description: OK.

@@ -168,22 +168,30 @@ enum OpenAPIRoutes {
    /// operation slugs so no two pages resolve to the same output path.
    ///
    /// Each operation has one canonical tag (its first declared tag, or ``defaultTag``
-   /// when untagged) under which its single page lives. Tag sections appear in
-   /// document order: declared tags first, then any tag an operation introduces, with
-   /// the synthetic `general` section always last. A tag that lists no operation is
-   /// omitted. Tag slugs are uniqued (reserving the schema namespace) and operation
-   /// slugs are uniqued within their canonical tag, so the landing, tag pages, and
-   /// operation URLs all agree on one stable, non-colliding path per page.
+   /// when untagged) under which its single page lives, but it is cross-listed in the
+   /// section of every tag it carries: an operation tagged `[pets, admin]` appears in
+   /// both the `pets` and `admin` lists, each link pointing at the one canonical page.
+   /// The ``OperationRef/isCanonical`` flag marks which section owns the page, so the
+   /// operation-page renderer emits exactly one page per operation. Tag sections
+   /// appear in document order: declared tags first, then any tag an operation
+   /// introduces, with the synthetic `general` section always last. A tag that lists
+   /// no operation is omitted. Tag slugs are uniqued (reserving the schema namespace)
+   /// and operation slugs are uniqued within their canonical tag, so the landing, tag
+   /// pages, and operation URLs all agree on one stable, non-colliding path per page.
    static func tagSections(_ spec: OpenAPISpec) -> [TagSection] {
       var descriptions: [String: String?] = [:]
       for tag in spec.tags {
          descriptions[tag.name] = tag.description
       }
 
-      // Tag order: declared tags first, then tags an operation introduces, general last.
+      // Tag order: declared tags first, then any tag an operation carries (canonical
+      // or secondary, so a tag used only as a secondary tag still gets a section),
+      // with the synthetic general section last.
       var order: [String] = spec.tags.map(\.name)
-      for operation in spec.operations where !order.contains(self.canonicalTag(for: operation)) {
-         order.append(self.canonicalTag(for: operation))
+      for operation in spec.operations {
+         for name in self.effectiveTags(for: operation) where !order.contains(name) {
+            order.append(name)
+         }
       }
       if let generalIndex = order.firstIndex(of: self.defaultTag) {
          order.remove(at: generalIndex)
@@ -205,21 +213,35 @@ enum OpenAPIRoutes {
          }
       }
 
-      // Build each section. This slice lists an operation only under its canonical
-      // tag; cross-listing secondary tags is a later slice (the OperationRef already
-      // carries the canonical link target so that addition is non-breaking).
+      // Build each section. An operation is listed under every tag it carries
+      // (cross-listed), but each entry links to the operation's one canonical page
+      // and only the canonical entry is marked, so the operation-page renderer emits
+      // a single page per operation.
       return order.compactMap { name in
          let sectionSlug = tagSlugByName[name] ?? self.slugify(name)
          let refs: [OperationRef] = spec.operations.indices.compactMap { index in
             let operation = spec.operations[index]
-            guard self.canonicalTag(for: operation) == name else { return nil }
+            guard self.effectiveTags(for: operation).contains(name) else { return nil }
+            let canonicalName = self.canonicalTag(for: operation)
+            let canonicalTagSlug = tagSlugByName[canonicalName] ?? self.slugify(canonicalName)
             let operationSlug = operationSlugByIndex[index] ?? self.operationSlug(for: operation)
-            return OperationRef(operation: operation, slug: operationSlug, canonicalTagSlug: sectionSlug, isCanonical: true)
+            return OperationRef(
+               operation: operation,
+               slug: operationSlug,
+               canonicalTagSlug: canonicalTagSlug,
+               isCanonical: canonicalName == name
+            )
          }
          guard !refs.isEmpty else { return nil }
          let tag = OpenAPISpec.Tag(name: name, description: descriptions[name] ?? nil)
          return TagSection(tag: tag, slug: sectionSlug, operations: refs)
       }
+   }
+
+   /// The tags an operation is listed under: the tags it declares, or ``defaultTag``
+   /// when it declares none (so untagged operations land in the `general` section).
+   private static func effectiveTags(for operation: OpenAPISpec.Operation) -> [String] {
+      operation.tags.isEmpty ? [self.defaultTag] : operation.tags
    }
 
    /// The human-meaningful raw identifier an operation slug is folded from: its

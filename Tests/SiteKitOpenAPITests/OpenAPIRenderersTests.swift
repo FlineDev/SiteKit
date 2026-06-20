@@ -314,3 +314,73 @@ struct OpenAPISlugCollisionTests {
       #expect(paths.contains("/tmp/_OpenAPICollisionsSite/api/cafe/index.html"))
    }
 }
+
+/// Cross-listing tests: an operation tagged `[pets, admin]` keeps one canonical
+/// page under its first tag but is listed on both tag pages (each link pointing at
+/// the canonical page), and both landing cards count it.
+@Suite("OpenAPI multi-tag cross-listing")
+struct OpenAPIMultiTagTests {
+   private func multiTagSpec() throws -> OpenAPISpec {
+      let url = try #require(
+         Bundle.module.url(forResource: "multi-tag-3.1", withExtension: "yaml", subdirectory: "Fixtures")
+      )
+      return try OpenAPISpecLoader().load(source: url)
+   }
+
+   private func makeContext() -> BuildContext {
+      BuildContext(
+         config: SiteConfig(
+            name: "MultiTag",
+            baseURL: "https://example.com",
+            description: "Cross-listing docs.",
+            sections: [SectionConfig(name: "API", slug: "api", contentDirectory: "Content", urlPrefix: "api")]
+         ),
+         themeConfig: nil,
+         sections: [],
+         staticPages: [],
+         tags: [:],
+         homeContent: nil,
+         outputDirectory: URL(fileURLWithPath: "/tmp/_OpenAPIMultiTagSite"),
+         projectDirectory: URL(fileURLWithPath: "/tmp")
+      )
+   }
+
+   private func tagPageHTML(slugFragment: String) throws -> String {
+      let spec = try self.multiTagSpec()
+      let files = try OpenAPITagPage(spec: spec).render(context: self.makeContext())
+      return try #require(files.first { $0.outputPath.path.contains("/api/\(slugFragment)/index.html") }?.content)
+   }
+
+   @Test("A multi-tagged operation is listed on every tag page, linking to its canonical page")
+   func crossListedOnBothTags() throws {
+      let petsPage = try self.tagPageHTML(slugFragment: "pets")
+      let adminPage = try self.tagPageHTML(slugFragment: "admin")
+
+      // banPet is tagged [pets, admin]; its canonical page lives under the first tag.
+      // Both tag pages link to that one canonical URL, never a per-tag duplicate.
+      #expect(petsPage.contains("href=\"/api/pets/banpet/\""))
+      #expect(adminPage.contains("href=\"/api/pets/banpet/\""))
+      // The admin page must NOT mint an admin-scoped URL for it.
+      #expect(!adminPage.contains("href=\"/api/admin/banpet/\""))
+   }
+
+   @Test("The canonical operation page exists exactly once, under the first tag")
+   func oneCanonicalPage() throws {
+      let spec = try self.multiTagSpec()
+      let files = try OpenAPIOperationPage(spec: spec).render(context: self.makeContext())
+      let banPages = files.filter { $0.outputPath.path.contains("banpet") }
+
+      #expect(banPages.count == 1)
+      #expect(banPages.first?.outputPath.path == "/tmp/_OpenAPIMultiTagSite/api/pets/banpet/index.html")
+   }
+
+   @Test("Both landing cards count the multi-tagged operation")
+   func landingCardsCountUnderEveryTag() throws {
+      let spec = try self.multiTagSpec()
+      let html = try #require(try OpenAPILandingPage(spec: spec).render(context: self.makeContext()).first?.content)
+
+      // pets owns listPets + banPet (2); admin lists the cross-listed banPet (1).
+      #expect(html.contains(">2 endpoints<"))
+      #expect(html.contains(">1 endpoint<"))
+   }
+}
