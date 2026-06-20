@@ -150,3 +150,88 @@ struct OpenAPIRenderersTests {
       #expect(html.contains("int64"))
    }
 }
+
+/// Operation-page tests for in-file component `$ref` resolution: a `$ref`'d
+/// parameter, response, and request body must render identically to inline ones,
+/// and an unresolvable `$ref` must surface a visible placeholder rather than
+/// vanishing. These pin the regression closed (today the loader drops every
+/// referenced node, so all four assertions below fail before resolution lands).
+@Suite("OpenAPI component $ref resolution")
+struct OpenAPIComponentRefTests {
+   private func refsSpec() throws -> OpenAPISpec {
+      let url = try #require(
+         Bundle.module.url(forResource: "components-refs-3.1", withExtension: "yaml", subdirectory: "Fixtures")
+      )
+      return try OpenAPISpecLoader().load(source: url)
+   }
+
+   private func danglingSpec() throws -> OpenAPISpec {
+      let url = try #require(
+         Bundle.module.url(forResource: "dangling-ref-3.1", withExtension: "yaml", subdirectory: "Fixtures")
+      )
+      return try OpenAPISpecLoader().load(source: url)
+   }
+
+   private func makeContext() -> BuildContext {
+      BuildContext(
+         config: SiteConfig(
+            name: "Refs",
+            baseURL: "https://example.com",
+            description: "Component-ref docs.",
+            sections: [SectionConfig(name: "API", slug: "api", contentDirectory: "Content", urlPrefix: "api")]
+         ),
+         themeConfig: nil,
+         sections: [],
+         staticPages: [],
+         tags: [:],
+         homeContent: nil,
+         outputDirectory: URL(fileURLWithPath: "/tmp/_OpenAPIRefsSite"),
+         projectDirectory: URL(fileURLWithPath: "/tmp")
+      )
+   }
+
+   private func operationHTML(_ spec: OpenAPISpec, slugFragment: String) throws -> String {
+      let files = try OpenAPIOperationPage(spec: spec).render(context: self.makeContext())
+      return try #require(files.first { $0.outputPath.path.contains(slugFragment) }?.content)
+   }
+
+   @Test("A component-$ref'd parameter resolves and renders like an inline parameter")
+   func componentRefParameterResolves() throws {
+      let html = try self.operationHTML(self.refsSpec(), slugFragment: "listitems")
+
+      // The PageLimit parameter is declared as $ref'd; resolution gives it a real
+      // name, location, and type on the operation page.
+      #expect(html.contains("limit"))
+      #expect(html.contains("data-in=\"query\""))
+      #expect(html.contains("integer"))
+   }
+
+   @Test("A component-$ref'd response resolves with its status and schema link")
+   func componentRefResponseResolves() throws {
+      let html = try self.operationHTML(self.refsSpec(), slugFragment: "listitems")
+
+      // The 401 Unauthorized response is declared as a $ref; resolution surfaces
+      // its status and its content schema (Error), linked not inlined.
+      #expect(html.contains("data-status=\"401\""))
+      #expect(html.contains("href=\"/api/schemas/error/\""))
+   }
+
+   @Test("A component-$ref'd request body resolves with its content schema link")
+   func componentRefRequestBodyResolves() throws {
+      let html = try self.operationHTML(self.refsSpec(), slugFragment: "createitem")
+
+      #expect(html.contains("sk-openapi-request-body"))
+      #expect(html.contains("application/json"))
+      #expect(html.contains("href=\"/api/schemas/item/\""))
+   }
+
+   @Test("An unresolvable $ref surfaces a visible placeholder instead of vanishing")
+   func unresolvableRefIsVisible() throws {
+      // Loading must not throw on dangling refs, and the operation page must still
+      // exist and carry the missing reference name (not silently drop the section).
+      let html = try self.operationHTML(self.danglingSpec(), slugFragment: "listthings")
+
+      #expect(html.contains("DoesNotExist"))
+      #expect(html.contains("data-status=\"200\""))
+   }
+}

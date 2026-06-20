@@ -130,11 +130,15 @@ public struct OpenAPISpecLoader: Loader {
    ///
    /// Path items and the schemas, parameters, request bodies, and responses
    /// nested inside operations may each be either an inline value or a `$ref`.
-   /// A single self-contained spec (the shape this blueprint supports) carries
-   /// them inline, so inline values are flattened in full; a `$ref` at the schema
-   /// level is preserved by name (``OpenAPISpec/SchemaNode/referenceName``) for
-   /// the renderers to link, and a `$ref` at the path-item / parameter / request-
-   /// body / response / content level is dropped consistently (see the helpers).
+   /// Inline values are flattened in full; an in-file component `$ref` at the
+   /// path-item / parameter / request-body / response level is resolved against
+   /// `document.components` and flattened exactly as if it had been written inline,
+   /// so a spec that factors shared parameters or responses into `components/`
+   /// renders identical docs to one that inlines them. A `$ref` at the schema level
+   /// is preserved by name (``OpenAPISpec/SchemaNode/referenceName``) so the
+   /// renderers link to the schema page rather than inlining it. A reference whose
+   /// target is missing never drops silently: it becomes a visible placeholder plus
+   /// a build warning (see ``warnUnresolvedReference(kind:_:)`` and the helpers).
    private static func makeSpec(from document: OpenAPIKit.OpenAPI.Document) -> OpenAPISpec {
       let info = OpenAPISpec.Info(
          title: document.info.title,
@@ -151,14 +155,27 @@ public struct OpenAPISpecLoader: Loader {
          OpenAPISpec.Tag(name: tag.name, description: tag.description)
       }
 
+      let components = document.components
       var operations: [OpenAPISpec.Operation] = []
       for (path, pathItemEither) in document.paths {
-         // Single self-contained specs carry path items inline; a referenced path
-         // item is out of scope for this blueprint and is skipped rather than guessed.
-         // S2: resolve in-file component references and stop dropping referenced nodes.
-         guard case .b(let pathItem) = pathItemEither else { continue }
+         // A path item may be inline or a $ref into components/pathItems. Resolve the
+         // reference so its operations are documented; an unresolvable reference warns
+         // and skips that path rather than silently dropping it with no signal.
+         let pathItem: OpenAPIKit.OpenAPI.PathItem
+         switch pathItemEither {
+         case .b(let inline):
+            pathItem = inline
+         case .a(let reference):
+            guard let resolved = components[reference] else {
+               Self.warnUnresolvedReference(kind: "path item", reference.name ?? reference.absoluteString)
+               continue
+            }
+            pathItem = resolved
+         }
          for endpoint in pathItem.endpoints {
-            operations.append(Self.makeOperation(endpoint.operation, method: endpoint.method.rawValue, path: path.rawValue))
+            operations.append(
+               Self.makeOperation(endpoint.operation, method: endpoint.method.rawValue, path: path.rawValue, components: components)
+            )
          }
       }
 
@@ -169,7 +186,12 @@ public struct OpenAPISpecLoader: Loader {
       return OpenAPISpec(info: info, servers: servers, tags: tags, operations: operations, schemas: schemas)
    }
 
-   private static func makeOperation(_ operation: OpenAPIKit.OpenAPI.Operation, method: String, path: String) -> OpenAPISpec.Operation {
+   private static func makeOperation(
+      _ operation: OpenAPIKit.OpenAPI.Operation,
+      method: String,
+      path: String,
+      components: OpenAPIKit.OpenAPI.Components
+   ) -> OpenAPISpec.Operation {
       OpenAPISpec.Operation(
          method: method,
          path: path,
@@ -177,28 +199,54 @@ public struct OpenAPISpecLoader: Loader {
          summary: operation.summary,
          description: operation.description,
          tags: operation.tags ?? [],
-         parameters: operation.parameters.compactMap { Self.makeParameter($0) },
-         requestBody: operation.requestBody.flatMap { Self.makeRequestBody($0) },
-         responses: Self.makeResponses(operation.responses),
+         parameters: operation.parameters.map { Self.makeParameter($0, components: components) },
+         requestBody: operation.requestBody.map { Self.makeRequestBody($0, components: components) },
+         responses: Self.makeResponses(operation.responses, components: components),
          security: Self.makeSecurity(operation.security),
          deprecated: operation.deprecated
       )
    }
 
-   /// Maps an inline parameter. A `$ref`'d parameter is dropped (returns `nil`),
-   /// matching the drop-on-reference choice across the other nesting levels until
-   /// S2 resolves in-file component references.
+   /// Maps an operation parameter, resolving a component `$ref` against
+   /// `components.parameters` so a referenced parameter renders identically to an
+   /// inline one. An unresolvable `$ref` (missing target) becomes a visible
+   /// placeholder carrying the reference name plus a build warning – never a silent
+   /// drop. This is the unified drop-vs-emit rule shared across parameters, request
+   /// bodies, and responses.
    private static func makeParameter(
-      _ parameterEither: Either<OpenAPIKit.OpenAPI.Reference<OpenAPIKit.OpenAPI.Parameter>, OpenAPIKit.OpenAPI.Parameter>
-   ) -> OpenAPISpec.Parameter? {
-      guard case .b(let parameter) = parameterEither else { return nil }
+      _ parameterEither: Either<OpenAPIKit.OpenAPI.Reference<OpenAPIKit.OpenAPI.Parameter>, OpenAPIKit.OpenAPI.Parameter>,
+      components: OpenAPIKit.OpenAPI.Components
+   ) -> OpenAPISpec.Parameter {
+      switch parameterEither {
+      case .b(let parameter):
+         return Self.makeParameter(parameter, components: components)
+      case .a(let reference):
+         if let resolved = components[reference] {
+            return Self.makeParameter(resolved, components: components)
+         }
+         let name = reference.name ?? reference.absoluteString
+         Self.warnUnresolvedReference(kind: "parameter", name)
+         return OpenAPISpec.Parameter(
+            name: name,
+            location: .other("unresolved-reference"),
+            description: "Unresolved $ref – this parameter references a component that is not defined in the document.",
+            required: false,
+            schema: nil
+         )
+      }
+   }
 
+   /// Flattens an inline parameter into ``OpenAPISpec/Parameter``.
+   private static func makeParameter(
+      _ parameter: OpenAPIKit.OpenAPI.Parameter,
+      components: OpenAPIKit.OpenAPI.Components
+   ) -> OpenAPISpec.Parameter {
       let schema: OpenAPISpec.SchemaNode?
       switch parameter.schemaOrContent {
       case .a(let schemaContext):
          schema = Self.makeSchema(from: schemaContext.schema)
       case .b(let contentMap):
-         schema = Self.makeContent(contentMap).first?.schema
+         schema = Self.makeContent(contentMap, components: components).first?.schema
       }
 
       return OpenAPISpec.Parameter(
@@ -211,43 +259,108 @@ public struct OpenAPISpecLoader: Loader {
       )
    }
 
-   /// Maps an inline request body. A `$ref`'d request body is dropped (returns
-   /// `nil`), consistent with the other reference levels.
-   private static func makeRequestBody(_ requestEither: Either<OpenAPIKit.OpenAPI.Reference<OpenAPIKit.OpenAPI.Request>, OpenAPIKit.OpenAPI.Request>)
-      -> OpenAPISpec.RequestBody?
-   {
-      guard case .b(let request) = requestEither else { return nil }
-      return OpenAPISpec.RequestBody(
-         description: request.description,
-         required: request.required,
-         content: Self.makeContent(request.content)
-      )
-   }
-
-   /// Maps the inline responses. A `$ref`'d response is dropped (`compactMap`),
-   /// consistent with the parameter / request-body reference handling above –
-   /// rather than emitting a degenerate empty response. S2 resolves these refs.
-   private static func makeResponses(_ responses: OpenAPIKit.OpenAPI.Response.Map) -> [OpenAPISpec.Response] {
-      responses.compactMap { entry in
-         guard case .b(let response) = entry.value else { return nil }
-         return OpenAPISpec.Response(
-            statusCode: entry.key.rawValue,
-            description: response.description,
-            content: Self.makeContent(response.content)
+   /// Maps an operation request body, resolving a component `$ref` against
+   /// `components.requestBodies` so a referenced body renders identically to an
+   /// inline one. An unresolvable `$ref` becomes a visible placeholder description
+   /// plus a build warning (the unified emit rule).
+   private static func makeRequestBody(
+      _ requestEither: Either<OpenAPIKit.OpenAPI.Reference<OpenAPIKit.OpenAPI.Request>, OpenAPIKit.OpenAPI.Request>,
+      components: OpenAPIKit.OpenAPI.Components
+   ) -> OpenAPISpec.RequestBody {
+      switch requestEither {
+      case .b(let request):
+         return Self.makeRequestBody(request, components: components)
+      case .a(let reference):
+         if let resolved = components[reference] {
+            return Self.makeRequestBody(resolved, components: components)
+         }
+         let name = reference.name ?? reference.absoluteString
+         Self.warnUnresolvedReference(kind: "request body", name)
+         return OpenAPISpec.RequestBody(
+            description: "Unresolved $ref – this request body references a component (\(name)) that is not defined in the document.",
+            required: false,
+            content: []
          )
       }
    }
 
-   /// Maps the inline media-type representations. A `$ref`'d content entry is
-   /// dropped (`compactMap`), consistent with the other reference levels.
-   private static func makeContent(_ content: OpenAPIKit.OpenAPI.Content.Map) -> [OpenAPISpec.MediaType] {
-      content.compactMap { entry in
-         guard case .b(let inline) = entry.value else { return nil }
-         return OpenAPISpec.MediaType(
-            contentType: entry.key.rawValue,
-            schema: inline.schema.map { Self.makeSchema($0) },
-            example: Self.makeExample(inline)
-         )
+   /// Flattens an inline request body into ``OpenAPISpec/RequestBody``.
+   private static func makeRequestBody(
+      _ request: OpenAPIKit.OpenAPI.Request,
+      components: OpenAPIKit.OpenAPI.Components
+   ) -> OpenAPISpec.RequestBody {
+      OpenAPISpec.RequestBody(
+         description: request.description,
+         required: request.required,
+         content: Self.makeContent(request.content, components: components)
+      )
+   }
+
+   /// Maps the operation responses, resolving a component `$ref` against
+   /// `components.responses` so a referenced response (a shared `401`/`404`, say)
+   /// renders identically to an inline one. An unresolvable `$ref` becomes a visible
+   /// placeholder carrying the status code and reference name plus a build warning
+   /// (the unified emit rule), never a silent drop.
+   private static func makeResponses(
+      _ responses: OpenAPIKit.OpenAPI.Response.Map,
+      components: OpenAPIKit.OpenAPI.Components
+   ) -> [OpenAPISpec.Response] {
+      responses.map { entry in
+         let statusCode = entry.key.rawValue
+         switch entry.value {
+         case .b(let response):
+            return Self.makeResponse(statusCode: statusCode, response: response, components: components)
+         case .a(let reference):
+            if let resolved = components[reference] {
+               return Self.makeResponse(statusCode: statusCode, response: resolved, components: components)
+            }
+            let name = reference.name ?? reference.absoluteString
+            Self.warnUnresolvedReference(kind: "response", name)
+            return OpenAPISpec.Response(
+               statusCode: statusCode,
+               description: "Unresolved $ref – this response references a component (\(name)) that is not defined in the document.",
+               content: []
+            )
+         }
+      }
+   }
+
+   /// Flattens an inline response into ``OpenAPISpec/Response``.
+   private static func makeResponse(
+      statusCode: String,
+      response: OpenAPIKit.OpenAPI.Response,
+      components: OpenAPIKit.OpenAPI.Components
+   ) -> OpenAPISpec.Response {
+      OpenAPISpec.Response(
+         statusCode: statusCode,
+         description: response.description,
+         content: Self.makeContent(response.content, components: components)
+      )
+   }
+
+   /// Maps the media-type representations of a request or response body. A schema
+   /// `$ref` inside a media type is preserved by name (a link, not inlined). A media
+   /// type that is itself a `$ref` cannot be resolved (OpenAPI has no
+   /// `components/content` dictionary), so it becomes a visible degenerate entry
+   /// carrying its content type plus a build warning rather than a silent drop –
+   /// keeping the emit-vs-drop behavior consistent with the other reference levels.
+   private static func makeContent(
+      _ content: OpenAPIKit.OpenAPI.Content.Map,
+      components: OpenAPIKit.OpenAPI.Components
+   ) -> [OpenAPISpec.MediaType] {
+      content.map { entry in
+         let contentType = entry.key.rawValue
+         switch entry.value {
+         case .b(let inline):
+            return OpenAPISpec.MediaType(
+               contentType: contentType,
+               schema: inline.schema.map { Self.makeSchema($0) },
+               example: Self.makeExample(inline)
+            )
+         case .a(let reference):
+            Self.warnUnresolvedReference(kind: "media type", reference.name ?? reference.absoluteString)
+            return OpenAPISpec.MediaType(contentType: contentType, schema: nil, example: nil)
+         }
       }
    }
 
@@ -261,6 +374,15 @@ public struct OpenAPISpecLoader: Loader {
       encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
       guard let data = try? encoder.encode(example), let json = String(data: data, encoding: .utf8) else { return nil }
       return json
+   }
+
+   /// Logs a build-time warning for a `$ref` that could not be resolved against the
+   /// document components, matching the factory's warn-and-continue posture. The
+   /// caller still emits a visible placeholder so the gap also shows in the docs.
+   private static func warnUnresolvedReference(kind: String, _ name: String) {
+      print(
+         "[SiteKit] Warning: unresolved OpenAPI \(kind) $ref '\(name)' – no matching component definition; rendering a placeholder."
+      )
    }
 
    /// Maps each per-operation security requirement (a named scheme reference plus
