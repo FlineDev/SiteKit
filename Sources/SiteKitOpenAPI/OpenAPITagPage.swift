@@ -37,7 +37,13 @@ public struct OpenAPITagPage: Page {
       let path: String = page.extensionValue("openAPIPath") ?? OpenAPIRoutes.tagPath(context, tagSlug: page.slug)
       guard let section = OpenAPIRoutes.tagSections(self.spec).first(where: { $0.tag.name == tagName }) else {
          // The tag vanished from the spec between pages(in:) and render – render an empty shell.
-         return OpenAPIShell.wrap(content: "", page: page, context: context, head: self.head(page: page, path: path, context: context))
+         return OpenAPIShell.wrap(
+            content: "",
+            page: page,
+            context: context,
+            head: self.head(page: page, path: path, context: context),
+            spec: self.spec
+         )
       }
 
       let body =
@@ -46,7 +52,13 @@ public struct OpenAPITagPage: Page {
          + self.operationListHTML(section: section, context: context)
          + "</article>"
 
-      return OpenAPIShell.wrap(content: body, page: page, context: context, head: self.head(page: page, path: path, context: context))
+      return OpenAPIShell.wrap(
+         content: body,
+         page: page,
+         context: context,
+         head: self.head(page: page, path: path, context: context),
+         spec: self.spec
+      )
    }
 
    public func outputURL(for page: PageModel, context: BuildContext) -> URL {

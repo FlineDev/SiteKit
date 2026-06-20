@@ -48,7 +48,7 @@ public struct OpenAPILandingPage: Page {
          + self.tagCardsHTML(context: context)
          + "</article>"
 
-      return OpenAPIShell.wrap(content: body, page: page, context: context, head: head)
+      return OpenAPIShell.wrap(content: body, page: page, context: context, head: head, spec: self.spec)
    }
 
    public func outputURL(for page: PageModel, context: BuildContext) -> URL {

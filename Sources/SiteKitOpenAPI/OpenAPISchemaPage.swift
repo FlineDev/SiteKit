@@ -37,7 +37,7 @@ public struct OpenAPISchemaPage: Page {
 
    public func renderHTML(_ page: PageModel, context: BuildContext) -> String {
       guard let schema: OpenAPISpec.SchemaObject = page.extensionValue("openAPISchema") else {
-         return OpenAPIShell.wrap(content: "", page: page, context: context, head: self.head(page: page, context: context))
+         return OpenAPIShell.wrap(content: "", page: page, context: context, head: self.head(page: page, context: context), spec: self.spec)
       }
 
       let body =
@@ -46,7 +46,7 @@ public struct OpenAPISchemaPage: Page {
          + OpenAPISchemaHTML.detail(schema.schema, context: context, spec: self.spec)
          + "</article>"
 
-      return OpenAPIShell.wrap(content: body, page: page, context: context, head: self.head(page: page, context: context))
+      return OpenAPIShell.wrap(content: body, page: page, context: context, head: self.head(page: page, context: context), spec: self.spec)
    }
 
    public func outputURL(for page: PageModel, context: BuildContext) -> URL {

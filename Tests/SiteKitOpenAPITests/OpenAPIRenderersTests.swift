@@ -384,3 +384,130 @@ struct OpenAPIMultiTagTests {
       #expect(html.contains(">1 endpoint<"))
    }
 }
+
+/// Sidebar navigation-tree tests: the persistent rail on every page has a group per
+/// tag (each operation under it with the right method hook), a Schemas group listing
+/// every schema, a deprecated hook on deprecated operations, the active item marked
+/// on the page being rendered, and cross-listing consistency (a multi-tag operation
+/// appears under every tag it carries, matching the page lists).
+@Suite("OpenAPI sidebar nav")
+struct OpenAPINavTests {
+   private func spec(_ name: String) throws -> OpenAPISpec {
+      let url = try #require(Bundle.module.url(forResource: name, withExtension: "yaml", subdirectory: "Fixtures"))
+      return try OpenAPISpecLoader().load(source: url)
+   }
+
+   private func makeContext() -> BuildContext {
+      BuildContext(
+         config: SiteConfig(
+            name: "Nav",
+            baseURL: "https://example.com",
+            description: "Nav docs.",
+            sections: [SectionConfig(name: "API", slug: "api", contentDirectory: "Content", urlPrefix: "api")]
+         ),
+         themeConfig: nil,
+         sections: [],
+         staticPages: [],
+         tags: [:],
+         homeContent: nil,
+         outputDirectory: URL(fileURLWithPath: "/tmp/_OpenAPINavSite"),
+         projectDirectory: URL(fileURLWithPath: "/tmp")
+      )
+   }
+
+   /// The `<nav class="sk-openapi-nav">…</nav>` slice of a rendered page, so an
+   /// assertion targets the rail and not the page body (which shares many hooks).
+   private func navSlice(_ html: String) throws -> String {
+      let start = try #require(html.range(of: "<nav class=\"sk-openapi-nav\""))
+      let end = try #require(html.range(of: "</nav>", range: start.lowerBound..<html.endIndex))
+      return String(html[start.lowerBound..<end.upperBound])
+   }
+
+   private func landingNav(_ specName: String) throws -> String {
+      let spec = try self.spec(specName)
+      let html = try #require(try OpenAPILandingPage(spec: spec).render(context: self.makeContext()).first?.content)
+      return try self.navSlice(html)
+   }
+
+   @Test("The rail has a group per tag, each listing its operations with method hooks")
+   func groupPerTagWithOperations() throws {
+      let nav = try self.landingNav("petstore-3.1")
+
+      #expect(nav.contains("aria-label=\"API navigation\""))
+      #expect(nav.contains("class=\"sk-openapi-nav-group\""))
+      // The single petstore tag and one of its operations, with the method hook + link.
+      #expect(nav.contains(">pets<"))
+      #expect(nav.contains("data-method=\"get\""))
+      #expect(nav.contains(">showPetById<"))
+      #expect(nav.contains("href=\"/api/pets/showpetbyid/\""))
+   }
+
+   @Test("The rail has a Schemas group listing every schema")
+   func schemasGroupListsEverySchema() throws {
+      let nav = try self.landingNav("petstore-3.1")
+
+      #expect(nav.contains(">Schemas<"))
+      #expect(nav.contains(">Pet<"))
+      #expect(nav.contains(">Pets<"))
+      #expect(nav.contains(">Error<"))
+      #expect(nav.contains("href=\"/api/schemas/pet/\""))
+      #expect(nav.contains("href=\"/api/schemas/error/\""))
+   }
+
+   @Test("A deprecated operation carries the deprecated hook in the rail")
+   func deprecatedOperationHasHook() throws {
+      let nav = try self.landingNav("nav-deprecated-3.1")
+
+      #expect(nav.contains(">oldEndpoint<"))
+      #expect(nav.contains("data-deprecated=\"true\""))
+   }
+
+   @Test("The active nav item is marked on the page being rendered")
+   func activeItemMarkedOnItsPage() throws {
+      let spec = try self.spec("petstore-3.1")
+
+      // On the showPetById operation page, that item is active; another op is not.
+      let opFiles = try OpenAPIOperationPage(spec: spec).render(context: self.makeContext())
+      let opHTML = try #require(opFiles.first { $0.outputPath.path.contains("showpetbyid") }?.content)
+      let opNav = try self.navSlice(opHTML)
+      #expect(opNav.contains("href=\"/api/pets/showpetbyid/\" aria-current=\"page\""))
+      #expect(opNav.contains("sk-openapi-nav-link is-active"))
+      #expect(!opNav.contains("href=\"/api/pets/listpets/\" aria-current=\"page\""))
+
+      // On the landing page, the home link is the active one instead.
+      let landingNav = try self.landingNav("petstore-3.1")
+      #expect(landingNav.contains("sk-openapi-nav-home is-active"))
+      #expect(!landingNav.contains("href=\"/api/pets/showpetbyid/\" aria-current=\"page\""))
+   }
+
+   @Test("A multi-tag operation appears under every one of its tags in the rail")
+   func crossListedUnderEveryTagInNav() throws {
+      let nav = try self.landingNav("multi-tag-3.1")
+
+      // Both tag groups are present.
+      #expect(nav.contains(">pets<"))
+      #expect(nav.contains(">admin<"))
+      // banPet (tagged [pets, admin]) is listed twice – once per tag – both links
+      // pointing at its single canonical page, matching the page-list cross-listing.
+      let canonicalLinks = nav.components(separatedBy: "href=\"/api/pets/banpet/\"").count - 1
+      #expect(canonicalLinks == 2)
+      #expect(!nav.contains("href=\"/api/admin/banpet/\""))
+   }
+
+   @Test("The rail is emitted on every page type")
+   func navOnEveryPageType() throws {
+      let spec = try self.spec("petstore-3.1")
+      let context = self.makeContext()
+      let renderers: [any Renderer] = [
+         OpenAPILandingPage(spec: spec),
+         OpenAPITagPage(spec: spec),
+         OpenAPIOperationPage(spec: spec),
+         OpenAPISchemaPage(spec: spec),
+      ]
+      for renderer in renderers {
+         for file in try renderer.render(context: context) {
+            #expect(file.content.contains("<nav class=\"sk-openapi-nav\""))
+         }
+      }
+   }
+}

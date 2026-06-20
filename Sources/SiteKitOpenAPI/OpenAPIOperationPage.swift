@@ -44,7 +44,7 @@ public struct OpenAPIOperationPage: Page {
 
    public func renderHTML(_ page: PageModel, context: BuildContext) -> String {
       guard let operation: OpenAPISpec.Operation = page.extensionValue("openAPIOperation") else {
-         return OpenAPIShell.wrap(content: "", page: page, context: context, head: self.head(page: page, context: context))
+         return OpenAPIShell.wrap(content: "", page: page, context: context, head: self.head(page: page, context: context), spec: self.spec)
       }
 
       let body =
@@ -58,7 +58,7 @@ public struct OpenAPIOperationPage: Page {
          + "<!-- v1.2.0: try-it widget mounts here -->"
          + "</article>"
 
-      return OpenAPIShell.wrap(content: body, page: page, context: context, head: self.head(page: page, context: context))
+      return OpenAPIShell.wrap(content: body, page: page, context: context, head: self.head(page: page, context: context), spec: self.spec)
    }
 
    public func outputURL(for page: PageModel, context: BuildContext) -> URL {
