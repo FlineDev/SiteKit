@@ -15,7 +15,7 @@
    --sk-openapi-gap: 1rem;
    --sk-openapi-nav-bg: var(--color-bg-card, var(--color-bg-alt, var(--color-bg)));
    --sk-openapi-nav-border: var(--color-border);
-   --sk-openapi-row-radius: 8px;
+   --sk-openapi-row-radius: var(--radius, 8px);
    --sk-openapi-row-hover: var(--color-bg-alt);
    --sk-openapi-active-bg: var(--color-accent);
    --sk-openapi-active-text: var(--color-accent-contrast, #fff);
@@ -127,10 +127,18 @@ body.sk-openapi-shell-body {
    margin-bottom: 0.35rem;
 }
 
-.sk-openapi-nav-group-title {
+/* The header row holds the title link plus the JS-injected twist as siblings (the twist
+   must not nest inside the title's <a> – that would be an interactive inside an
+   interactive). The flex lives here so the twist and title align on one row. */
+.sk-openapi-nav-group-header {
    display: flex;
    align-items: center;
    gap: 0.35rem;
+}
+
+.sk-openapi-nav-group-title {
+   flex: 1 1 auto;
+   min-width: 0;
    padding: 0.35rem 0.6rem;
    border-radius: var(--sk-openapi-row-radius);
    font-weight: 600;
@@ -199,10 +207,13 @@ a.sk-openapi-nav-group-title:hover {
    color: var(--sk-openapi-active-text);
 }
 
-/* The verb pill in the rail is dimmed to a neutral chip when the row is active, so the
-   active accent background stays readable behind it. */
+/* The verb pill inverts to the active token pair when its row is active, so it stays
+   legible on the accent background for any theme – including a light accent, where a
+   hard-coded translucent-white pill would wash out. Background = the accent's contrast
+   color, label = the accent itself: an always-legible pair by the theme's definition. */
 .sk-openapi-nav-link.is-active .sk-openapi-method {
-   background: rgba(255, 255, 255, 0.25);
+   background: var(--sk-openapi-active-text);
+   color: var(--sk-openapi-active-bg);
 }
 
 /* A long operation summary must never break the rail: clip to one line with an ellipsis.
@@ -591,13 +602,17 @@ a.sk-openapi-nav-group-title:hover {
    font-size: 0.88rem;
 }
 
-/* ── Responsive: nav becomes an off-canvas drawer ───────────────────────────── */
+/* ── Responsive: nav becomes an off-canvas drawer ─────────────────────────────
+   Cut-the-mustard: the off-canvas drawer is gated behind `html.js` (the script adds
+   that class early). With JS the rail slides in from the hamburger (below); without JS
+   the gate never matches, so the `html:not(.js)` rules render the rail in normal flow –
+   stacked above the content and fully reachable, just not a drawer. */
 @media (max-width: 860px) {
-   .sk-openapi-nav-toggle {
+   html.js .sk-openapi-nav-toggle {
       display: inline-flex;
    }
 
-   .sk-openapi-nav {
+   html.js .sk-openapi-nav {
       position: fixed;
       top: var(--sk-openapi-appbar-height);
       bottom: 0;
@@ -608,8 +623,28 @@ a.sk-openapi-nav-group-title:hover {
       box-shadow: var(--shadow, 0 4px 20px rgba(0, 0, 0, 0.15));
    }
 
-   .sk-openapi-layout.is-nav-open .sk-openapi-nav {
+   html.js .sk-openapi-layout.is-nav-open .sk-openapi-nav {
       transform: translateX(0);
+   }
+
+   /* JS off: drop the fixed-viewport app-shell so the page scrolls normally, and stack
+      the rail above the content (full width, no inner scroll trap) so it is reachable. */
+   html:not(.js) .sk-openapi-layout {
+      height: auto;
+      min-height: 100dvh;
+      overflow: visible;
+   }
+
+   html:not(.js) .sk-openapi-body {
+      flex-direction: column;
+   }
+
+   html:not(.js) .sk-openapi-nav {
+      flex: 0 0 auto;
+      width: auto;
+      overflow: visible;
+      border-right: 0;
+      border-bottom: 1px solid var(--sk-openapi-nav-border);
    }
 }
 

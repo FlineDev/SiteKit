@@ -5,6 +5,11 @@
 (function () {
    "use strict";
 
+   // Cut-the-mustard: announce that JS is on as early as the script runs, before the
+   // rail is touched. The stylesheet gates the mobile off-canvas drawer behind `html.js`,
+   // so a JS-off narrow viewport keeps the rail in normal flow (reachable, not a drawer).
+   document.documentElement.classList.add("js");
+
    function ready(fn) {
       if (document.readyState !== "loading") {
          fn();
@@ -25,21 +30,33 @@
       wireMobileDrawer(nav);
    });
 
-   // Inject a twist button into each group header so a group can be collapsed/expanded.
-   // The header stays a link (it navigates to the tag page); only the twist toggles.
+   // Inject a twist button into each group's header row so a group can be collapsed/
+   // expanded. The twist is inserted as a SIBLING of the title link (both children of
+   // .sk-openapi-nav-group-header), never inside the <a> – a button nested in an anchor
+   // is invalid (nested interactives). The title link still navigates to the tag page.
    function addCollapseTwists(nav) {
       var groups = nav.querySelectorAll(".sk-openapi-nav-group");
-      groups.forEach(function (group) {
-         var header = group.querySelector(".sk-openapi-nav-group-title");
+      groups.forEach(function (group, index) {
+         var header = group.querySelector(".sk-openapi-nav-group-header");
+         var title = group.querySelector(".sk-openapi-nav-group-title");
          var items = group.querySelector(".sk-openapi-nav-items");
          if (!header || !items) {
             return;
          }
+         // Give the items list a stable id so the twist's aria-controls can point at the
+         // region it shows/hides.
+         if (!items.id) {
+            items.id = "sk-openapi-nav-items-" + index;
+         }
+         var sectionName = title ? title.textContent.trim() : "section";
          var twist = document.createElement("button");
          twist.type = "button";
          twist.className = "sk-openapi-nav-twist";
          twist.setAttribute("aria-expanded", "true");
-         twist.setAttribute("aria-label", "Toggle section");
+         twist.setAttribute("aria-controls", items.id);
+         // Name the section so screen-reader users hear which group the twist toggles,
+         // rather than the same generic label repeated for every group.
+         twist.setAttribute("aria-label", "Toggle the " + sectionName + " section");
          twist.textContent = "▾"; // ▾
          twist.addEventListener("click", function (event) {
             event.preventDefault();
@@ -100,10 +117,16 @@
       if (!layout || !appbar) {
          return;
       }
+      // Give the rail a stable id so the toggle's aria-controls can point at the region
+      // it opens and closes.
+      if (!nav.id) {
+         nav.id = "sk-openapi-nav";
+      }
       var toggle = document.createElement("button");
       toggle.type = "button";
       toggle.className = "sk-openapi-nav-toggle";
       toggle.setAttribute("aria-label", "Toggle navigation");
+      toggle.setAttribute("aria-controls", nav.id);
       toggle.setAttribute("aria-expanded", "false");
       toggle.textContent = "☰"; // ☰
       toggle.addEventListener("click", function () {

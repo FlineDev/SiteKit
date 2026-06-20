@@ -614,3 +614,126 @@ struct OpenAPIStylingTests {
       #expect(stashed == "/api/")
    }
 }
+
+/// Code-review-fix-slice tests: the two MEDIUM and four LOW follow-ups from the S4a
+/// review. Each asserts on the served artifact (generated CSS, bundled JS, rendered
+/// nav markup), so the fix is proven by the file a browser actually receives.
+@Suite("OpenAPI styling fixes")
+struct OpenAPIStylingFixTests {
+   private func makeContext() -> BuildContext {
+      BuildContext(
+         config: SiteConfig(
+            name: "Fix",
+            baseURL: "https://example.com",
+            description: "Fix docs.",
+            sections: [SectionConfig(name: "API", slug: "api", contentDirectory: "Content", urlPrefix: "api")]
+         ),
+         themeConfig: nil,
+         sections: [],
+         staticPages: [],
+         tags: [:],
+         homeContent: nil,
+         outputDirectory: URL(fileURLWithPath: "/tmp/_OpenAPIFixSite"),
+         projectDirectory: URL(fileURLWithPath: "/tmp")
+      )
+   }
+
+   private func stylesheet() throws -> String {
+      try #require(try OpenAPIStylesheetRenderer().render(context: self.makeContext()).first?.content)
+   }
+
+   private func navScript() throws -> String {
+      try #require(try OpenAPINavScriptRenderer().render(context: self.makeContext()).first?.content)
+   }
+
+   private func navSlice(_ html: String) throws -> String {
+      let start = try #require(html.range(of: "<nav class=\"sk-openapi-nav\""))
+      let end = try #require(html.range(of: "</nav>", range: start.lowerBound..<html.endIndex))
+      return String(html[start.lowerBound..<end.upperBound])
+   }
+
+   private func landingHTML() throws -> String {
+      let url = try #require(Bundle.module.url(forResource: "petstore-3.1", withExtension: "yaml", subdirectory: "Fixtures"))
+      let spec = try OpenAPISpecLoader().load(source: url)
+      return try #require(try OpenAPILandingPage(spec: spec).render(context: self.makeContext()).first?.content)
+   }
+
+   @Test("M1: each verb badge emits an AA label color, not a blanket white")
+   func verbBadgesEmitPerVerbAALabelColor() throws {
+      let css = try self.stylesheet()
+
+      // Light verbs flip to near-black text (white failed AA on these hues); the two dark
+      // verbs keep white. The label color now travels with the background in each rule.
+      #expect(css.contains(".sk-openapi-method[data-method=\"get\"] { background: #61affe; color: #000; }"))
+      #expect(css.contains(".sk-openapi-method[data-method=\"post\"] { background: #49cc90; color: #000; }"))
+      #expect(css.contains(".sk-openapi-method[data-method=\"put\"] { background: #fca130; color: #000; }"))
+      #expect(css.contains(".sk-openapi-method[data-method=\"patch\"] { background: #50e3c2; color: #000; }"))
+      #expect(css.contains(".sk-openapi-method[data-method=\"delete\"] { background: #f93e3e; color: #000; }"))
+      #expect(css.contains(".sk-openapi-method[data-method=\"head\"] { background: #9012fe; color: #fff; }"))
+      #expect(css.contains(".sk-openapi-method[data-method=\"options\"] { background: #0d5aa7; color: #fff; }"))
+   }
+
+   @Test("M2: the mobile off-canvas drawer is gated behind html.js, with a JS-off fallback")
+   func mobileDrawerGatedBehindJSClass() throws {
+      let css = try self.stylesheet()
+
+      // The off-canvas transform and the hamburger only apply when JS is on.
+      #expect(css.contains("html.js .sk-openapi-nav-toggle"))
+      #expect(css.contains("html.js .sk-openapi-layout.is-nav-open .sk-openapi-nav"))
+      // JS off: the rail renders in normal document flow instead of off-canvas.
+      #expect(css.contains("html:not(.js) .sk-openapi-nav"))
+      #expect(css.contains("html:not(.js) .sk-openapi-body"))
+      // The translateX(-100%) hide must live INSIDE the html.js-gated rule – that is what
+      // keeps a JS-off narrow viewport from trapping the rail off-canvas.
+      let gatedStart = try #require(css.range(of: "html.js .sk-openapi-nav {"))
+      let gatedEnd = try #require(css.range(of: "}", range: gatedStart.upperBound..<css.endIndex))
+      let gatedRule = String(css[gatedStart.upperBound..<gatedEnd.lowerBound])
+      #expect(gatedRule.contains("transform: translateX(-100%)"))
+   }
+
+   @Test("M2: the nav script adds the html.js class as early as it runs")
+   func navScriptAddsJSClassEarly() throws {
+      let js = try self.navScript()
+      #expect(js.contains("document.documentElement.classList.add(\"js\")"))
+   }
+
+   @Test("L1: the active-row pill derives from the active token, not a hard-coded white")
+   func activePillDerivesFromActiveToken() throws {
+      let css = try self.stylesheet()
+      #expect(css.contains(".sk-openapi-nav-link.is-active .sk-openapi-method {"))
+      #expect(css.contains("background: var(--sk-openapi-active-text);"))
+      #expect(css.contains("color: var(--sk-openapi-active-bg);"))
+      // The old assume-dark-accent translucent white is gone.
+      #expect(!css.contains("rgba(255, 255, 255, 0.25)"))
+   }
+
+   @Test("L4: the nav row radius follows the theme --radius token")
+   func rowRadiusFollowsThemeToken() throws {
+      let css = try self.stylesheet()
+      #expect(css.contains("--sk-openapi-row-radius: var(--radius, 8px);"))
+   }
+
+   @Test("L2: each group title sits in a header wrapper so the twist can be its sibling")
+   func groupHeaderWrapsTitleForSiblingTwist() throws {
+      let nav = try self.navSlice(try self.landingHTML())
+
+      // The wrapper is present and holds the title link directly.
+      #expect(nav.contains("<div class=\"sk-openapi-nav-group-header\"><a class=\"sk-openapi-nav-group-title"))
+      // The twist is JS-injected, never server-rendered inside the anchor.
+      #expect(!nav.contains("sk-openapi-nav-twist"))
+   }
+
+   @Test("L2/L3: the script inserts the twist into the header and wires section-named ARIA")
+   func navScriptWiresAriaControlsAndSectionLabel() throws {
+      let js = try self.navScript()
+
+      // L2: the twist targets the header row (sibling of the title), not the anchor.
+      #expect(js.contains(".sk-openapi-nav-group-header"))
+      // L3: aria-controls on both the twist and the mobile toggle, plus a section-named
+      // label rather than a generic "Toggle section".
+      #expect(js.contains("twist.setAttribute(\"aria-controls\""))
+      #expect(js.contains("toggle.setAttribute(\"aria-controls\""))
+      #expect(js.contains("\"Toggle the \" + sectionName + \" section\""))
+      #expect(!js.contains("\"Toggle section\""))
+   }
+}

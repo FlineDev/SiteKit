@@ -57,13 +57,19 @@ enum OpenAPISidebarRenderer {
 
    private static func groupHeaderHTML(_ group: OpenAPINavigationTree.Group, currentPath: String) -> String {
       let title = OpenAPIHTML.escape(group.title)
-      guard let url = group.url else {
+      let titleElement: String
+      if let url = group.url {
+         let active = url == currentPath
+         titleElement =
+            "<a class=\"sk-openapi-nav-group-title\(active ? " is-active" : "")\" href=\"\(OpenAPIHTML.escape(url))\"\(Self.currentAttribute(active))>\(title)</a>"
+      } else {
          // A group with no index page (Schemas) renders a plain, non-link label.
-         return "<span class=\"sk-openapi-nav-group-title\">\(title)</span>"
+         titleElement = "<span class=\"sk-openapi-nav-group-title\">\(title)</span>"
       }
-      let active = url == currentPath
-      return
-         "<a class=\"sk-openapi-nav-group-title\(active ? " is-active" : "")\" href=\"\(OpenAPIHTML.escape(url))\"\(Self.currentAttribute(active))>\(title)</a>"
+      // The title sits in a header row so the JS-injected collapse twist can be a sibling
+      // of the link, not a <button> nested inside the <a> (that would be an interactive
+      // inside an interactive – invalid HTML).
+      return "<div class=\"sk-openapi-nav-group-header\">\(titleElement)</div>"
    }
 
    /// One leaf item: the method badge (operations only) plus the label, linking to the

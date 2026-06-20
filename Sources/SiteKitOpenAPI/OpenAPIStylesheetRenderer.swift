@@ -24,17 +24,23 @@ public struct OpenAPIStylesheetRenderer: Renderer {
    public static let cssURL = "/assets/css/openapi.css"
 
    /// The semantic HTTP-verb palette: an industry-standard hue per verb (the
-   /// Swagger-UI family), harmonized to read as white-on-color chips in light and
-   /// dark. These are the one place fixed hues are allowed (the verb semantics are
-   /// universal); everything else derives from theme tokens.
-   static let verbColors: [(verb: String, color: String)] = [
-      ("get", "#61affe"),
-      ("post", "#49cc90"),
-      ("put", "#fca130"),
-      ("patch", "#50e3c2"),
-      ("delete", "#f93e3e"),
-      ("head", "#9012fe"),
-      ("options", "#0d5aa7"),
+   /// Swagger-UI family). These are the one place fixed hues are allowed (the verb
+   /// semantics are universal); everything else derives from theme tokens.
+   ///
+   /// Each entry also fixes the badge `label` color, chosen so the label clears WCAG
+   /// AA (≥ 4.5:1) on that background: near-black on the light verbs (GET/POST/PUT/
+   /// PATCH/DELETE), white on the dark verbs (HEAD/OPTIONS). The blanket white the
+   /// chips used before failed AA on the light hues, so the label color travels with
+   /// the background – both generated, no hand-maintained drift. Computed ratios:
+   /// GET 9.1, POST 10.3, PUT 10.3, PATCH 13.1, DELETE 5.8, HEAD 5.7, OPTIONS 6.9.
+   static let verbColors: [(verb: String, background: String, label: String)] = [
+      ("get", "#61affe", "#000"),
+      ("post", "#49cc90", "#000"),
+      ("put", "#fca130", "#000"),
+      ("patch", "#50e3c2", "#000"),
+      ("delete", "#f93e3e", "#000"),
+      ("head", "#9012fe", "#fff"),
+      ("options", "#0d5aa7", "#fff"),
    ]
 
    public func render(context: BuildContext) throws -> [OutputFile] {
@@ -49,17 +55,20 @@ public struct OpenAPIStylesheetRenderer: Renderer {
    }
 
    /// Generates the per-verb color block: one rule per ``verbColors`` entry painting
-   /// the method badge's background. Shared by the operation header and the nav rail
-   /// (both use `.sk-openapi-method[data-method="<verb>"]`).
+   /// the method badge's background *and* its AA-checked label color. Shared by the
+   /// operation header and the nav rail (both use `.sk-openapi-method[data-method=…]`).
    static func methodColorCSS() -> String {
       var lines = [
          "",
          "/* HTTP-verb colors – generated from the semantic verb palette. One rule per verb",
-         "   paints the method badge background; the label is white (openapi.css) so it reads",
-         "   on the saturated chip in light and dark. */",
+         "   paints the method badge background and its label color, the latter chosen so the",
+         "   label clears WCAG AA (>= 4.5:1) on that hue (near-black on the light verbs, white",
+         "   on the dark ones) in light and dark. */",
       ]
       for entry in self.verbColors {
-         lines.append(".sk-openapi-method[data-method=\"\(entry.verb)\"] { background: \(entry.color); }")
+         lines.append(
+            ".sk-openapi-method[data-method=\"\(entry.verb)\"] { background: \(entry.background); color: \(entry.label); }"
+         )
       }
       return lines.joined(separator: "\n") + "\n"
    }
