@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import SiteKitCLI
 
 @Suite("BlueprintCatalog")
@@ -27,10 +28,12 @@ struct BlueprintCatalogTests {
       defer { try? manager.removeItem(at: catalog) }
 
       let blueprints = try BlueprintCatalog.all(in: catalog)
-      #expect(blueprints == [
-         Blueprint(name: "Blog", description: "A full-featured blog."),
-         Blueprint(name: "Podcast", description: "A podcast website."),
-      ])
+      #expect(
+         blueprints == [
+            Blueprint(name: "Blog", description: "A full-featured blog."),
+            Blueprint(name: "Podcast", description: "A podcast website."),
+         ]
+      )
    }
 
    @Test("Strips the bold markers from the line-3 description")
@@ -62,11 +65,11 @@ struct BlueprintCatalogTests {
       }
    }
 
-   @Test("The real shipped catalog has the 9 blueprints")
+   @Test("The real shipped catalog has the 10 blueprints")
    func realCatalogHasAllBlueprints() throws {
       let blueprints = try BlueprintCatalog.all(in: PackageRoot.blueprintsDirectory)
       let names = blueprints.map(\.name).sorted()
-      #expect(names == ["AppLanding", "Blog", "DocC", "IndieDev", "Newsletter", "Plain", "Podcast", "Portfolio", "Snippets"])
+      #expect(names == ["AppLanding", "Blog", "DocC", "IndieDev", "Newsletter", "OpenAPI", "Plain", "Podcast", "Portfolio", "Snippets"])
       #expect(blueprints.allSatisfy { !$0.description.isEmpty })
    }
 }

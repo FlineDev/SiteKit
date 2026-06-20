@@ -1,0 +1,28 @@
+name: "Tasks API"
+baseURL: "https://example.com"
+outputDirectory: "_Site"
+# The spec lives at Content/openapi.yaml. The section below groups the generated pages;
+# its own contentDirectory resolves to Content/Content (no Markdown articles to load), so
+# the API pages come entirely from the spec.
+contentDirectory: "Content"
+defaultLanguage: "en"
+
+author:
+  name: "Your Name"
+  email: "you@example.com"
+
+footer:
+  copyright: "© 2026 Your Company"
+  links:
+    - title: "Privacy"
+      url: "/privacy/"
+    - title: "Imprint"
+      url: "/imprint/"
+
+# One section for the API docs. `urlPrefix` is the URL root for every page
+# (/api/, /api/<tag>/, /api/<tag>/<operation>/, /api/schemas/<name>/).
+sections:
+  - name: "API"
+    slug: "api"
+    contentDirectory: "Content"
+    urlPrefix: "api"

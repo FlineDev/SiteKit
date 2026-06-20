@@ -92,6 +92,31 @@ extension SiteBuilder {
          .renderer(OpenAPILlmsTxtRenderer())
    }
 
+   /// Convenience overload that loads the `SiteConfig` from `configPath` (relative to the
+   /// current directory) and uses the current directory as the project root, so a `Site`
+   /// executable is a one-liner: `try SiteBuilder.openAPI(configPath: "SiteConfig.yaml").run()`
+   /// – the same shape as `.docc(configPath:)`.
+   ///
+   /// - Parameters:
+   ///   - configPath: Path to the `SiteConfig.yaml`, relative to the current directory.
+   ///   - cleanBeforeBuild: Whether to wipe the output directory first.
+   ///   - specPath: An explicit spec location relative to the project root, overriding the
+   ///     conventional `Content/openapi.yaml` discovery.
+   public static func openAPI(
+      configPath: String,
+      cleanBeforeBuild: Bool = true,
+      specPath: String? = nil
+   ) throws -> SiteBuilder {
+      let projectDirectory = URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true)
+      let config = try SiteConfig.load(contentsOf: URL(fileURLWithPath: configPath, relativeTo: projectDirectory).absoluteURL)
+      return self.openAPI(
+         config: config,
+         projectDirectory: projectDirectory,
+         cleanBeforeBuild: cleanBeforeBuild,
+         specPath: specPath
+      )
+   }
+
    /// Registers the OpenAPI page renderers (landing, tag, operation, schema) for a
    /// loaded `spec`. Each renderer captures the spec and produces its pages from it.
    func openAPIPageRenderers(for spec: OpenAPISpec) -> SiteBuilder {
