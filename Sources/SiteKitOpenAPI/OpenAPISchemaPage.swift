@@ -58,7 +58,9 @@ public struct OpenAPISchemaPage: Page {
       let path: String = page.extensionValue("openAPIPath") ?? OpenAPIRoutes.schemaPath(context, schemaSlug: page.slug)
       return OutputFileRenderer(context: context).buildHead(
          title: "\(page.title) – \(context.config.name)",
-         description: page.summary,
+         // Per-page, never blank (AC-5): the schema's own description, else a meaningful
+         // "<Name> schema" so the meta description is unique even when the spec omits one.
+         description: page.summary ?? "The \(page.title) schema.",
          canonicalURL: "\(context.config.baseURL)\(path)",
          ogType: "website"
       )

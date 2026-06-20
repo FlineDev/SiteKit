@@ -46,7 +46,12 @@ extension SiteBuilder {
       if let specURL = Self.resolveSpecURL(specPath: specPath, config: config, projectDirectory: projectDirectory) {
          do {
             let spec = try OpenAPISpecLoader().load(source: specURL)
-            builder = builder.openAPIPageRenderers(for: spec)
+            builder =
+               builder
+               .openAPIPageRenderers(for: spec)
+               // Register the spec-derived pages into the build context so sitemap, nav-index,
+               // search index, and llms.txt all enumerate them (they walk context.sections).
+               .contentSectionProvider(OpenAPIContentProvider(spec: spec))
          } catch {
             print("[SiteKit] Warning: OpenAPI spec at '\(specURL.path)' could not be loaded – \(error)")
          }
@@ -56,10 +61,18 @@ extension SiteBuilder {
          )
       }
 
+      // The OpenAPI pages live at nested paths the URL router cannot derive, so the
+      // machine-index renderers resolve each page to its real OpenAPIRoutes URL via the
+      // page's stamped `openAPIPath`. One resolver, shared by sitemap, nav-index, search.
+      let pathResolvers: [any PagePathResolving] = [OpenAPIPagePathResolver()]
+
       return
          builder
-         .renderer(SitemapRenderer())
+         .renderer(SitemapRenderer(pathResolvers: pathResolvers))
          .renderer(RobotsTxtRenderer())
+         .renderer(NavIndexRenderer(pathResolvers: pathResolvers))
+         .renderer(OpenAPISearchIndexRenderer(pathResolvers: pathResolvers))
+         .renderer(OpenAPISearchScriptRenderer())
          .renderer(TokenCSSOutputRenderer())
          .renderer(BaseCSSOutputRenderer())
          .renderer(FontsFaceCSSRenderer())
@@ -67,7 +80,7 @@ extension SiteBuilder {
          .renderer(OpenAPINavScriptRenderer())
          .renderer(CloudflareHeadersRenderer())
          .renderer(FaviconRenderer())
-         .renderer(LlmsTxtRenderer())
+         .renderer(OpenAPILlmsTxtRenderer())
    }
 
    /// Registers the OpenAPI page renderers (landing, tag, operation, schema) for a

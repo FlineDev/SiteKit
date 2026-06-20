@@ -49,6 +49,7 @@ enum OpenAPIShell {
          head
          + "<link rel=\"stylesheet\" href=\"\(OpenAPIStylesheetRenderer.cssURL)\"/>"
          + "<script defer src=\"\(OpenAPINavScriptRenderer.scriptURL)\"></script>"
+         + "<script defer src=\"\(OpenAPISearchScriptRenderer.scriptURL)\"></script>"
 
       let shell =
          "<div class=\"sk-openapi-layout\">"
@@ -73,12 +74,21 @@ enum OpenAPIShell {
       )
    }
 
-   /// The appbar: the API name as a brand wordmark linking back to the landing page.
+   /// The appbar: the API name as a brand wordmark linking back to the landing page, plus a
+   /// full-text search box. The search box is only useful with JavaScript (it queries
+   /// `/assets/search-index.json`), so the stylesheet reveals it behind `html.js` – a JS-off
+   /// reader never sees a dead control.
    static func appbar(context: BuildContext) -> String {
       let homeURL = OpenAPIHTML.escape(OpenAPIRoutes.landingPath(context))
       let name = OpenAPIHTML.escape(context.config.name)
       return "<header class=\"sk-openapi-appbar\">"
          + "<a class=\"sk-openapi-brand\" href=\"\(homeURL)\">\(name)</a>"
+         + "<div class=\"sk-openapi-search\">"
+         + "<input type=\"search\" class=\"sk-openapi-search-input\" data-openapi-search"
+         + " placeholder=\"Search the API…\" aria-label=\"Search the API\" autocomplete=\"off\""
+         + " role=\"combobox\" aria-expanded=\"false\" aria-controls=\"sk-openapi-search-results\"/>"
+         + "<div class=\"sk-openapi-search-results\" id=\"sk-openapi-search-results\" role=\"listbox\" hidden></div>"
+         + "</div>"
          + "</header>"
    }
 }

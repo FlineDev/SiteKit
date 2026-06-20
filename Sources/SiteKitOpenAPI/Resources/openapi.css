@@ -67,6 +67,69 @@ body.sk-openapi-shell-body {
    color: var(--color-accent);
 }
 
+/* Appbar full-text search (distinct from the nav filter). Hidden until openapi-nav.js adds
+   html.js, so a JS-off reader never sees a control that cannot work. */
+.sk-openapi-search {
+   position: relative;
+   margin-left: auto;
+   display: none;
+}
+
+html.js .sk-openapi-search {
+   display: block;
+}
+
+.sk-openapi-search-input {
+   width: 14rem;
+   max-width: 40vw;
+   padding: 0.35rem 0.6rem;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--color-bg);
+   color: var(--color-text);
+   font: inherit;
+   font-size: 0.85rem;
+}
+
+.sk-openapi-search-results {
+   position: absolute;
+   top: calc(100% + 0.35rem);
+   right: 0;
+   width: min(22rem, 80vw);
+   max-height: 60vh;
+   overflow-y: auto;
+   z-index: 50;
+   padding: 0.3rem;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--sk-openapi-nav-bg);
+   box-shadow: var(--shadow, 0 4px 20px rgba(0, 0, 0, 0.15));
+}
+
+.sk-openapi-search-results[hidden] {
+   display: none;
+}
+
+.sk-openapi-search-hit {
+   display: flex;
+   align-items: center;
+   gap: 0.45rem;
+   padding: 0.4rem 0.5rem;
+   border-radius: var(--sk-openapi-row-radius);
+   color: var(--color-text);
+   text-decoration: none;
+}
+
+.sk-openapi-search-hit:hover {
+   background: var(--sk-openapi-row-hover);
+}
+
+.sk-openapi-search-hit-label {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
 /* The mobile nav toggle is injected by openapi-nav.js; hidden on wide viewports. */
 .sk-openapi-nav-toggle {
    display: none;
