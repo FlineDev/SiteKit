@@ -438,7 +438,8 @@ struct OpenAPINavTests {
       // The single petstore tag and one of its operations, with the method hook + link.
       #expect(nav.contains(">pets<"))
       #expect(nav.contains("data-method=\"get\""))
-      #expect(nav.contains(">showPetById<"))
+      // LOW-4: the nav label is the operation summary (matching the page H1), not the id.
+      #expect(nav.contains(">Info for a specific pet<"))
       #expect(nav.contains("href=\"/api/pets/showpetbyid/\""))
    }
 
@@ -458,7 +459,8 @@ struct OpenAPINavTests {
    func deprecatedOperationHasHook() throws {
       let nav = try self.landingNav("nav-deprecated-3.1")
 
-      #expect(nav.contains(">oldEndpoint<"))
+      // LOW-4: label is the summary; the deprecated hook rides on the item.
+      #expect(nav.contains(">Old endpoint<"))
       #expect(nav.contains("data-deprecated=\"true\""))
    }
 
@@ -470,8 +472,9 @@ struct OpenAPINavTests {
       let opFiles = try OpenAPIOperationPage(spec: spec).render(context: self.makeContext())
       let opHTML = try #require(opFiles.first { $0.outputPath.path.contains("showpetbyid") }?.content)
       let opNav = try self.navSlice(opHTML)
-      #expect(opNav.contains("href=\"/api/pets/showpetbyid/\" aria-current=\"page\""))
-      #expect(opNav.contains("sk-openapi-nav-link is-active"))
+      // The is-active class is on the showPetById link, and that link carries aria-current.
+      #expect(opNav.contains("sk-openapi-nav-link is-active\" href=\"/api/pets/showpetbyid/\""))
+      #expect(opNav.contains("title=\"Info for a specific pet\" aria-current=\"page\""))
       #expect(!opNav.contains("href=\"/api/pets/listpets/\" aria-current=\"page\""))
 
       // On the landing page, the home link is the active one instead.
@@ -509,5 +512,105 @@ struct OpenAPINavTests {
             #expect(file.content.contains("<nav class=\"sk-openapi-nav\""))
          }
       }
+   }
+}
+
+/// Styling-slice tests: the stylesheet and script render as output files, the CSS
+/// carries a generated color rule per HTTP verb, the shell links the stylesheet and
+/// defers the script, and the three S3 nav follow-ups (single aria-current, summary
+/// labels, explicit landing path) hold.
+@Suite("OpenAPI styling")
+struct OpenAPIStylingTests {
+   private func spec(_ name: String) throws -> OpenAPISpec {
+      let url = try #require(Bundle.module.url(forResource: name, withExtension: "yaml", subdirectory: "Fixtures"))
+      return try OpenAPISpecLoader().load(source: url)
+   }
+
+   private func makeContext() -> BuildContext {
+      BuildContext(
+         config: SiteConfig(
+            name: "Styling",
+            baseURL: "https://example.com",
+            description: "Styling docs.",
+            sections: [SectionConfig(name: "API", slug: "api", contentDirectory: "Content", urlPrefix: "api")]
+         ),
+         themeConfig: nil,
+         sections: [],
+         staticPages: [],
+         tags: [:],
+         homeContent: nil,
+         outputDirectory: URL(fileURLWithPath: "/tmp/_OpenAPIStylingSite"),
+         projectDirectory: URL(fileURLWithPath: "/tmp")
+      )
+   }
+
+   private func navSlice(_ html: String) throws -> String {
+      let start = try #require(html.range(of: "<nav class=\"sk-openapi-nav\""))
+      let end = try #require(html.range(of: "</nav>", range: start.lowerBound..<html.endIndex))
+      return String(html[start.lowerBound..<end.upperBound])
+   }
+
+   @Test("The stylesheet renders to /assets/css/openapi.css with a color rule per verb")
+   func stylesheetEmitsCSSWithVerbRules() throws {
+      let files = try OpenAPIStylesheetRenderer().render(context: self.makeContext())
+      let css = try #require(files.first)
+      #expect(css.outputPath.path.hasSuffix("/assets/css/openapi.css"))
+
+      // One generated rule per semantic verb (the [data-method] palette).
+      for verb in ["get", "post", "put", "patch", "delete", "head", "options"] {
+         #expect(css.content.contains(".sk-openapi-method[data-method=\"\(verb)\"]"))
+      }
+   }
+
+   @Test("The nav script renders to /assets/js/openapi-nav.js")
+   func scriptEmitsJS() throws {
+      let files = try OpenAPINavScriptRenderer().render(context: self.makeContext())
+      let js = try #require(files.first)
+      #expect(js.outputPath.path.hasSuffix("/assets/js/openapi-nav.js"))
+      #expect(!js.content.isEmpty)
+   }
+
+   @Test("The shell head links the stylesheet and defers the script")
+   func shellLinksAssets() throws {
+      let spec = try self.spec("petstore-3.1")
+      let html = try #require(try OpenAPILandingPage(spec: spec).render(context: self.makeContext()).first?.content)
+
+      #expect(html.contains("<link rel=\"stylesheet\" href=\"/assets/css/openapi.css\"/>"))
+      #expect(html.contains("<script defer src=\"/assets/js/openapi-nav.js\"></script>"))
+   }
+
+   @Test("LOW-3: a cross-listed op's page marks exactly one aria-current, both occurrences active")
+   func singleAriaCurrentOnCrossListedOpPage() throws {
+      let spec = try self.spec("multi-tag-3.1")
+      let files = try OpenAPIOperationPage(spec: spec).render(context: self.makeContext())
+      let html = try #require(files.first { $0.outputPath.path.contains("banpet") }?.content)
+      let nav = try self.navSlice(html)
+
+      // banPet is listed under both pets and admin; on its own page both occurrences
+      // read as active, but only the canonical (pets) one advertises aria-current.
+      let ariaCurrentCount = nav.components(separatedBy: "aria-current=\"page\"").count - 1
+      let activeCount = nav.components(separatedBy: "sk-openapi-nav-link is-active").count - 1
+      #expect(ariaCurrentCount == 1)
+      #expect(activeCount == 2)
+   }
+
+   @Test("LOW-4: the nav label uses the operation summary, not the operationId")
+   func navLabelPrefersSummary() throws {
+      let spec = try self.spec("multi-tag-3.1")
+      let html = try #require(try OpenAPILandingPage(spec: spec).render(context: self.makeContext()).first?.content)
+      let nav = try self.navSlice(html)
+
+      // banPet's summary is "Ban a pet"; the id "banPet" must not be the label.
+      #expect(nav.contains(">Ban a pet<"))
+      #expect(!nav.contains(">banPet<"))
+   }
+
+   @Test("LOW-5: the landing page stashes its openAPIPath explicitly")
+   func landingStashesOpenAPIPath() throws {
+      let spec = try self.spec("petstore-3.1")
+      let context = self.makeContext()
+      let page = try #require(OpenAPILandingPage(spec: spec).pages(in: context).first)
+      let stashed: String? = page.extensionValue("openAPIPath")
+      #expect(stashed == "/api/")
    }
 }

@@ -96,7 +96,8 @@ let package = Package(
             "SiteKit",
             .product(name: "OpenAPIKitCompat", package: "OpenAPIKit"),
             "Yams",
-         ]
+         ],
+         resources: [.process("Resources")]
       ),
       .testTarget(
          name: "SiteKitOpenAPITests",

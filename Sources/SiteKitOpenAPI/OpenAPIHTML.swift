@@ -4,7 +4,7 @@ import Foundation
 ///
 /// The renderers assemble HTML by string concatenation (like the DocC plugin
 /// set), so every value interpolated from the spec passes through `escape(_:)`
-/// to neutralize `&`, `"`, `<`, `>`.
+/// to neutralize `&`, `"`, `'`, `<`, `>`.
 enum OpenAPIHTML {
    /// Escapes the five characters that would otherwise break out of text or an
    /// attribute value in the assembled HTML.

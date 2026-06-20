@@ -71,6 +71,10 @@ enum OpenAPISidebarRenderer {
    /// stylesheet can color the verb and dim a deprecated row.
    private static func itemHTML(_ item: OpenAPINavigationTree.Item, currentPath: String) -> String {
       let active = item.url == currentPath
+      // Highlight every occurrence at the current path, but emit aria-current only on
+      // the canonical occurrence, so a cross-listed operation marks exactly one current
+      // item per page (a11y) while both occurrences still read as active.
+      let current = active && item.isCanonical
       var attributes = ""
       if let method = item.method {
          attributes += " data-method=\"\(OpenAPIHTML.escape(method.lowercased()))\""
@@ -79,10 +83,13 @@ enum OpenAPISidebarRenderer {
          attributes += " data-deprecated=\"true\""
       }
       let badge = item.method.map { OpenAPIBadges.methodBadge($0) } ?? ""
+      // The full label is on the link's title attribute so a summary clipped to one line
+      // (text-overflow: ellipsis) is still readable on hover.
+      let label = OpenAPIHTML.escape(item.title)
       return "<li class=\"sk-openapi-nav-item\"\(attributes)>"
-         + "<a class=\"sk-openapi-nav-link\(active ? " is-active" : "")\" href=\"\(OpenAPIHTML.escape(item.url))\"\(Self.currentAttribute(active))>"
+         + "<a class=\"sk-openapi-nav-link\(active ? " is-active" : "")\" href=\"\(OpenAPIHTML.escape(item.url))\" title=\"\(label)\"\(Self.currentAttribute(current))>"
          + badge
-         + "<span class=\"sk-openapi-nav-label\">\(OpenAPIHTML.escape(item.title))</span>"
+         + "<span class=\"sk-openapi-nav-label\">\(label)</span>"
          + "</a>"
          + "</li>"
    }

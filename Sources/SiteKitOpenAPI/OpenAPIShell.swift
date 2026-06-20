@@ -42,6 +42,14 @@ enum OpenAPIShell {
       let currentPath: String = page.extensionValue("openAPIPath") ?? OpenAPIRoutes.landingPath(context)
       let nav = OpenAPISidebarRenderer.render(spec: spec, context: context, currentPath: currentPath)
 
+      // Link the component stylesheet after the caller's critical head (so it never blocks
+      // first paint) and defer the nav-enhancement script (progressive enhancement: the rail
+      // works without it). Both are emitted once per build by their `.global` renderers.
+      let headWithAssets =
+         head
+         + "<link rel=\"stylesheet\" href=\"\(OpenAPIStylesheetRenderer.cssURL)\"/>"
+         + "<script defer src=\"\(OpenAPINavScriptRenderer.scriptURL)\"></script>"
+
       let shell =
          "<div class=\"sk-openapi-layout\">"
          + self.appbar(context: context)
@@ -59,7 +67,7 @@ enum OpenAPIShell {
          content: shell,
          page: page,
          context: context,
-         head: head,
+         head: headWithAssets,
          bodyClass: "sk-openapi-shell-body",
          chrome: .appShell
       )

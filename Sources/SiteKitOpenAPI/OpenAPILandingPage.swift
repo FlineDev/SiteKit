@@ -26,7 +26,11 @@ public struct OpenAPILandingPage: Page {
             sourcePath: context.projectDirectory.appendingPathComponent("\(context.config.contentDirectory)/openapi.yaml"),
             summary: self.spec.info.description,
             description: self.spec.info.description,
-            pageType: .staticPage
+            pageType: .staticPage,
+            // Stash the landing path explicitly so the shell marks the landing nav item
+            // active by identity, not by the `?? landingPath` fallback (which a future
+            // page lacking the extension could otherwise trip).
+            extensions: ["openAPIPath": OpenAPIRoutes.landingPath(context)]
          )
       ]
    }

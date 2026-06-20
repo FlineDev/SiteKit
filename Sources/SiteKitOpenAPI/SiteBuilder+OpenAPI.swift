@@ -63,6 +63,8 @@ extension SiteBuilder {
          .renderer(TokenCSSOutputRenderer())
          .renderer(BaseCSSOutputRenderer())
          .renderer(FontsFaceCSSRenderer())
+         .renderer(OpenAPIStylesheetRenderer())
+         .renderer(OpenAPINavScriptRenderer())
          .renderer(CloudflareHeadersRenderer())
          .renderer(FaviconRenderer())
          .renderer(LlmsTxtRenderer())
