@@ -26,10 +26,16 @@ public struct OpenAPIContentProvider: ContentSectionProviding {
          + OpenAPIOperationPage(spec: self.spec).pages(in: context)
          + OpenAPISchemaPage(spec: self.spec).pages(in: context)
 
+      guard !pages.isEmpty else { return nil }
+
       // Reuse the configured API section so llms.txt / nav-index group the pages under it and
-      // the search index picks up its URL prefix; with no section configured there is nothing
-      // meaningful to attach to.
-      guard !pages.isEmpty, let sectionConfig = context.config.effectiveSections.first else {
+      // the search index picks up its URL prefix. With no section configured there is nothing
+      // to attach to – warn loudly (matching the factory's spec-missing warnings) rather than
+      // silently dropping every API page from every machine index.
+      guard let sectionConfig = context.config.effectiveSections.first else {
+         print(
+            "[SiteKit] Warning: \(pages.count) OpenAPI page(s) were generated but no content section is configured, so they are omitted from the sitemap, nav-index, search index, and llms.txt. Configure at least one section in SiteConfig."
+         )
          return nil
       }
       return ContentSection(config: sectionConfig, pages: pages)
