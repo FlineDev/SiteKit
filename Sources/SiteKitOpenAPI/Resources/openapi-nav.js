@@ -129,17 +129,45 @@
       toggle.setAttribute("aria-controls", nav.id);
       toggle.setAttribute("aria-expanded", "false");
       toggle.textContent = "☰"; // ☰
-      toggle.addEventListener("click", function () {
-         var open = layout.classList.toggle("is-nav-open");
+
+      var scrim = document.querySelector("[data-openapi-nav-scrim]");
+
+      function setOpen(open) {
+         layout.classList.toggle("is-nav-open", open);
          toggle.setAttribute("aria-expanded", open ? "true" : "false");
+         if (scrim) {
+            scrim.hidden = !open;
+         }
+         if (open) {
+            // Move focus into the rail so keyboard users land in the just-opened drawer.
+            nav.setAttribute("tabindex", "-1");
+            nav.focus();
+         } else {
+            toggle.focus();
+         }
+      }
+
+      toggle.addEventListener("click", function () {
+         setOpen(!layout.classList.contains("is-nav-open"));
       });
       appbar.insertBefore(toggle, appbar.firstChild);
 
       // Tapping a link closes the drawer so the destination page is visible.
       nav.addEventListener("click", function (event) {
          if (event.target.closest("a")) {
-            layout.classList.remove("is-nav-open");
-            toggle.setAttribute("aria-expanded", "false");
+            setOpen(false);
+         }
+      });
+
+      // Backdrop tap and the Escape key close the drawer (only meaningful while it is open).
+      if (scrim) {
+         scrim.addEventListener("click", function () {
+            setOpen(false);
+         });
+      }
+      document.addEventListener("keydown", function (event) {
+         if (event.key === "Escape" && layout.classList.contains("is-nav-open")) {
+            setOpen(false);
          }
       });
    }

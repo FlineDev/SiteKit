@@ -665,6 +665,92 @@ a.sk-openapi-nav-group-title:hover {
    font-size: 0.88rem;
 }
 
+/* ── Skip link ────────────────────────────────────────────────────────────────
+   PageShell emits a "Skip to content" link with no base styling, so it would sit
+   visible at the top of every page. Clip it off-screen until it receives keyboard
+   focus, the standard accessible pattern (scoped to the OpenAPI surface: this rule
+   only ships in openapi.css). */
+.sk-openapi-shell-body .sk-skip-link {
+   position: absolute;
+   left: -9999px;
+   top: 0;
+   width: 1px;
+   height: 1px;
+   overflow: hidden;
+}
+
+.sk-openapi-shell-body .sk-skip-link:focus {
+   left: 0;
+   width: auto;
+   height: auto;
+   z-index: 100;
+   margin: 0.5rem;
+   padding: 0.5rem 0.9rem;
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--color-accent);
+   color: var(--sk-openapi-active-text);
+   text-decoration: none;
+}
+
+/* ── Theme toggle (appbar) ────────────────────────────────────────────────────
+   Consistent with the base SiteKit DocC toggle: always rendered, inert without JS
+   (openapi-theme.js wires the click and swaps the icon). */
+.sk-openapi-theme-toggle {
+   flex: 0 0 auto;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   width: 36px;
+   height: 36px;
+   margin-left: 0.5rem;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-radius: var(--sk-openapi-row-radius);
+   background: transparent;
+   color: var(--color-text);
+   cursor: pointer;
+}
+
+.sk-openapi-theme-toggle:hover {
+   background: var(--sk-openapi-row-hover);
+   color: var(--color-accent);
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────────
+   Config-driven (SiteConfig.footer), token-styled, scrolls with the content like
+   the DocC footer. Omitted entirely when nothing is configured. */
+.sk-openapi-footer {
+   margin-top: 3rem;
+   padding: 1.5rem;
+   border-top: 1px solid var(--sk-openapi-nav-border);
+   color: var(--sk-openapi-muted);
+   font-size: 0.85rem;
+}
+
+.sk-openapi-footer-links {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 1rem;
+   margin-bottom: 0.75rem;
+}
+
+.sk-openapi-footer-link {
+   color: var(--color-text-secondary, var(--sk-openapi-muted));
+   text-decoration: none;
+}
+
+.sk-openapi-footer-link:hover {
+   color: var(--color-accent);
+}
+
+.sk-openapi-footer-copyright {
+   margin: 0;
+}
+
+/* The scrim is hidden until the drawer opens (the responsive rule below reveals it). */
+.sk-openapi-scrim {
+   display: none;
+}
+
 /* ── Responsive: nav becomes an off-canvas drawer ─────────────────────────────
    Cut-the-mustard: the off-canvas drawer is gated behind `html.js` (the script adds
    that class early). With JS the rail slides in from the hamburger (below); without JS
@@ -688,6 +774,20 @@ a.sk-openapi-nav-group-title:hover {
 
    html.js .sk-openapi-layout.is-nav-open .sk-openapi-nav {
       transform: translateX(0);
+   }
+
+   /* Backdrop behind the open drawer: dims the content and is the tap-outside-to-close
+      target (openapi-nav.js un-hides it and wires the click). Only with JS, since the
+      drawer itself only exists with JS. */
+   html.js .sk-openapi-layout.is-nav-open .sk-openapi-scrim {
+      display: block;
+      position: fixed;
+      top: var(--sk-openapi-appbar-height);
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 35;
+      background: rgba(0, 0, 0, 0.45);
    }
 
    /* JS off: drop the fixed-viewport app-shell so the page scrolls normally, and stack

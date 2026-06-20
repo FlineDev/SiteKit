@@ -11,8 +11,8 @@ extension SiteBuilder {
    /// logged as a warning – the build then continues (warn-and-continue), so a
    /// missing or malformed spec yields a site without the API pages rather than
    /// aborting the build.
-   /// S2: once the page renderers consume the loaded spec, decide real fail-fast
-   /// (a build-phase error surface fits better than a throwing factory, since
+   /// A future revision could make this fail-fast once the page renderers consume the
+   /// loaded spec (a build-phase error surface fits better than a throwing factory, since
    /// SiteKit factories are non-throwing by convention like `.docc(...)`).
    ///
    /// Like `.docc(...)`, the blueprint brings its own shell and reads the token
@@ -40,7 +40,7 @@ extension SiteBuilder {
       // (warn-and-continue), so a missing or malformed spec yields a site without the
       // API pages rather than aborting the build. The loaded model is injected into
       // each page renderer (the renderers are OpenAPIKit-free and read only OpenAPISpec).
-      // S2: a real fail-fast surface (build-phase error) may fit better than a silently
+      // A real fail-fast surface (build-phase error) may eventually fit better than a silently
       // empty site once consumers rely on the API pages – factories are non-throwing by
       // convention like `.docc(...)`, so revisit then.
       if let specURL = Self.resolveSpecURL(specPath: specPath, config: config, projectDirectory: projectDirectory) {
@@ -78,7 +78,13 @@ extension SiteBuilder {
          .renderer(FontsFaceCSSRenderer())
          .renderer(OpenAPIStylesheetRenderer())
          .renderer(OpenAPINavScriptRenderer())
+         .renderer(OpenAPIThemeScriptRenderer())
+         // System renderers at parity with `.docc`: a styled 404, plus the two redirect
+         // renderers (both no-ops unless `SiteConfig.redirectsFile` is set).
+         .renderer(ErrorPageRenderer())
          .renderer(CloudflareHeadersRenderer())
+         .renderer(HTMLRedirectPageRenderer())
+         .renderer(CloudflareRedirectsRenderer())
          .renderer(FaviconRenderer())
          .renderer(OpenAPILlmsTxtRenderer())
    }
