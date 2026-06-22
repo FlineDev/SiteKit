@@ -46,6 +46,15 @@ struct OpenAPIChromeTests {
       try #require(try OpenAPIStylesheetRenderer().render(context: self.context()).first?.content)
    }
 
+   /// The declaration block (between `{` and the next `}`) of an exact CSS rule in `css`,
+   /// or nil when the rule is absent. Matches `selector {` so a compound selector like
+   /// `.sk-openapi-page code` does not collide with the bare `.sk-openapi-page` rule.
+   private static func declarations(of selector: String, in css: String) -> String? {
+      guard let open = css.range(of: "\(selector) {") else { return nil }
+      guard let close = css.range(of: "}", range: open.upperBound..<css.endIndex) else { return nil }
+      return String(css[open.upperBound..<close.lowerBound])
+   }
+
    // MARK: - Footer
 
    @Test("The footer renders from config and is omitted when nothing is configured")
@@ -62,6 +71,20 @@ struct OpenAPIChromeTests {
       // No footer config -> no footer element at all.
       let withoutFooter = try self.landingHTML(footer: nil)
       #expect(!withoutFooter.contains("sk-openapi-footer"))
+   }
+
+   @Test("The stylesheet carries the flexbox sticky-footer hooks (scroll is a column, page grows)")
+   func stickyFooterHooks() throws {
+      let css = try self.stylesheet()
+      // The scroll region is a flex column so its children stack and one can grow into the
+      // leftover height – the basis of the flexbox sticky-footer pattern.
+      let scroll = try #require(Self.declarations(of: ".sk-openapi-scroll", in: css))
+      #expect(scroll.contains("display: flex"))
+      #expect(scroll.contains("flex-direction: column"))
+      // The content area grows to push the footer to the bottom on short pages, yet never
+      // shrinks below its content so a long page stays full height and scrolls.
+      let page = try #require(Self.declarations(of: ".sk-openapi-page", in: css))
+      #expect(page.contains("flex: 1 0 auto"))
    }
 
    // MARK: - 404 (rendered through the full shell)

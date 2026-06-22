@@ -312,15 +312,27 @@ a.sk-openapi-nav-group-title:hover {
    display: none;
 }
 
-/* ── Content area ───────────────────────────────────────────────────────────── */
+/* ── Content area ────────────────────────────────────────────────────────────────
+   The scroll region is a flex column so the page can grow into any leftover height and
+   pin the footer to the bottom of the viewport on short pages (the flexbox sticky-footer
+   pattern). On a tall page the page keeps its content height, the column overflows, and
+   overflow-y scrolls – the footer flows after the content as normal. */
 .sk-openapi-scroll {
+   display: flex;
+   flex-direction: column;
    flex: 1 1 auto;
    min-width: 0;
    overflow-y: auto;
    padding: 1.5rem;
 }
 
+/* `flex: 1 0 auto` lets the content area grow (pushing the footer down) but never shrink
+   below its own content, so long pages stay full height and scroll. `width: 100%` keeps
+   it filling the column up to the max-width cap – a non-stretched flex child would
+   otherwise shrink-wrap its content – and `margin: 0 auto` then centers it horizontally. */
 .sk-openapi-page {
+   flex: 1 0 auto;
+   width: 100%;
    max-width: var(--sk-openapi-content-max);
    margin: 0 auto;
 }
