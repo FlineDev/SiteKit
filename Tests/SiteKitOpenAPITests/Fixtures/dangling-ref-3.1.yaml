@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  title: Dangling Refs API
+  version: 1.0.0
+  description: A spec whose operation references components that are not defined, exercising the visible-placeholder path.
+tags:
+  - name: things
+    description: Endpoints with unresolvable references.
+paths:
+  /things:
+    get:
+      operationId: listThings
+      summary: List things
+      tags: [things]
+      parameters:
+        - $ref: '#/components/parameters/DoesNotExist'
+      responses:
+        '200':
+          $ref: '#/components/responses/AlsoMissing'
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string

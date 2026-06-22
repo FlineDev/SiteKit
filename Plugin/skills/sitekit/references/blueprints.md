@@ -9,6 +9,9 @@ When a user installs the SiteKit plugin and asks Claude Code to "build me a webs
 Walk top-to-bottom; pick the first match.
 
 ```
+Do you have an OpenAPI / Swagger spec (.yaml/.json, 3.0 or 3.1)?
+   yes ──► OpenAPI
+   no
 Do you have a DocC catalog (.docc with DocC directives)?
    yes ──► DocC
    no
@@ -45,6 +48,7 @@ Is there any time-based content (articles, posts, snippets)?
 | `Podcast` | stable | `.podcast(...)` | Podcast shows, interview series (iTunes RSS, audio player, chapters) |
 | `AppLanding` | beta | site-custom Swift | Single-product marketing pages (hero, features, pricing, reviews) |
 | `DocC` | stable | `.docc(...)` | Documentation sites from a `.docc` catalog – sidebar, full-text search, AI-fetchable static HTML |
+| `OpenAPI` | stable | `.openAPI(...)` | API reference docs from an OpenAPI 3.0/3.1 spec – operation + schema pages, nav rail, search, sitemap/llms.txt. Deep: [openapi.md](openapi.md) |
 
 ### Beta status – `AppLanding`
 

@@ -27,7 +27,8 @@ extension BuildPipelineError: CustomStringConvertible {
       case .fileWriteFailed(let url, let error):
          return "Could not write output file \(url.path): \(error)"
       case .renderersFailed(let failures):
-         let details = failures
+         let details =
+            failures
             .map { "\($0.renderer): \($0.error)" }
             .joined(separator: "; ")
          return "\(failures.count) renderer(s) failed – \(details)"
@@ -56,6 +57,7 @@ public struct BuildPipeline {
    private let enrichers: [any Enricher]
    private let renderers: [any Renderer]
    private let processors: [any OutputProcessor]
+   private let contentSectionProviders: [any ContentSectionProviding]
    private let logger: Logger
    private let cleanBeforeBuild: Bool
    private let themeConfig: ThemeConfig?
@@ -76,7 +78,8 @@ public struct BuildPipeline {
       additionalTeleporters: [any Teleporter] = [],
       enrichers: [any Enricher] = [],
       renderers: [any Renderer]? = nil,
-      processors: [any OutputProcessor]? = nil
+      processors: [any OutputProcessor]? = nil,
+      contentSectionProviders: [any ContentSectionProviding] = []
    ) {
       self.config = config
       self.projectDirectory = projectDirectory
@@ -88,6 +91,7 @@ public struct BuildPipeline {
       self.assetCopier = teleporter ?? AssetCopier()
       self.additionalTeleporters = additionalTeleporters
       self.enrichers = enrichers
+      self.contentSectionProviders = contentSectionProviders
       self.logger = Logger(label: "SiteKit.build")
       self.cleanBeforeBuild = cleanBeforeBuild
 
@@ -115,13 +119,14 @@ public struct BuildPipeline {
       // CSSBackgroundImageProcessor must run BEFORE AssetMinifier, because the
       // minifier rewrites the CSS file (stripping whitespace) which would make
       // our regex-based declaration scanner harder to match reliably.
-      self.processors = processors ?? [
-         ImageResizer(),
-         FontAwesomeInliner(),
-         CSSBackgroundImageProcessor(),
-         AssetMinifier(),
-         AssetFingerprinter(),
-      ]
+      self.processors =
+         processors ?? [
+            ImageResizer(),
+            FontAwesomeInliner(),
+            CSSBackgroundImageProcessor(),
+            AssetMinifier(),
+            AssetFingerprinter(),
+         ]
 
       // Default generators if none provided. The canonical list lives on
       // SiteBuilder.blogRenderers so SiteBuilder.blog(...) and a direct
@@ -185,6 +190,16 @@ public struct BuildPipeline {
       }
    }
 
+   /// Returns `context` with the synthetic sections from every registered
+   /// `ContentSectionProviding` plugin merged in, so the machine-index renderers enumerate
+   /// generated pages (e.g. the OpenAPI blueprint's spec-derived pages) alongside file-backed
+   /// ones. A no-op when no providers are registered. Providers see the file-backed context.
+   private func mergingProvidedSections(into context: BuildContext) -> BuildContext {
+      guard !self.contentSectionProviders.isEmpty else { return context }
+      let provided = self.contentSectionProviders.compactMap { $0.contentSection(in: context) }
+      return context.appendingSections(provided)
+   }
+
    /// Standard single-language build (backward compatible).
    private func buildSingleLanguage() throws {
       // 4. Load content sections
@@ -208,13 +223,25 @@ public struct BuildPipeline {
             var ext = page.extensions
             ext["sectionSlug"] = sectionConfig.slug
             return PageModel(
-               id: page.id, title: page.title, date: page.date, slug: page.slug,
-               htmlContent: page.htmlContent, sourcePath: page.sourcePath,
-               category: page.category, tags: page.tags, summary: page.summary,
-               description: page.description, author: page.author, image: page.image,
-               imageAlt: page.imageAlt, draft: page.draft, pageType: page.pageType,
-               locale: page.locale, originalLanguage: page.originalLanguage,
-               legalDocument: page.legalDocument, extensions: ext
+               id: page.id,
+               title: page.title,
+               date: page.date,
+               slug: page.slug,
+               htmlContent: page.htmlContent,
+               sourcePath: page.sourcePath,
+               category: page.category,
+               tags: page.tags,
+               summary: page.summary,
+               description: page.description,
+               author: page.author,
+               image: page.image,
+               imageAlt: page.imageAlt,
+               draft: page.draft,
+               pageType: page.pageType,
+               locale: page.locale,
+               originalLanguage: page.originalLanguage,
+               legalDocument: page.legalDocument,
+               extensions: ext
             )
          }
 
@@ -273,7 +300,9 @@ public struct BuildPipeline {
          draftPages: allDraftPages
       )
 
-      try self.runRenderers(context: context)
+      // Merge in any synthetic sections (e.g. the OpenAPI blueprint's spec-derived pages)
+      // so the machine-index renderers enumerate them like file-backed pages.
+      try self.runRenderers(context: self.mergingProvidedSections(into: context))
    }
 
    /// Multi-language build: discovers content per locale, builds per locale, then global assets.
@@ -391,13 +420,25 @@ public struct BuildPipeline {
                ext["sectionSlug"] = sectionConfig.slug
                ext["translationMap"] = translationMap
                return PageModel(
-                  id: page.id, title: page.title, date: page.date, slug: page.slug,
-                  htmlContent: page.htmlContent, sourcePath: page.sourcePath,
-                  category: page.category, tags: page.tags, summary: page.summary,
-                  description: page.description, author: page.author, image: page.image,
-                  imageAlt: page.imageAlt, draft: page.draft, pageType: page.pageType,
-                  locale: page.locale, originalLanguage: page.originalLanguage,
-                  legalDocument: page.legalDocument, extensions: ext
+                  id: page.id,
+                  title: page.title,
+                  date: page.date,
+                  slug: page.slug,
+                  htmlContent: page.htmlContent,
+                  sourcePath: page.sourcePath,
+                  category: page.category,
+                  tags: page.tags,
+                  summary: page.summary,
+                  description: page.description,
+                  author: page.author,
+                  image: page.image,
+                  imageAlt: page.imageAlt,
+                  draft: page.draft,
+                  pageType: page.pageType,
+                  locale: page.locale,
+                  originalLanguage: page.originalLanguage,
+                  legalDocument: page.legalDocument,
+                  extensions: ext
                )
             }
 
@@ -429,8 +470,11 @@ public struct BuildPipeline {
          let staticSources = (allStaticContent[locale] ?? [])
             .filter { !$0.filePath.lastPathComponent.hasPrefix("home") || $0.filePath.lastPathComponent != "home.md" }
             .filter { !$0.filePath.lastPathComponent.hasPrefix("home.") }
-         let defaultStaticSources = locale == defaultLang ? [] : ((allStaticContent[defaultLang] ?? [])
-            .filter { !$0.filePath.lastPathComponent.hasPrefix("home") })
+         let defaultStaticSources =
+            locale == defaultLang
+            ? []
+            : ((allStaticContent[defaultLang] ?? [])
+               .filter { !$0.filePath.lastPathComponent.hasPrefix("home") })
          let translatedStaticBases = Set(staticSources.map { localizedDiscovery.baseFilename(for: $0.filePath) })
          let fallbackStaticSources = defaultStaticSources.filter {
             !translatedStaticBases.contains(localizedDiscovery.baseFilename(for: $0.filePath))
@@ -443,13 +487,25 @@ public struct BuildPipeline {
             var ext = page.extensions
             ext["translationMap"] = translationMap
             return PageModel(
-               id: page.id, title: page.title, date: page.date, slug: page.slug,
-               htmlContent: page.htmlContent, sourcePath: page.sourcePath,
-               category: page.category, tags: page.tags, summary: page.summary,
-               description: page.description, author: page.author, image: page.image,
-               imageAlt: page.imageAlt, draft: page.draft, pageType: page.pageType,
-               locale: page.locale, originalLanguage: page.originalLanguage,
-               legalDocument: page.legalDocument, extensions: ext
+               id: page.id,
+               title: page.title,
+               date: page.date,
+               slug: page.slug,
+               htmlContent: page.htmlContent,
+               sourcePath: page.sourcePath,
+               category: page.category,
+               tags: page.tags,
+               summary: page.summary,
+               description: page.description,
+               author: page.author,
+               image: page.image,
+               imageAlt: page.imageAlt,
+               draft: page.draft,
+               pageType: page.pageType,
+               locale: page.locale,
+               originalLanguage: page.originalLanguage,
+               legalDocument: page.legalDocument,
+               extensions: ext
             )
          }
          for enricher in self.enrichers {
@@ -511,7 +567,9 @@ public struct BuildPipeline {
          projectDirectory: self.projectDirectory
       )
 
-      try self.runRenderers(context: globalContext, renderers: globalRenderers)
+      // Synthetic provider sections live in the global pass (where the site-wide machine
+      // indexes run), not duplicated per-locale – their pages are not localized.
+      try self.runRenderers(context: self.mergingProvidedSections(into: globalContext), renderers: globalRenderers)
 
       // Generate translation status JSON for AI agents
       let translationStatusGenerator = TranslationStatusRenderer(
@@ -535,7 +593,7 @@ public struct BuildPipeline {
       let effectivePath = FileManager.default.fileExists(atPath: homePath.path) ? homePath : fallbackPath
 
       guard FileManager.default.fileExists(atPath: effectivePath.path),
-            let content = try? String(contentsOf: effectivePath, encoding: .utf8)
+         let content = try? String(contentsOf: effectivePath, encoding: .utf8)
       else { return nil }
 
       let source = MarkdownSource(filePath: effectivePath, content: content)
@@ -567,7 +625,9 @@ public struct BuildPipeline {
       }
    }
 
-   private func loadPages(from sources: [MarkdownSource], using loader: any Loader<MarkdownSource, PageModel>, locale: String? = nil) throws -> [PageModel] {
+   private func loadPages(from sources: [MarkdownSource], using loader: any Loader<MarkdownSource, PageModel>, locale: String? = nil) throws
+      -> [PageModel]
+   {
       var pages: [PageModel] = []
       for source in sources {
          do {

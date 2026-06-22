@@ -12,6 +12,11 @@ let package = Package(
       // ONLY into builds that actually use it. A consumer depending only on the `SiteKit` product never
       // compiles swift-syntax (SE-0226 target-based dependency resolution prunes it).
       .library(name: "SiteKitSyntaxHighlighting", targets: ["SiteKitSyntaxHighlighting"]),
+      // Optional add-on library: renders an OpenAPI 3.0/3.1 spec (YAML or JSON) into a multi-page,
+      // style-conforming API-documentation site. It lives in its own product+target so the OpenAPIKit
+      // parser pulls in ONLY for builds that use it. A consumer depending solely on the `SiteKit`
+      // product never compiles OpenAPIKit (SE-0226 target-based dependency resolution prunes it).
+      .library(name: "SiteKitOpenAPI", targets: ["SiteKitOpenAPI"]),
       // The executable *product* is `sitekit` (the durable public command name); its *target*
       // is `SiteKitCLI` because a target literally named `sitekit` collides with the `SiteKit`
       // library target on a case-insensitive filesystem – at both the `Sources/` directory and
@@ -25,6 +30,13 @@ let package = Package(
       .package(url: "https://github.com/apple/swift-log.git", from: "1.6.0"),
       .package(url: "https://github.com/apple/swift-crypto.git", from: "3.0.0"),
       .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.5.0"),
+
+      // OpenAPIKit powers ONLY the optional SiteKitOpenAPI target: it parses an OpenAPI 3.0/3.1
+      // document into a runtime model the blueprint walks to render API-documentation pages. It
+      // attaches solely to SiteKitOpenAPI, so a consumer depending only on the base `SiteKit`
+      // product never compiles it (SE-0226 target-based dependency resolution prunes it). OpenAPIKit
+      // declares Yams only for ITS test targets, so this adds zero new transitive runtime deps.
+      .package(url: "https://github.com/mattpolzin/OpenAPIKit.git", from: "6.2.0"),
 
       // swift-syntax powers ONLY the optional SiteKitSyntaxHighlighting target. The 6xx.x line tracks
       // the Swift toolchain (603.x = Swift 6.3, the toolchain SiteKit builds with). Only the parser +
@@ -47,7 +59,7 @@ let package = Package(
       .executableTarget(
          name: "SiteKitCLI",
          dependencies: [
-            .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            .product(name: "ArgumentParser", package: "swift-argument-parser")
          ]
       ),
       // Optional SwiftSyntax-based highlighter. Depends on the base `SiteKit` library (for the
@@ -73,6 +85,24 @@ let package = Package(
       .testTarget(
          name: "SiteKitSyntaxHighlightingTests",
          dependencies: ["SiteKitSyntaxHighlighting"]
+      ),
+      // Optional OpenAPI blueprint. Depends on the base `SiteKit` library (for the pipeline,
+      // SiteBuilder and PageShell seams), OpenAPIKitCompat (which re-exports both the 3.0 and 3.1
+      // parsers and the 3.0→3.1 conversion used to normalize every spec to one 3.1 shape), and Yams
+      // (already a SiteKit dependency – reused here to decode YAML specs, no new transitive dep).
+      .target(
+         name: "SiteKitOpenAPI",
+         dependencies: [
+            "SiteKit",
+            .product(name: "OpenAPIKitCompat", package: "OpenAPIKit"),
+            "Yams",
+         ],
+         resources: [.process("Resources")]
+      ),
+      .testTarget(
+         name: "SiteKitOpenAPITests",
+         dependencies: ["SiteKitOpenAPI"],
+         resources: [.copy("Fixtures")]
       ),
       .testTarget(
          name: "SiteKitCLITests",

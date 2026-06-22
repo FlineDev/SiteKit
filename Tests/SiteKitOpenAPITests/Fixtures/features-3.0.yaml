@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: Feature Zoo
+  version: 2.0.0
+paths: {}
+components:
+  schemas:
+    Widget:
+      type: object
+      required:
+        - status
+      properties:
+        nickname:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum:
+            - available
+            - pending
+            - sold
+        legacyId:
+          type: string
+          deprecated: true
+    Cat:
+      type: object
+      properties:
+        huntingSkill:
+          type: string
+    Dog:
+      type: object
+      properties:
+        packSize:
+          type: integer
+    Animal:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'

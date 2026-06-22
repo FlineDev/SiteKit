@@ -1,0 +1,205 @@
+openapi: 3.1.0
+info:
+   title: Tasks API
+   version: 1.0.0
+   description: A small task-tracking API, used as the sample spec for the SiteKit OpenAPI blueprint.
+servers:
+   - url: https://api.example.com/v1
+tags:
+   - name: tasks
+     description: Create, inspect, and complete tasks.
+   - name: users
+     description: Look up the people a task can be assigned to.
+paths:
+   /tasks:
+      get:
+         operationId: listTasks
+         summary: List tasks
+         description: Returns the tasks, most recently created first, optionally filtered by status.
+         tags:
+            - tasks
+         parameters:
+            - name: status
+              in: query
+              required: false
+              description: Only return tasks in this status.
+              schema:
+                 $ref: "#/components/schemas/TaskStatus"
+            - name: limit
+              in: query
+              required: false
+              description: Maximum number of tasks to return (1-100).
+              schema:
+                 type: integer
+                 format: int32
+                 default: 20
+         responses:
+            "200":
+               description: A page of tasks.
+               content:
+                  application/json:
+                     schema:
+                        type: array
+                        items:
+                           $ref: "#/components/schemas/Task"
+      post:
+         operationId: createTask
+         summary: Create a task
+         description: Creates a new task and returns it with its assigned id.
+         tags:
+            - tasks
+         requestBody:
+            required: true
+            content:
+               application/json:
+                  schema:
+                     $ref: "#/components/schemas/NewTask"
+         responses:
+            "201":
+               description: The created task.
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/Task"
+            "400":
+               description: The request body was invalid.
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/Error"
+   /tasks/{taskId}:
+      get:
+         operationId: getTask
+         summary: Fetch a task
+         tags:
+            - tasks
+         parameters:
+            - name: taskId
+              in: path
+              required: true
+              description: The task identifier.
+              schema:
+                 type: string
+         responses:
+            "200":
+               description: The task.
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/Task"
+            "404":
+               description: No task with that id exists.
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/Error"
+      delete:
+         operationId: deleteTask
+         summary: Delete a task
+         tags:
+            - tasks
+         parameters:
+            - name: taskId
+              in: path
+              required: true
+              description: The task identifier.
+              schema:
+                 type: string
+         responses:
+            "204":
+               description: The task was deleted.
+   /users/{userId}:
+      get:
+         operationId: getUser
+         summary: Fetch a user
+         tags:
+            - users
+         parameters:
+            - name: userId
+              in: path
+              required: true
+              description: The user identifier.
+              schema:
+                 type: string
+         responses:
+            "200":
+               description: The user.
+               content:
+                  application/json:
+                     schema:
+                        $ref: "#/components/schemas/User"
+components:
+   schemas:
+      TaskStatus:
+         type: string
+         description: The lifecycle status of a task.
+         enum:
+            - open
+            - in_progress
+            - done
+            - archived
+      NewTask:
+         type: object
+         description: The fields needed to create a task.
+         required:
+            - title
+         properties:
+            title:
+               type: string
+               description: A short summary of the work.
+            details:
+               type: string
+               description: Optional longer description.
+            assigneeId:
+               type: [string, "null"]
+               description: The id of the user the task is assigned to, if any.
+      Task:
+         type: object
+         description: A unit of work.
+         required:
+            - id
+            - title
+            - status
+            - createdAt
+         properties:
+            id:
+               type: string
+               description: Stable unique identifier.
+            title:
+               type: string
+            details:
+               type: string
+            status:
+               $ref: "#/components/schemas/TaskStatus"
+            assignee:
+               $ref: "#/components/schemas/User"
+            createdAt:
+               type: string
+               format: date-time
+               description: When the task was created.
+      User:
+         type: object
+         description: A person a task can be assigned to.
+         required:
+            - id
+            - name
+         properties:
+            id:
+               type: string
+            name:
+               type: string
+            email:
+               type: string
+               format: email
+      Error:
+         type: object
+         description: A problem response.
+         required:
+            - code
+            - message
+         properties:
+            code:
+               type: integer
+               format: int32
+            message:
+               type: string

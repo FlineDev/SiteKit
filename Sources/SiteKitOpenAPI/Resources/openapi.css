@@ -1,0 +1,845 @@
+/* SiteKit OpenAPI component styles – layout + chrome for .openAPI documentation sites.
+   Everything reads from the theme token variables (the same ones base.css / tokens.css
+   expose), so an OpenAPI site inherits its color scheme, fonts, and spacing and works in
+   light and dark across all schemes with no per-color overrides. The one exception is the
+   semantic HTTP-verb palette, which is appended (generated) after this file by
+   OpenAPIStylesheetRenderer and harmonized with the token surface. */
+
+/* Component chrome reads from a small set of locally-scoped variables so a theme can skin the
+   whole docs surface without touching component rules. Each falls back to the site's theme
+   tokens, so the generic default already inherits the active scheme (light or dark). */
+.sk-openapi-layout {
+   --sk-openapi-nav-width: 280px;
+   --sk-openapi-appbar-height: 52px;
+   --sk-openapi-content-max: 880px;
+   --sk-openapi-gap: 1rem;
+   --sk-openapi-nav-bg: var(--color-bg-card, var(--color-bg-alt, var(--color-bg)));
+   --sk-openapi-nav-border: var(--color-border);
+   --sk-openapi-row-radius: var(--radius, 8px);
+   --sk-openapi-row-hover: var(--color-bg-alt);
+   --sk-openapi-active-bg: var(--color-accent);
+   --sk-openapi-active-text: var(--color-accent-contrast, #fff);
+   --sk-openapi-muted: var(--color-text-muted, var(--color-text-secondary));
+   --sk-openapi-code-bg: var(--color-bg-code, var(--color-bg-alt, var(--color-bg)));
+   --sk-openapi-code-inline-bg: var(--color-bg-code-inline, var(--color-bg-alt));
+}
+
+/* OpenAPI pages opt out of the generic site chrome (PageShell chrome: .appShell) and own the
+   whole viewport, so the shell can fix the appbar and scroll its regions independently. */
+body.sk-openapi-shell-body {
+   margin: 0;
+   padding: 0;
+   max-width: none;
+   display: block;
+}
+
+.sk-openapi-layout {
+   display: flex;
+   flex-direction: column;
+   height: 100dvh;
+   min-height: 0;
+   overflow: hidden;
+   background: var(--color-bg);
+   color: var(--color-text);
+}
+
+/* ── Appbar ─────────────────────────────────────────────────────────────────── */
+.sk-openapi-appbar {
+   display: flex;
+   align-items: center;
+   gap: 0.75rem;
+   height: var(--sk-openapi-appbar-height);
+   flex: 0 0 auto;
+   padding: 0 1rem;
+   border-bottom: 1px solid var(--sk-openapi-nav-border);
+   background: var(--color-header-bg, var(--color-bg));
+}
+
+.sk-openapi-brand {
+   font-family: var(--font-heading, var(--font-sans));
+   font-weight: 700;
+   font-size: 1.05rem;
+   color: var(--color-text);
+   text-decoration: none;
+}
+
+.sk-openapi-brand:hover {
+   color: var(--color-accent);
+}
+
+/* Appbar full-text search (distinct from the nav filter). Hidden until openapi-nav.js adds
+   html.js, so a JS-off reader never sees a control that cannot work. */
+.sk-openapi-search {
+   position: relative;
+   margin-left: auto;
+   display: none;
+}
+
+html.js .sk-openapi-search {
+   display: block;
+}
+
+.sk-openapi-search-input {
+   width: 14rem;
+   max-width: 40vw;
+   padding: 0.35rem 0.6rem;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--color-bg);
+   color: var(--color-text);
+   font: inherit;
+   font-size: 0.85rem;
+}
+
+.sk-openapi-search-results {
+   position: absolute;
+   top: calc(100% + 0.35rem);
+   right: 0;
+   width: min(22rem, 80vw);
+   max-height: 60vh;
+   overflow-y: auto;
+   z-index: 50;
+   padding: 0.3rem;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--sk-openapi-nav-bg);
+   box-shadow: var(--shadow, 0 4px 20px rgba(0, 0, 0, 0.15));
+}
+
+.sk-openapi-search-results[hidden] {
+   display: none;
+}
+
+.sk-openapi-search-hit {
+   display: flex;
+   align-items: center;
+   gap: 0.45rem;
+   padding: 0.4rem 0.5rem;
+   border-radius: var(--sk-openapi-row-radius);
+   color: var(--color-text);
+   text-decoration: none;
+}
+
+.sk-openapi-search-hit:hover {
+   background: var(--sk-openapi-row-hover);
+}
+
+.sk-openapi-search-hit-label {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+/* The mobile nav toggle is injected by openapi-nav.js; hidden on wide viewports. */
+.sk-openapi-nav-toggle {
+   display: none;
+   align-items: center;
+   justify-content: center;
+   width: 36px;
+   height: 36px;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-radius: var(--sk-openapi-row-radius);
+   background: transparent;
+   color: var(--color-text);
+   cursor: pointer;
+   font-size: 1.1rem;
+   line-height: 1;
+}
+
+/* ── Body row: nav rail | content ───────────────────────────────────────────── */
+.sk-openapi-body {
+   display: flex;
+   flex: 1 1 auto;
+   min-height: 0;
+}
+
+/* ── Nav rail ───────────────────────────────────────────────────────────────── */
+.sk-openapi-nav {
+   flex: 0 0 var(--sk-openapi-nav-width);
+   width: var(--sk-openapi-nav-width);
+   overflow-y: auto;
+   overscroll-behavior: contain;
+   padding: 1rem 0.75rem 2rem;
+   border-right: 1px solid var(--sk-openapi-nav-border);
+   background: var(--sk-openapi-nav-bg);
+   font-size: 0.9rem;
+}
+
+.sk-openapi-nav-home {
+   display: block;
+   padding: 0.4rem 0.6rem;
+   margin-bottom: 0.5rem;
+   border-radius: var(--sk-openapi-row-radius);
+   font-family: var(--font-heading, var(--font-sans));
+   font-weight: 700;
+   color: var(--color-text);
+   text-decoration: none;
+}
+
+.sk-openapi-nav-home:hover {
+   background: var(--sk-openapi-row-hover);
+}
+
+.sk-openapi-nav-groups {
+   list-style: none;
+   margin: 0;
+   padding: 0;
+}
+
+.sk-openapi-nav-group {
+   margin-bottom: 0.35rem;
+}
+
+/* The header row holds the title link plus the JS-injected twist as siblings (the twist
+   must not nest inside the title's <a> – that would be an interactive inside an
+   interactive). The flex lives here so the twist and title align on one row. */
+.sk-openapi-nav-group-header {
+   display: flex;
+   align-items: center;
+   gap: 0.35rem;
+}
+
+.sk-openapi-nav-group-title {
+   flex: 1 1 auto;
+   min-width: 0;
+   padding: 0.35rem 0.6rem;
+   border-radius: var(--sk-openapi-row-radius);
+   font-weight: 600;
+   text-transform: uppercase;
+   letter-spacing: 0.03em;
+   font-size: 0.74rem;
+   color: var(--sk-openapi-muted);
+   text-decoration: none;
+}
+
+a.sk-openapi-nav-group-title:hover {
+   background: var(--sk-openapi-row-hover);
+   color: var(--color-text);
+}
+
+/* Twist toggle injected by openapi-nav.js before a group title for collapse/expand. */
+.sk-openapi-nav-twist {
+   flex: 0 0 auto;
+   width: 1rem;
+   height: 1rem;
+   padding: 0;
+   border: 0;
+   background: transparent;
+   color: var(--sk-openapi-muted);
+   cursor: pointer;
+   line-height: 1;
+   transition: transform var(--transition, 0.15s ease);
+}
+
+.sk-openapi-nav-group.is-collapsed .sk-openapi-nav-twist {
+   transform: rotate(-90deg);
+}
+
+.sk-openapi-nav-group.is-collapsed .sk-openapi-nav-items {
+   display: none;
+}
+
+.sk-openapi-nav-items {
+   list-style: none;
+   margin: 0 0 0 0.35rem;
+   padding: 0;
+   border-left: 1px solid var(--color-border-light, var(--sk-openapi-nav-border));
+}
+
+.sk-openapi-nav-item {
+   margin: 1px 0;
+}
+
+.sk-openapi-nav-link {
+   display: flex;
+   align-items: center;
+   gap: 0.45rem;
+   padding: 0.3rem 0.55rem;
+   border-radius: var(--sk-openapi-row-radius);
+   color: var(--color-text);
+   text-decoration: none;
+   transition: background var(--transition, 0.15s ease);
+}
+
+.sk-openapi-nav-link:hover {
+   background: var(--sk-openapi-row-hover);
+}
+
+.sk-openapi-nav-link.is-active {
+   background: var(--sk-openapi-active-bg);
+   color: var(--sk-openapi-active-text);
+}
+
+/* The verb pill inverts to the active token pair when its row is active, so it stays
+   legible on the accent background for any theme – including a light accent, where a
+   hard-coded translucent-white pill would wash out. Background = the accent's contrast
+   color, label = the accent itself: an always-legible pair by the theme's definition. */
+.sk-openapi-nav-link.is-active .sk-openapi-method {
+   background: var(--sk-openapi-active-text);
+   color: var(--sk-openapi-active-bg);
+}
+
+/* A long operation summary must never break the rail: clip to one line with an ellipsis.
+   The full text is on the link's title attribute (tooltip). */
+.sk-openapi-nav-label {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+/* Deprecated rows dim and strike through, in the rail and on the pages. */
+[data-deprecated="true"] > .sk-openapi-nav-link .sk-openapi-nav-label,
+.sk-openapi-nav-item[data-deprecated="true"] .sk-openapi-nav-label {
+   opacity: 0.55;
+   text-decoration: line-through;
+}
+
+/* Filter box injected by openapi-nav.js at the top of the rail. */
+.sk-openapi-nav-filter {
+   width: 100%;
+   box-sizing: border-box;
+   margin-bottom: 0.75rem;
+   padding: 0.4rem 0.6rem;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--color-bg);
+   color: var(--color-text);
+   font: inherit;
+}
+
+.sk-openapi-nav-item[hidden],
+.sk-openapi-nav-group[hidden] {
+   display: none;
+}
+
+/* ── Content area ────────────────────────────────────────────────────────────────
+   The scroll region is a flex column so the page can grow into any leftover height and
+   pin the footer to the bottom of the viewport on short pages (the flexbox sticky-footer
+   pattern). On a tall page the page keeps its content height, the column overflows, and
+   overflow-y scrolls – the footer flows after the content as normal. */
+.sk-openapi-scroll {
+   display: flex;
+   flex-direction: column;
+   flex: 1 1 auto;
+   min-width: 0;
+   overflow-y: auto;
+   padding: 1.5rem;
+}
+
+/* `flex: 1 0 auto` lets the content area grow (pushing the footer down) but never shrink
+   below its own content, so long pages stay full height and scroll. `width: 100%` keeps
+   it filling the column up to the max-width cap – a non-stretched flex child would
+   otherwise shrink-wrap its content – and `margin: 0 auto` then centers it horizontally. */
+.sk-openapi-page {
+   flex: 1 0 auto;
+   width: 100%;
+   max-width: var(--sk-openapi-content-max);
+   margin: 0 auto;
+}
+
+.sk-openapi-title {
+   font-family: var(--font-heading, var(--font-sans));
+   line-height: 1.2;
+}
+
+.sk-openapi-description {
+   color: var(--color-text-secondary, var(--sk-openapi-muted));
+}
+
+.sk-openapi-page code {
+   font-family: var(--font-mono);
+   font-size: 0.875em;
+}
+
+/* ── Method badge (shared header + rail) ────────────────────────────────────────
+   Base chip style; the per-verb background colors are appended (generated) after this
+   file by OpenAPIStylesheetRenderer as [data-method="…"] rules. A neutral default keeps
+   an unknown verb legible. */
+.sk-openapi-method {
+   flex: 0 0 auto;
+   display: inline-block;
+   padding: 0.1rem 0.45rem;
+   border-radius: var(--sk-openapi-row-radius);
+   font-family: var(--font-mono);
+   font-size: 0.68rem;
+   font-weight: 700;
+   letter-spacing: 0.04em;
+   color: #fff;
+   background: var(--sk-openapi-muted);
+   text-transform: uppercase;
+}
+
+.sk-openapi-deprecated {
+   display: inline-block;
+   margin-left: 0.5rem;
+   padding: 0.05rem 0.4rem;
+   border-radius: var(--sk-openapi-row-radius);
+   font-size: 0.7rem;
+   font-weight: 600;
+   color: var(--color-text);
+   background: var(--color-bg-alt);
+   text-transform: uppercase;
+}
+
+/* ── Landing ────────────────────────────────────────────────────────────────── */
+.sk-openapi-landing-header {
+   margin-bottom: 1.5rem;
+}
+
+.sk-openapi-version {
+   display: inline-block;
+   padding: 0.1rem 0.5rem;
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--color-bg-alt);
+   color: var(--sk-openapi-muted);
+   font-family: var(--font-mono);
+   font-size: 0.8rem;
+}
+
+.sk-openapi-tag-cards {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+   gap: var(--sk-openapi-gap);
+   margin-top: 1.5rem;
+}
+
+.sk-openapi-tag-card {
+   display: block;
+   padding: 1rem 1.1rem;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-radius: var(--radius-lg, var(--radius, 10px));
+   background: var(--sk-openapi-nav-bg);
+   color: var(--color-text);
+   text-decoration: none;
+   transition: border-color var(--transition, 0.15s ease), box-shadow var(--transition, 0.15s ease);
+}
+
+.sk-openapi-tag-card:hover {
+   border-color: var(--color-accent);
+   box-shadow: var(--shadow-hover, var(--shadow, 0 4px 14px rgba(0, 0, 0, 0.08)));
+}
+
+.sk-openapi-tag-card-title {
+   margin: 0 0 0.35rem;
+   font-size: 1.1rem;
+}
+
+.sk-openapi-tag-card-desc {
+   margin: 0 0 0.5rem;
+   color: var(--sk-openapi-muted);
+   font-size: 0.9rem;
+}
+
+.sk-openapi-tag-card-count {
+   margin: 0;
+   color: var(--color-accent);
+   font-size: 0.82rem;
+   font-weight: 600;
+}
+
+/* ── Tag page: operation list ───────────────────────────────────────────────── */
+.sk-openapi-op-list {
+   list-style: none;
+   margin: 1rem 0 0;
+   padding: 0;
+}
+
+.sk-openapi-op-item {
+   margin: 0;
+}
+
+.sk-openapi-op-link {
+   display: flex;
+   align-items: center;
+   gap: 0.6rem;
+   padding: 0.6rem 0.75rem;
+   border-radius: var(--sk-openapi-row-radius);
+   border: 1px solid transparent;
+   color: var(--color-text);
+   text-decoration: none;
+}
+
+.sk-openapi-op-link:hover {
+   background: var(--sk-openapi-row-hover);
+   border-color: var(--sk-openapi-nav-border);
+}
+
+.sk-openapi-op-path {
+   font-family: var(--font-mono);
+   font-size: 0.9rem;
+}
+
+.sk-openapi-op-summary {
+   color: var(--sk-openapi-muted);
+   font-size: 0.88rem;
+}
+
+/* ── Operation page ─────────────────────────────────────────────────────────── */
+.sk-openapi-op-header {
+   margin-bottom: 1.5rem;
+}
+
+.sk-openapi-op-line {
+   display: flex;
+   align-items: center;
+   gap: 0.6rem;
+   padding: 0.6rem 0.75rem;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-radius: var(--radius, 8px);
+   background: var(--sk-openapi-nav-bg);
+}
+
+.sk-openapi-op-line .sk-openapi-op-path {
+   font-size: 1rem;
+   font-weight: 600;
+}
+
+.sk-openapi-parameters,
+.sk-openapi-request-body,
+.sk-openapi-responses,
+.sk-openapi-security {
+   margin: 2rem 0;
+}
+
+.sk-openapi-param-table,
+.sk-openapi-props {
+   width: 100%;
+   border-collapse: collapse;
+   font-size: 0.9rem;
+}
+
+.sk-openapi-param-table th,
+.sk-openapi-props th {
+   text-align: left;
+   padding: 0.5rem 0.6rem;
+   border-bottom: 2px solid var(--sk-openapi-nav-border);
+   color: var(--sk-openapi-muted);
+   font-size: 0.78rem;
+   text-transform: uppercase;
+   letter-spacing: 0.03em;
+}
+
+.sk-openapi-param-table td,
+.sk-openapi-props td {
+   padding: 0.5rem 0.6rem;
+   border-bottom: 1px solid var(--color-border-light, var(--sk-openapi-nav-border));
+   vertical-align: top;
+}
+
+.sk-openapi-required {
+   color: var(--color-accent);
+   font-size: 0.78rem;
+   font-weight: 600;
+}
+
+.sk-openapi-optional {
+   color: var(--sk-openapi-muted);
+   font-size: 0.78rem;
+}
+
+.sk-openapi-param-in {
+   font-family: var(--font-mono);
+   font-size: 0.82rem;
+   color: var(--sk-openapi-muted);
+}
+
+/* Schema-link chip (a $ref rendered as a link, on operation and schema pages). */
+.sk-openapi-type-ref {
+   display: inline-block;
+   padding: 0.05rem 0.4rem;
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--color-bg-alt);
+   color: var(--color-accent);
+   font-family: var(--font-mono);
+   font-size: 0.85em;
+   text-decoration: none;
+}
+
+.sk-openapi-type-ref:hover {
+   background: var(--color-accent);
+   color: var(--sk-openapi-active-text);
+}
+
+.sk-openapi-type {
+   font-family: var(--font-mono);
+   font-size: 0.85em;
+   color: var(--color-text-secondary, var(--sk-openapi-muted));
+}
+
+/* Response blocks, one per status, with a status code chip. */
+.sk-openapi-response {
+   margin: 1rem 0;
+   padding: 0.75rem 1rem;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-left: 4px solid var(--color-accent);
+   border-radius: var(--radius, 8px);
+   background: var(--sk-openapi-nav-bg);
+}
+
+.sk-openapi-status code {
+   font-size: 1rem;
+   font-weight: 700;
+}
+
+.sk-openapi-response-desc {
+   color: var(--color-text-secondary, var(--sk-openapi-muted));
+}
+
+.sk-openapi-media {
+   margin-top: 0.6rem;
+}
+
+.sk-openapi-content-type code {
+   color: var(--sk-openapi-muted);
+}
+
+/* Example disclosure: a <details> with a <pre><code> JSON body. */
+.sk-openapi-example {
+   margin-top: 0.5rem;
+}
+
+.sk-openapi-example summary {
+   cursor: pointer;
+   color: var(--color-accent);
+   font-size: 0.85rem;
+}
+
+.sk-openapi-example-body {
+   margin: 0.5rem 0 0;
+   padding: 0.75rem 1rem;
+   overflow-x: auto;
+   border-radius: var(--radius, 8px);
+   background: var(--sk-openapi-code-bg);
+   font-family: var(--font-mono);
+   font-size: 0.82rem;
+   line-height: 1.5;
+}
+
+.sk-openapi-security ul {
+   list-style: none;
+   margin: 0.5rem 0 0;
+   padding: 0;
+}
+
+.sk-openapi-security li {
+   padding: 0.2rem 0;
+}
+
+/* ── Schema page ────────────────────────────────────────────────────────────── */
+.sk-openapi-schema-header {
+   margin-bottom: 1rem;
+}
+
+.sk-openapi-facets {
+   display: flex;
+   gap: 0.4rem;
+   margin: 0.5rem 0;
+}
+
+.sk-openapi-facet {
+   padding: 0.05rem 0.45rem;
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--color-bg-alt);
+   color: var(--sk-openapi-muted);
+   font-size: 0.74rem;
+   text-transform: uppercase;
+   letter-spacing: 0.03em;
+}
+
+.sk-openapi-enum ul {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 0.4rem;
+   list-style: none;
+   margin: 0.5rem 0 0;
+   padding: 0;
+}
+
+.sk-openapi-enum li {
+   padding: 0.1rem 0.5rem;
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--color-bg-alt);
+   font-family: var(--font-mono);
+   font-size: 0.82rem;
+}
+
+.sk-openapi-composition ul {
+   list-style: none;
+   margin: 0.5rem 0 0;
+   padding: 0;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 0.4rem;
+}
+
+.sk-openapi-discriminator {
+   color: var(--sk-openapi-muted);
+   font-size: 0.88rem;
+}
+
+/* ── Skip link ────────────────────────────────────────────────────────────────
+   PageShell emits a "Skip to content" link with no base styling, so it would sit
+   visible at the top of every page. Clip it off-screen until it receives keyboard
+   focus, the standard accessible pattern (scoped to the OpenAPI surface: this rule
+   only ships in openapi.css). */
+.sk-openapi-shell-body .sk-skip-link {
+   position: absolute;
+   left: -9999px;
+   top: 0;
+   width: 1px;
+   height: 1px;
+   overflow: hidden;
+}
+
+.sk-openapi-shell-body .sk-skip-link:focus {
+   left: 0;
+   width: auto;
+   height: auto;
+   z-index: 100;
+   margin: 0.5rem;
+   padding: 0.5rem 0.9rem;
+   border-radius: var(--sk-openapi-row-radius);
+   background: var(--color-accent);
+   color: var(--sk-openapi-active-text);
+   text-decoration: none;
+}
+
+/* ── Theme toggle (appbar) ────────────────────────────────────────────────────
+   Consistent with the base SiteKit DocC toggle: always rendered, inert without JS
+   (openapi-theme.js wires the click and swaps the icon). */
+.sk-openapi-theme-toggle {
+   flex: 0 0 auto;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   width: 36px;
+   height: 36px;
+   margin-left: 0.5rem;
+   border: 1px solid var(--sk-openapi-nav-border);
+   border-radius: var(--sk-openapi-row-radius);
+   background: transparent;
+   color: var(--color-text);
+   cursor: pointer;
+}
+
+.sk-openapi-theme-toggle:hover {
+   background: var(--sk-openapi-row-hover);
+   color: var(--color-accent);
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────────
+   Config-driven (SiteConfig.footer), token-styled, scrolls with the content like
+   the DocC footer. Omitted entirely when nothing is configured. */
+.sk-openapi-footer {
+   margin-top: 3rem;
+   padding: 1.5rem;
+   border-top: 1px solid var(--sk-openapi-nav-border);
+   color: var(--sk-openapi-muted);
+   font-size: 0.85rem;
+}
+
+.sk-openapi-footer-links {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 1rem;
+   margin-bottom: 0.75rem;
+}
+
+.sk-openapi-footer-link {
+   color: var(--color-text-secondary, var(--sk-openapi-muted));
+   text-decoration: none;
+}
+
+.sk-openapi-footer-link:hover {
+   color: var(--color-accent);
+}
+
+.sk-openapi-footer-copyright {
+   margin: 0;
+}
+
+/* ── 404 ──────────────────────────────────────────────────────────────────────
+   The not-found page renders through the full shell; the back-to-landing link is
+   an accent call to action. */
+.sk-openapi-notfound-home {
+   color: var(--color-accent);
+   font-weight: 600;
+   text-decoration: none;
+}
+
+.sk-openapi-notfound-home:hover {
+   text-decoration: underline;
+}
+
+/* The scrim is hidden until the drawer opens (the responsive rule below reveals it). */
+.sk-openapi-scrim {
+   display: none;
+}
+
+/* ── Responsive: nav becomes an off-canvas drawer ─────────────────────────────
+   Cut-the-mustard: the off-canvas drawer is gated behind `html.js` (the script adds
+   that class early). With JS the rail slides in from the hamburger (below); without JS
+   the gate never matches, so the `html:not(.js)` rules render the rail in normal flow –
+   stacked above the content and fully reachable, just not a drawer. */
+@media (max-width: 860px) {
+   html.js .sk-openapi-nav-toggle {
+      display: inline-flex;
+   }
+
+   html.js .sk-openapi-nav {
+      position: fixed;
+      top: var(--sk-openapi-appbar-height);
+      bottom: 0;
+      left: 0;
+      z-index: 40;
+      transform: translateX(-100%);
+      transition: transform var(--transition, 0.2s ease);
+      box-shadow: var(--shadow, 0 4px 20px rgba(0, 0, 0, 0.15));
+   }
+
+   html.js .sk-openapi-layout.is-nav-open .sk-openapi-nav {
+      transform: translateX(0);
+   }
+
+   /* Backdrop behind the open drawer: dims the content and is the tap-outside-to-close
+      target (openapi-nav.js un-hides it and wires the click). Only with JS, since the
+      drawer itself only exists with JS. */
+   html.js .sk-openapi-layout.is-nav-open .sk-openapi-scrim {
+      display: block;
+      position: fixed;
+      top: var(--sk-openapi-appbar-height);
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 35;
+      background: rgba(0, 0, 0, 0.45);
+   }
+
+   /* JS off: drop the fixed-viewport app-shell so the page scrolls normally, and stack
+      the rail above the content (full width, no inner scroll trap) so it is reachable. */
+   html:not(.js) .sk-openapi-layout {
+      height: auto;
+      min-height: 100dvh;
+      overflow: visible;
+   }
+
+   html:not(.js) .sk-openapi-body {
+      flex-direction: column;
+   }
+
+   html:not(.js) .sk-openapi-nav {
+      flex: 0 0 auto;
+      width: auto;
+      overflow: visible;
+      border-right: 0;
+      border-bottom: 1px solid var(--sk-openapi-nav-border);
+   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+   .sk-openapi-nav,
+   .sk-openapi-nav-link,
+   .sk-openapi-nav-twist {
+      transition: none;
+   }
+}
