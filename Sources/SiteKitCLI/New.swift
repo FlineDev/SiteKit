@@ -46,22 +46,18 @@ struct New: ParsableCommand {
       print("  swift run Site build")
    }
 
-   /// Drops an `AGENTS.md` (plus a `CLAUDE.md` that imports it) into the new site so the
-   /// AI assistant working on the live site knows to load the `sitekit` skill and which
-   /// reference to consult for each task. Existing files are never overwritten – a
-   /// blueprint that ships its own guidance keeps it.
+   /// Drops an `AGENTS.md` into the new site so the AI assistant working on the live site knows
+   /// to load the `sitekit` skill and which reference to consult for each task. An existing file
+   /// is never overwritten – a blueprint that ships its own guidance keeps it.
+   ///
+   /// No `CLAUDE.md` is written: Claude Code reads `AGENTS.md` directly, but ignores it as soon as
+   /// a `CLAUDE.md` exists, so an `@AGENTS.md` stub would only get in the way.
    static func writeAgentGuidance(into target: URL) throws {
       let manager = FileManager.default
-      let mappings = [
-         ("SiteAGENTS.md", "AGENTS.md"),
-         ("SiteCLAUDE.md", "CLAUDE.md"),
-      ]
-      for (templateName, siteName) in mappings {
-         let destination = target.appendingPathComponent(siteName)
-         guard !manager.fileExists(atPath: destination.path) else { continue }
-         let templateURL = PackageRoot.templatesDirectory.appendingPathComponent(templateName)
-         guard manager.fileExists(atPath: templateURL.path) else { continue }
-         try manager.copyItem(at: templateURL, to: destination)
-      }
+      let destination = target.appendingPathComponent("AGENTS.md")
+      guard !manager.fileExists(atPath: destination.path) else { return }
+      let templateURL = PackageRoot.templatesDirectory.appendingPathComponent("SiteAGENTS.md")
+      guard manager.fileExists(atPath: templateURL.path) else { return }
+      try manager.copyItem(at: templateURL, to: destination)
    }
 }

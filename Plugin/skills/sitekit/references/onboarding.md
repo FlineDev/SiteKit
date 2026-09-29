@@ -205,7 +205,7 @@ See `siteconfig-reference.md` for all available fields.
 
 ## Step 5b: Project Context Files
 
-`sitekit new` already drops an `AGENTS.md` (skill-loading guidance: which `sitekit` reference to load for which task) and a `CLAUDE.md` (`@AGENTS.md`) into the new site. Do **not** replace that SiteKit guidance – personalize it instead:
+`sitekit new` already drops an `AGENTS.md` (skill-loading guidance: which `sitekit` reference to load for which task) into the new site. It deliberately writes no `CLAUDE.md`: Claude Code reads `AGENTS.md` directly, but ignores it once a `CLAUDE.md` exists. Do **not** replace that SiteKit guidance – personalize it instead:
 
 - At the top of the generated `AGENTS.md`, add a one-line **Overview** of what this site is and a short **Content Structure** note (directories + file-naming convention), based on the user's earlier answers.
 - Leave the "When to load which reference" table and the commands intact – they keep future AI sessions pointed at the right guidance.

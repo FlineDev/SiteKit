@@ -78,7 +78,7 @@ To build a site **without** a preset factory, replace the `main.swift` factory c
 
 ## Step 5: Hand off to onboarding
 
-The mechanical scaffold is done. Continue with **`onboarding.md`** for everything that needs judgment: filling in `SiteConfig.yaml`, layout/colour/font selection, language setup, project context files (`CLAUDE.md` / `AGENTS.md`), the author-voice `Guidelines/` folder, the first build, and browser verification. `onboarding.md` Step 5 ("Project Scaffold") now points back at `sitekit new` instead of prose copy instructions – the rest of its steps are the judgment continuation.
+The mechanical scaffold is done. Continue with **`onboarding.md`** for everything that needs judgment: filling in `SiteConfig.yaml`, layout/colour/font selection, language setup, the project context file (`AGENTS.md`), the author-voice `Guidelines/` folder, the first build, and browser verification. `onboarding.md` Step 5 ("Project Scaffold") now points back at `sitekit new` instead of prose copy instructions – the rest of its steps are the judgment continuation.
 
 ## Updating an existing site: `sitekit update`
 

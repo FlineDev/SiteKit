@@ -280,8 +280,7 @@ Directory tour. Names with no path are at the repo root.
 ```
 SiteKit/
 ├── .claude-plugin/        ← marketplace.json (must sit at the repo root for `/plugin marketplace add`)
-├── AGENTS.md              ← you are reading it
-├── CLAUDE.md              ← one line: @AGENTS.md (Claude Code reads AGENTS.md)
+├── AGENTS.md              ← you are reading it (Claude Code, Codex and others read it directly)
 ├── README.md              ← user-facing entry point
 ├── USE-CASES.md           ← task → doc matrix
 ├── LICENSE                ← MIT

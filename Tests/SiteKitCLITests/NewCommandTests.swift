@@ -11,7 +11,7 @@ struct NewCommandTests {
       return target
    }
 
-   @Test("Writes an AGENTS.md and a CLAUDE.md that point at the sitekit skill")
+   @Test("Writes an AGENTS.md that points at the sitekit skill, and no CLAUDE.md")
    func writesAgentGuidance() throws {
       let manager = FileManager.default
       let target = try self.makeEmptyTarget()
@@ -20,15 +20,14 @@ struct NewCommandTests {
       try New.writeAgentGuidance(into: target)
 
       let agents = target.appendingPathComponent("AGENTS.md")
-      let claude = target.appendingPathComponent("CLAUDE.md")
       #expect(manager.fileExists(atPath: agents.path))
-      #expect(manager.fileExists(atPath: claude.path))
 
       let agentsBody = try String(contentsOf: agents, encoding: .utf8)
       #expect(agentsBody.contains("sitekit"))
       #expect(agentsBody.contains("legal-pages"))
-      let claudeBody = try String(contentsOf: claude, encoding: .utf8)
-      #expect(claudeBody.contains("@AGENTS.md"))
+
+      // A CLAUDE.md would make Claude Code ignore the AGENTS.md above.
+      #expect(!manager.fileExists(atPath: target.appendingPathComponent("CLAUDE.md").path))
    }
 
    @Test("Never overwrites a blueprint's own AGENTS.md")
