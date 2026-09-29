@@ -27,6 +27,7 @@ Read `<Name>.md` first, then copy files from `<Name>/`.
 | `Newsletter` | Email newsletter with issue archive, signup forms, email rendering | Topic newsletters, curated digests, weekly/monthly roundups | [Newsletter.md](Newsletter.md) | [evolutionkit.dev](https://evolutionkit.dev) |
 | `AppLanding` | Single product landing page with hero, features, pricing, reviews | App marketing pages, SaaS products | [AppLanding.md](AppLanding.md) | [translatekit.pages.dev](https://translatekit.pages.dev) |
 | `DocC` | DocC catalog → static, AI-fetchable HTML with a sidebar + full-text search | Documentation sites, API/guide docs | [DocC.md](DocC.md) | [wwdcnotes.com](https://wwdcnotes.com) |
+| `OpenAPI` | OpenAPI/Swagger spec → static, searchable API-reference docs (operations, schemas, nav rail) | API reference docs generated from a spec | [OpenAPI.md](OpenAPI.md) | – |
 | `Plain` | Minimal structure, no opinions | Experimentation, custom pipelines | [Plain.md](Plain.md) | – |
 
 ---
@@ -35,9 +36,10 @@ Read `<Name>.md` first, then copy files from `<Name>/`.
 
 Use this decision tree:
 
-0. **Do you have a DocC catalog (`.docc` – Markdown notes with DocC directives)?**
-   - Yes → **`DocC`** (renders it to static, AI-fetchable HTML with a sidebar + full-text search)
-   - No, continue ↓
+0. **Do you have a machine-readable description to render as-is?**
+   - An OpenAPI/Swagger spec (`.yaml`/`.json`, 3.0 or 3.1) → **`OpenAPI`** (renders it to a static, searchable API-reference site)
+   - A DocC catalog (`.docc` – Markdown notes with DocC directives) → **`DocC`** (static, AI-fetchable HTML with a sidebar + full-text search)
+   - Neither, continue ↓
 
 1. **Is your content audio episodes (a podcast)?**
    - Yes → **`Podcast`**

@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: Deprecated Nav API
+  version: 1.0.0
+  description: A spec with a deprecated operation, to exercise the nav deprecated hook.
+tags:
+  - name: legacy
+    description: Legacy endpoints.
+paths:
+  /old:
+    get:
+      operationId: oldEndpoint
+      summary: Old endpoint
+      tags: [legacy]
+      deprecated: true
+      responses:
+        '200':
+          description: OK.
+components:
+  schemas:
+    Legacy:
+      type: object
+      properties:
+        id:
+          type: string

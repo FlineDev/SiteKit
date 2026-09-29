@@ -1,6 +1,15 @@
 {
-  "originHash" : "8ed9a9d9e721da71dfc2e44baf106c5f006158b5665518d22d352e32f671eb79",
+  "originHash" : "2b9d923b5d7e8abc1f30661689f1b5357acb38b7ef9a53f4381782b72be09c27",
   "pins" : [
+    {
+      "identity" : "openapikit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattpolzin/OpenAPIKit.git",
+      "state" : {
+        "revision" : "57b6318128e3f901c93f4fbf98d1c1464ec168d3",
+        "version" : "6.2.0"
+      }
+    },
     {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",

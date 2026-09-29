@@ -121,4 +121,30 @@ public struct BuildContext {
       self.projectDirectory = projectDirectory
       self.draftPages = draftPages
    }
+
+   /// Returns a copy with `extraSections` appended to `sections`, preserving every other
+   /// field (router, uiStrings, tags, …) unchanged.
+   ///
+   /// The pipeline uses this to merge synthetic sections from `ContentSectionProviding`
+   /// plugins (e.g. the OpenAPI blueprint, whose pages are generated from a spec rather
+   /// than loaded from files) into the context after file-backed loading, so the
+   /// machine-index renderers (sitemap, nav-index, search, llms.txt) enumerate the
+   /// provided pages alongside the file-backed ones. The provided pages do not
+   /// re-contribute to `tags` – synthetic API pages are untagged content.
+   func appendingSections(_ extraSections: [ContentSection]) -> BuildContext {
+      guard !extraSections.isEmpty else { return self }
+      return BuildContext(
+         config: self.config,
+         themeConfig: self.themeConfig,
+         sections: self.sections + extraSections,
+         staticPages: self.staticPages,
+         tags: self.tags,
+         homeContent: self.homeContent,
+         router: self.router,
+         uiStrings: self.uiStrings,
+         outputDirectory: self.outputDirectory,
+         projectDirectory: self.projectDirectory,
+         draftPages: self.draftPages
+      )
+   }
 }

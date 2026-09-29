@@ -7,7 +7,7 @@ metadata:
 
 # SiteKit
 
-SiteKit is an AI-first Swift static site generator built around a **phase-oriented pipeline**: Discovery → Loading → Enrichment → Page rendering → System rendering → Output processing, plus content-independent asset teleporting. Each phase is one Swift protocol; sites are composed with `SiteBuilder` factory methods (`.blog()`, `.podcast()`, `.newsletter()`, `.portfolio()`, `.docs()`, `.docc()`) and customized fluently by swapping or appending plugins.
+SiteKit is an AI-first Swift static site generator built around a **phase-oriented pipeline**: Discovery → Loading → Enrichment → Page rendering → System rendering → Output processing, plus content-independent asset teleporting. Each phase is one Swift protocol; sites are composed with `SiteBuilder` factory methods (`.blog()`, `.podcast()`, `.newsletter()`, `.portfolio()`, `.docs()`, `.docc()`, `.openAPI()`) and customized fluently by swapping or appending plugins.
 
 ## Process
 
@@ -17,7 +17,8 @@ Route the user's intent to the right reference. Read only the references you nee
 |---|---|
 | Installing SiteKit + scaffolding the first site (the `sitekit` CLI) | `references/bootstrap.md` |
 | Setting up a new site from scratch | `references/onboarding.md` |
-| Picking a blueprint (Blog, Newsletter, Podcast, Portfolio, AppLanding, Snippets, IndieDev, DocC, Plain) | `references/blueprints.md` |
+| Picking a blueprint (Blog, Newsletter, Podcast, Portfolio, AppLanding, Snippets, IndieDev, DocC, OpenAPI, Plain) | `references/blueprints.md` |
+| Building API docs from an OpenAPI / Swagger spec (3.0 or 3.1) | `references/openapi.md` |
 | Writing content (blog posts, newsletter issues, static pages) | `references/content-writing.md` |
 | Imprint / privacy / legal pages (country-dependent, GDPR, cookies) | `references/legal-pages.md` |
 | DocC / Markdown directive extensions (`@Metadata`, `@Row`, `@TabNavigator`, `@Video`, `@Image`, `@Links`, …) + the graceful-degradation contract | `references/markdown-extensions.md` |

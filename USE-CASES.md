@@ -13,6 +13,7 @@ This is the index, not the explanation. For a guided walkthrough read [README.md
 | Install SiteKit + scaffold my first site | [README – Get started](README.md#-get-started) · deep: [bootstrap.md](Plugin/skills/sitekit/references/bootstrap.md) |
 | Set up a new site end-to-end (the judgment-heavy flow) | [onboarding.md](Plugin/skills/sitekit/references/onboarding.md) |
 | Build a documentation site from a DocC catalog | [DocC blueprint](Plugin/blueprints/DocC.md) · deep: [markdown-extensions.md](Plugin/skills/sitekit/references/markdown-extensions.md) |
+| Build API reference docs from an OpenAPI / Swagger spec | [OpenAPI blueprint](Plugin/blueprints/OpenAPI.md) · deep: [openapi.md](Plugin/skills/sitekit/references/openapi.md) |
 
 ## Author your site
 

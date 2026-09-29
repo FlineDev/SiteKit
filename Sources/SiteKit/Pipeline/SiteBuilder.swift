@@ -29,6 +29,7 @@ public struct SiteBuilder {
    private var enrichers: [any Enricher] = []
    private var renderers: [any Renderer] = []
    private var processors: [any OutputProcessor]?
+   private var contentSectionProviders: [any ContentSectionProviding] = []
 
    /// Creates a bare builder with no plugins registered – the starting point for
    /// fully custom pipelines. Phases left unconfigured fall back to the pipeline
@@ -99,6 +100,18 @@ public struct SiteBuilder {
    public func staticPageLoader(_ loader: any Loader<MarkdownSource, PageModel>) -> SiteBuilder {
       var copy = self
       copy.staticPageLoader = loader
+      return copy
+   }
+
+   /// Returns a copy that registers `provider` to contribute a synthetic content section
+   /// (pages generated rather than loaded from files) to the build. The pipeline merges the
+   /// provided section into `BuildContext.sections` after file loading, so the machine-index
+   /// renderers (sitemap, nav-index, search, llms.txt) enumerate the generated pages. The
+   /// OpenAPI blueprint uses this to register its spec-derived pages once and have all four
+   /// indexes include them.
+   public func contentSectionProvider(_ provider: any ContentSectionProviding) -> SiteBuilder {
+      var copy = self
+      copy.contentSectionProviders.append(provider)
       return copy
    }
 
@@ -267,61 +280,66 @@ public struct SiteBuilder {
          additionalTeleporters: self.additionalTeleporters,
          enrichers: self.enrichers,
          renderers: self.renderers.isEmpty ? nil : self.renderers,
-         processors: self.processors
+         processors: self.processors,
+         contentSectionProviders: self.contentSectionProviders
       )
    }
 
    // MARK: - Default Renderer Lists
 
    /// The standard set of renderers for a blog site.
-   public static var blogRenderers: [any Renderer] { [
-      SectionPageRenderer(),
-      SectionListingRenderer(),
-      CategoryListingRenderer(),
-      TagListingRenderer(),
-      StaticPageRenderer(),
-      HomePageRenderer(),
-      ErrorPageRenderer(),
-      RSSFeedRenderer(),
-      SitemapRenderer(),
-      RobotsTxtRenderer(),
-      NavIndexRenderer(),
-      TokenCSSOutputRenderer(),
-      BaseCSSOutputRenderer(),
-      FontsFaceCSSRenderer(),
-      CloudflareHeadersRenderer(),
-      HTMLRedirectPageRenderer(),
-      CloudflareRedirectsRenderer(),
-      LanguageRedirectRenderer(),
-      FaviconRenderer(),
-      LlmsTxtRenderer(),
-      ContentIndexRenderer(),
-      DraftPreviewRenderer(),
-   ] }
+   public static var blogRenderers: [any Renderer] {
+      [
+         SectionPageRenderer(),
+         SectionListingRenderer(),
+         CategoryListingRenderer(),
+         TagListingRenderer(),
+         StaticPageRenderer(),
+         HomePageRenderer(),
+         ErrorPageRenderer(),
+         RSSFeedRenderer(),
+         SitemapRenderer(),
+         RobotsTxtRenderer(),
+         NavIndexRenderer(),
+         TokenCSSOutputRenderer(),
+         BaseCSSOutputRenderer(),
+         FontsFaceCSSRenderer(),
+         CloudflareHeadersRenderer(),
+         HTMLRedirectPageRenderer(),
+         CloudflareRedirectsRenderer(),
+         LanguageRedirectRenderer(),
+         FaviconRenderer(),
+         LlmsTxtRenderer(),
+         ContentIndexRenderer(),
+         DraftPreviewRenderer(),
+      ]
+   }
 
    /// The standard set of renderers for a podcast site.
-   public static var podcastRenderers: [any Renderer] { [
-      PodcastEpisodeRenderer(),
-      PodcastListingRenderer(),
-      PodcastHomePageRenderer(),
-      PodcastRSSRenderer(),
-      TemplateStaticPageRenderer(),
-      TagListingRenderer(),
-      ErrorPageRenderer(),
-      SitemapRenderer(),
-      RobotsTxtRenderer(),
-      NavIndexRenderer(),
-      TokenCSSOutputRenderer(),
-      BaseCSSOutputRenderer(),
-      FontsFaceCSSRenderer(),
-      CloudflareHeadersRenderer(),
-      HTMLRedirectPageRenderer(),
-      CloudflareRedirectsRenderer(),
-      FaviconRenderer(),
-      LlmsTxtRenderer(),
-      ContentIndexRenderer(),
-      DraftPreviewRenderer(),
-   ] }
+   public static var podcastRenderers: [any Renderer] {
+      [
+         PodcastEpisodeRenderer(),
+         PodcastListingRenderer(),
+         PodcastHomePageRenderer(),
+         PodcastRSSRenderer(),
+         TemplateStaticPageRenderer(),
+         TagListingRenderer(),
+         ErrorPageRenderer(),
+         SitemapRenderer(),
+         RobotsTxtRenderer(),
+         NavIndexRenderer(),
+         TokenCSSOutputRenderer(),
+         BaseCSSOutputRenderer(),
+         FontsFaceCSSRenderer(),
+         CloudflareHeadersRenderer(),
+         HTMLRedirectPageRenderer(),
+         CloudflareRedirectsRenderer(),
+         FaviconRenderer(),
+         LlmsTxtRenderer(),
+         ContentIndexRenderer(),
+         DraftPreviewRenderer(),
+      ]
+   }
 
    /// Populates the builder with all default podcast renderers.
    public func defaultPodcastRenderers() -> SiteBuilder {
@@ -387,7 +405,8 @@ public struct SiteBuilder {
          builder = builder.enricher(HreflangEnricher(config: config))
       }
 
-      return builder
+      return
+         builder
          .renderer(StaticPageRenderer())
          .renderer(HomePageRenderer())
          .renderer(ErrorPageRenderer())
@@ -415,10 +434,12 @@ public struct SiteBuilder {
    ) -> SiteBuilder {
       var builder = SiteBuilder(config: config, projectDirectory: projectDirectory)
          .cleanBeforeBuild(cleanBeforeBuild)
-         .articleLoader(MarkdownLoader(
-            requiredFields: ["title", "date", "audioURL", "duration"],
-            language: config.language
-         ))
+         .articleLoader(
+            MarkdownLoader(
+               requiredFields: ["title", "date", "audioURL", "duration"],
+               language: config.language
+            )
+         )
 
       for enricher in enrichers {
          builder = builder.enricher(enricher)
@@ -472,7 +493,8 @@ public struct SiteBuilder {
          builder = builder.enricher(HreflangEnricher(config: config))
       }
 
-      return builder
+      return
+         builder
          .renderer(StaticPageRenderer())
          .renderer(HomePageRenderer())
          .renderer(ErrorPageRenderer())
@@ -517,7 +539,8 @@ public struct SiteBuilder {
       if let mapPath = config.docc?.sessionFrameworksPath {
          let mapURL = projectDirectory.appendingPathComponent(mapPath)
          if let data = try? Data(contentsOf: mapURL),
-            let map = try? JSONDecoder().decode([String: String].self, from: data) {
+            let map = try? JSONDecoder().decode([String: String].self, from: data)
+         {
             builder = builder.enricher(DocCFrameworkEnricher(map: map))
          } else {
             // Misconfigured or missing path – skip gracefully rather than crashing the build.
@@ -542,7 +565,8 @@ public struct SiteBuilder {
          pathResolvers.append(DocCContributorPage())
       }
 
-      builder = builder
+      builder =
+         builder
          .renderer(DocCHomePage())
          .renderer(DocCYearListingPage())
 
@@ -552,7 +576,8 @@ public struct SiteBuilder {
       }
       // Missing-sessions feature: the /missingnotes/ coverage page + its show-more script.
       if features.missingSessionsEnabled {
-         builder = builder
+         builder =
+            builder
             .renderer(DocCMissingPage())
             .renderer(DocCMissingScriptRenderer())
       }
@@ -564,7 +589,8 @@ public struct SiteBuilder {
          builder = builder.renderer(DocCSearchPage())
       }
 
-      builder = builder
+      builder =
+         builder
          .renderer(DocCArticlePage())
          .renderer(DocCStylesheetRenderer())
          .renderer(ErrorPageRenderer())
@@ -574,13 +600,15 @@ public struct SiteBuilder {
 
       // Search index + client scripts ship only when search is enabled.
       if features.searchEnabled {
-         builder = builder
+         builder =
+            builder
             .renderer(DocCSearchIndexRenderer(pathResolvers: pathResolvers))
             .renderer(DocCSearchScriptRenderer())
             .renderer(DocCSearchPageScriptRenderer())
       }
 
-      return builder
+      return
+         builder
          .renderer(DocCSidebarScriptRenderer())
          .renderer(DocCSidebarNavRenderer())
          .renderer(DocCFilterScriptRenderer())
@@ -902,10 +930,16 @@ extension SiteBuilder {
       signal(SIGTERM, SIG_IGN)
       signal(SIGINT, SIG_IGN)
       let sigtermSource = DispatchSource.makeSignalSource(signal: SIGTERM, queue: .global())
-      sigtermSource.setEventHandler { process.terminate(); exit(0) }
+      sigtermSource.setEventHandler {
+         process.terminate()
+         exit(0)
+      }
       sigtermSource.resume()
       let sigintSource = DispatchSource.makeSignalSource(signal: SIGINT, queue: .global())
-      sigintSource.setEventHandler { process.terminate(); exit(0) }
+      sigintSource.setEventHandler {
+         process.terminate()
+         exit(0)
+      }
       sigintSource.resume()
 
       process.waitUntilExit()
@@ -950,23 +984,25 @@ extension SiteBuilder {
    }
 
    private static func printSiteKitUsage() {
-      print("""
-      SiteKit - Static Site Generator
+      print(
+         """
+         SiteKit - Static Site Generator
 
-      USAGE:
-         swift run Site <command>
+         USAGE:
+            swift run Site <command>
 
-      COMMANDS:
-         build       Build the site (default)
-         serve       Build then start a local development server
-         validate    Check translations and other quality rules
-         help        Show this help message
+         COMMANDS:
+            build       Build the site (default)
+            serve       Build then start a local development server
+            validate    Check translations and other quality rules
+            help        Show this help message
 
-      OPTIONS:
-         --no-clean        Skip cleaning output directory before build
-         --port <number>   Port for serve command (default: 8080)
-         --base-url <url>  Override the SiteConfig.yaml baseURL for this build (build/serve).
-                           Absolute http(s) URL, e.g. https://staging.example.com
-      """)
+         OPTIONS:
+            --no-clean        Skip cleaning output directory before build
+            --port <number>   Port for serve command (default: 8080)
+            --base-url <url>  Override the SiteConfig.yaml baseURL for this build (build/serve).
+                              Absolute http(s) URL, e.g. https://staging.example.com
+         """
+      )
    }
 }

@@ -1,0 +1,53 @@
+openapi: 3.1.0
+info:
+  title: Collisions API
+  version: 1.0.0
+  description: Two tags and two operations that pre-fold to the same slug, plus an accented tag name.
+tags:
+  - name: Pets
+    description: Capitalised tag.
+  - name: pets
+    description: Lowercase tag, folds to the same slug as Pets.
+  - name: Café
+    description: Accented tag name, folds to an ASCII slug.
+paths:
+  /a:
+    get:
+      operationId: listPets
+      summary: List via Pets
+      tags: [Pets]
+      responses:
+        '200':
+          description: OK.
+  /b:
+    get:
+      operationId: getPets
+      summary: Get via pets
+      tags: [pets]
+      responses:
+        '200':
+          description: OK.
+  /store/list:
+    get:
+      operationId: listItems
+      summary: List items
+      tags: [Pets]
+      responses:
+        '200':
+          description: OK.
+  /store/list-again:
+    get:
+      operationId: ListItems
+      summary: List items again
+      tags: [Pets]
+      responses:
+        '200':
+          description: OK.
+  /menu:
+    get:
+      operationId: menu
+      summary: Café menu
+      tags: [Café]
+      responses:
+        '200':
+          description: OK.

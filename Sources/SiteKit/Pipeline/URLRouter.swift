@@ -200,8 +200,10 @@ public protocol PagePathResolving {
 
 extension [any PagePathResolving] {
    /// The first non-default resolution across the resolvers, in order;
-   /// `.routerDefault` when no resolver claims the page.
-   func pathResolution(for page: PageModel, context: BuildContext) -> PagePathResolution {
+   /// `.routerDefault` when no resolver claims the page. Public so blueprint-side index
+   /// renderers (e.g. SiteKitOpenAPI's search index) consult the same resolver chain the
+   /// built-in sitemap and nav-index do.
+   public func pathResolution(for page: PageModel, context: BuildContext) -> PagePathResolution {
       for resolver in self {
          let resolution = resolver.pathResolution(for: page, context: context)
          if resolution != .routerDefault {
