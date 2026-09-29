@@ -2,6 +2,18 @@
 
 All notable changes to SiteKit are documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and SiteKit adheres to [Semantic Versioning](https://semver.org) from 1.0.0 onward: breaking changes get a major bump and documented migration steps in this changelog.
 
+## [1.0.2] – 2026-09-29
+
+### Changed
+
+- `sitekit new` no longer writes a `CLAUDE.md` into a new site, only the `AGENTS.md` with the SiteKit guidance. Claude Code reads `AGENTS.md` directly, but ignores it as soon as a `CLAUDE.md` exists, so the `@AGENTS.md` stub could hide the guidance instead of pointing to it. Sites scaffolded earlier can delete their one-line `CLAUDE.md` if it contains nothing but `@AGENTS.md`.
+
+### Fixed
+
+- Header: the theme-toggle and language-picker icons now match the visual size of the search icon. Their glyphs used to render about 25% wider than the magnifier lens even though all three buttons are the same size.
+
+**Full Changelog**: https://github.com/FlineDev/SiteKit/compare/1.0.1...1.0.2
+
 ## [1.0.1] – 2026-06-18
 
 ### Fixed
