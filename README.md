@@ -60,7 +60,7 @@ SiteKit ships **9 blueprints** – starter sites you scaffold and customise. Eac
 | **IndieDev** | Blog + snippets + portfolio combined | [IndieDev.md](Plugin/blueprints/IndieDev.md) | [fline.dev](https://fline.dev) |
 | **Podcast** | Episode pages, audio player, iTunes RSS | [Podcast.md](Plugin/blueprints/Podcast.md) | [appstore-tagebuch.de](https://appstore-tagebuch.de) |
 | **Newsletter** | Issue archive, signup forms, email rendering | [Newsletter.md](Plugin/blueprints/Newsletter.md) | [evolutionkit.dev](https://evolutionkit.dev) |
-| **AppLanding** | Single product landing page (hero, features, pricing) | [AppLanding.md](Plugin/blueprints/AppLanding.md) | [translatekit.pages.dev](https://translatekit.pages.dev) |
+| **AppLanding** | Single product landing page (hero, features, pricing) | [AppLanding.md](Plugin/blueprints/AppLanding.md) | [translatekit.app](https://translatekit.app) |
 | **DocC** | DocC catalog → docs site with sidebar + full-text search | [DocC.md](Plugin/blueprints/DocC.md) | [wwdcnotes.com](https://wwdcnotes.com) |
 | **Plain** | Minimal, no opinions – a blank canvas | [Plain.md](Plugin/blueprints/Plain.md) | – |
 
@@ -102,13 +102,13 @@ Real production sites, one per blueprint family. Screenshots follow your GitHub 
       <br><b><a href="https://appstore-tagebuch.de">appstore-tagebuch.de</a></b> – indie-dev podcast <em>(Podcast)</em>
     </td>
     <td width="50%" valign="top">
-      <a href="https://translatekit.pages.dev">
+      <a href="https://translatekit.app">
         <picture>
           <source media="(prefers-color-scheme: dark)" srcset="Assets/Showcase/translatekit-dark.webp">
           <img alt="TranslateKit – app landing page built with SiteKit" src="Assets/Showcase/translatekit-light.webp">
         </picture>
       </a>
-      <br><b><a href="https://translatekit.pages.dev">TranslateKit</a></b> – app landing page <em>(AppLanding)</em>
+      <br><b><a href="https://translatekit.app">TranslateKit</a></b> – app landing page <em>(AppLanding)</em>
     </td>
   </tr>
   <tr>
